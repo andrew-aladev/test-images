@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
 
-sudo -u portage emerge --sync
+emerge --sync
+eix-update
 emaint --check world
