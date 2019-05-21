@@ -2,5 +2,4 @@
 set -e
 
 emerge --sync
-eix-update
 emaint --check world
