@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo docker build -t andrewaladev/amd64-gentoo-stable-nomultilib .
+sudo docker build -t puchuu/amd64-gentoo-stable-nomultilib .
