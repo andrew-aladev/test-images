@@ -19,4 +19,5 @@ RUN emerge -ve @world
 
 RUN emerge -v app-admin/sudo app-portage/gentoolkit app-portage/smart-live-rebuild
 
-RUN update && upgrade && cleanup
+RUN update && upgrade && cleanup && \
+  rm -r /etc/._cfg*
