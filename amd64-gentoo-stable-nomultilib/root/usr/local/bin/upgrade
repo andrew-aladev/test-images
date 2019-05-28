@@ -1,4 +1,0 @@
-#!/bin/bash
-
-emerge -avuDN --with-bdeps=y world $@
-smart-live-rebuild

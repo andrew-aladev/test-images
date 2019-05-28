@@ -1,4 +1,4 @@
-Some docker images
+Some buildah images
 
 ## License
 
