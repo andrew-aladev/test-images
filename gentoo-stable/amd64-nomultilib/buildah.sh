@@ -1,29 +1,29 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 cd "$(dirname $0)"
 
 container=$(buildah from "docker.io/gentoo/stage3-amd64-nomultilib:latest")
-buildah config --label maintainer="$MAINTAINER" $container
+buildah config --label maintainer="$MAINTAINER" "$container"
 
 copy () {
-  buildah copy $container $@
+  buildah copy "$container" $@
 }
 run () {
   command="$@"
-  buildah run $container -- sh -c "$command"
+  buildah run "$container" -- sh -c "$command"
 }
 build () {
   command="$@"
-  buildah run --cap-add=CAP_SYS_PTRACE $container -- sh -c "$command"
+  buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
 }
 commit () {
-  buildah commit --format docker $container $1
-  buildah push $1 "docker.io/$1"
+  buildah commit --format docker "$container" "$1"
+  buildah push "$1" "docker.io/$1:latest"
 }
 
 run rm -r /usr/share/{doc,man,info}
-copy root /
+copy root/ /
 
 run chown -R portage:portage /usr/portage
 run emerge-webrsync
@@ -41,4 +41,4 @@ run rm -rf /etc/._cfg*
 run eselect news read
 
 docker login --username "$DOCKER_USERNAME"
-commit "$DOCKER_USERNAME/amd64-gentoo-stable-nomultilib:latest"
+commit "$DOCKER_USERNAME/amd64-gentoo-stable-nomultilib"
