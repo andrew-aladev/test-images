@@ -44,17 +44,21 @@ run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0 /etc/portage/make.profile
-echo '' > /var/lib/portage/world
+echo "" > /var/lib/portage/world
 
-build emerge -v1 sys-apps/diffutils
+build USE=\"-nls\" emerge -v1 sys-apps/diffutils
 build emerge -v1 sys-apps/baselayout
 run source /etc/profile && env-update
 
 build emerge -v1 app-arch/gzip
 run locale-gen
 
-build emerge -v1 sys-apps/gawk sys-apps/net-tools
-build USE="-berkdb -nls" emerge -v1 perl
+build USE=\"-nls\" emerge -v1 sys-apps/gawk sys-apps/net-tools
+build USE=\"-berkdb -nls\" emerge -v1 dev-lang/perl
+build USE=\"-nls\" emerge -v1 dev-lang/perl
+build emerge -v1 dev-util/pkgconfig
+
+build emerge -v1 sys-devel/gcc
 
 #docker login --username "$DOCKER_USERNAME"
 #commit "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable"

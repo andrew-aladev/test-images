@@ -27,9 +27,9 @@ build emerge -v sys-devel/crossdev app-emulation/qemu
 build crossdev -t aarch64-unknown-linux-gnu --stable
 
 copy crossdev-root/ /usr/aarch64-unknown-linux-gnu/
-run cd /usr/aarch64-unknown-linux-gnu/usr/bin/ && \
+run "cd /usr/aarch64-unknown-linux-gnu/usr/bin/ && \
   cp /usr/bin/qemu-aarch64 qemu-aarch64 && \
-  ln -s qemu-aarch64 qemu-aarch64-static
+  ln -s qemu-aarch64 qemu-aarch64-static"
 
 run rm /usr/aarch64-unknown-linux-gnu/etc/portage/make.profile
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0 /usr/aarch64-unknown-linux-gnu/etc/portage/make.profile
