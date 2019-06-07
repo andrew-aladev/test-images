@@ -29,7 +29,7 @@ buildah unmount "$crossdev_container"
 
 copy root/ /
 
-# Master system qemu can increase performance (built with optimizations for current hardware).
+# Master system qemu can increase performance (built with optimizations for current CPU).
 for qemu_name in "qemu-aarch64-static" "qemu-aarch64"; do
   qemu_path=$(which "$qemu_name" || continue)
   if [[ $(file "$qemu_path") != *statically\ linked* ]]; then
