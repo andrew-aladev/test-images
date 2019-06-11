@@ -31,9 +31,9 @@ run emerge-webrsync
 run eselect profile set default/linux/amd64/17.0/no-multilib
 run source /etc/profile && env-update
 
-build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/binutils-libs sys-libs/glibc
+build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc
 build emerge -ve @world
-build emerge -v app-portage/gentoolkit app-portage/smart-live-rebuild
+build emerge -v app-portage/gentoolkit
 
 build update && upgrade && cleanup
 

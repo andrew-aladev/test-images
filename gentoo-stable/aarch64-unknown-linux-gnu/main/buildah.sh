@@ -61,10 +61,10 @@ build USE=\"-filecaps\" emerge -v1 sys-libs/pam
 build emerge -v1 sys-libs/pam sys-apps/shadow
 
 build emerge -v1 sys-devel/gcc
-build emerge -v1 sys-devel/binutils sys-libs/binutils-libs
+build emerge -v1 sys-devel/binutils
 build emerge -v1 sys-libs/glibc
 build emerge -ve @world
-build emerge -v app-portage/gentoolkit app-portage/smart-live-rebuild
+build emerge -v app-portage/gentoolkit
 
 build update && upgrade && cleanup
 
