@@ -57,8 +57,19 @@ build USE=\"-nls\" emerge -v1 sys-apps/gawk sys-apps/net-tools
 build USE=\"-berkdb -nls\" emerge -v1 dev-lang/perl
 build USE=\"-nls\" emerge -v1 dev-lang/perl
 build emerge -v1 dev-util/pkgconfig
+build USE=\"-filecaps\" emerge -v1 sys-libs/pam
+build emerge -v1 sys-libs/pam sys-apps/shadow
 
 build emerge -v1 sys-devel/gcc
+build emerge -v1 sys-devel/binutils sys-libs/binutils-libs
+build emerge -v1 sys-libs/glibc
+build emerge -ve @world
+build emerge -v app-portage/gentoolkit app-portage/smart-live-rebuild
 
-#docker login --username "$DOCKER_USERNAME"
-#commit "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable"
+build update && upgrade && cleanup
+
+run rm -rf /etc/._cfg*
+run eselect news read
+
+docker login --username "$DOCKER_USERNAME"
+commit "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable"
