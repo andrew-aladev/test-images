@@ -22,9 +22,9 @@ commit () {
   buildah push "$1" "docker.io/$1:latest"
 }
 
-crossdev_container=$(buildah from "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable-amd64-crossdev:latest")
+crossdev_container=$(buildah from "$DOCKER_USERNAME/aarch64_be-unknown-linux-gnu-gentoo-stable-amd64-crossdev:latest")
 crossdev=$(buildah mount "$crossdev_container")
-copy "$crossdev/usr/aarch64-unknown-linux-gnu/" /
+copy "$crossdev/usr/aarch64_be-unknown-linux-gnu/" /
 buildah unmount "$crossdev_container"
 
 copy root/ /
@@ -61,4 +61,4 @@ run rm -rf /etc/._cfg*
 run eselect news read
 
 docker login --username "$DOCKER_USERNAME"
-commit "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable"
+commit "$DOCKER_USERNAME/aarch64_be-unknown-linux-gnu-gentoo-stable"
