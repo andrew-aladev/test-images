@@ -29,13 +29,13 @@ run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
 run eselect profile set default/linux/amd64/17.0/no-multilib
-run source /etc/profile && env-update
+run "source /etc/profile && env-update"
 
 build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc
 build emerge -ve @world
 build emerge -v app-portage/gentoolkit
 
-build update && upgrade && cleanup
+build "update && upgrade && cleanup"
 
 run rm -rf /etc/._cfg*
 run eselect news read
