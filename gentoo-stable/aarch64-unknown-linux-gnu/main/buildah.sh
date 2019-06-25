@@ -19,7 +19,7 @@ build () {
 }
 commit () {
   buildah commit --format docker "$container" "$1"
-  buildah push "$1" "docker.io/$1:latest"
+  buildah push "$1:latest" "docker://docker.io/$1:latest"
 }
 
 crossdev_container=$(buildah from "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable-amd64-crossdev:latest")
@@ -33,7 +33,7 @@ run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0 /etc/portage/make.profile
-run echo "" > /var/lib/portage/world
+run "echo \"\" > /var/lib/portage/world"
 
 build USE=\"-nls\" emerge -v1 sys-apps/diffutils
 build emerge -v1 sys-apps/baselayout

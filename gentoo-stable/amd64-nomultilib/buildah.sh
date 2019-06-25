@@ -19,7 +19,7 @@ build () {
 }
 commit () {
   buildah commit --format docker "$container" "$1"
-  buildah push "$1" "docker.io/$1:latest"
+  buildah push "$1:latest" "docker://docker.io/$1:latest"
 }
 
 run rm -r /usr/share/{doc,man,info}

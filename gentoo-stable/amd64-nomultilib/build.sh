@@ -5,4 +5,4 @@ cd "$(dirname $0)"
 
 DOCKER_USERNAME="puchuu" \
 MAINTAINER="Andrew Aladjev <andrew.aladev@hiqo-solutions.com>" \
-  buildah unshare ./buildah.sh
+  sudo -E ./buildah.sh
