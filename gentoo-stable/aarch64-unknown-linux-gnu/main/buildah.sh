@@ -3,6 +3,9 @@ set -e
 
 cd "$(dirname $0)"
 
+CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
+MAKEOPTS="-j$CPU_COUNT"
+
 container=$(buildah from "scratch")
 buildah config --label maintainer="$MAINTAINER" "$container"
 
@@ -14,7 +17,7 @@ run () {
   buildah run "$container" -- sh -c "$command"
 }
 build () {
-  command="$@"
+  command="MAKEOPTS=\"$MAKEOPTS\" $@"
   buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
 }
 commit () {
