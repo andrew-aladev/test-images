@@ -57,6 +57,7 @@ build emerge -v1 sys-devel/binutils
 build emerge -v1 sys-libs/glibc
 build emerge -ve @world
 build emerge -v app-portage/gentoolkit
+build emerge -v clang
 
 build "update && upgrade && cleanup"
 
