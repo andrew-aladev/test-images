@@ -3,6 +3,8 @@ set -e
 
 cd "$(dirname $0)"
 
+DOCKER_CONTAINER="test_amd64-unknown-linux-gnu"
+
 CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
 
@@ -21,8 +23,7 @@ build () {
   buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
 }
 commit () {
-  buildah commit --format docker "$container" "$1"
-  buildah push "$1:latest" "docker://docker.io/$1:latest"
+  buildah commit --format docker "$container" "$DOCKER_CONTAINER"
 }
 
 run rm -r /usr/share/{doc,man,info}
@@ -44,5 +45,4 @@ build "update && upgrade && cleanup"
 run rm -rf /etc/._cfg*
 run eselect news read
 
-docker login --username "$DOCKER_USERNAME"
-commit "$DOCKER_USERNAME/amd64-gentoo-stable-nomultilib"
+commit
