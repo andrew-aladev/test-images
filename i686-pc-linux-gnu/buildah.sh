@@ -5,12 +5,12 @@ cd "$(dirname $0)"
 
 source "../env.sh"
 
-DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_amd64-unknown-linux-gnu"
+DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_i686-pc-linux-gnu"
 
 CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
 
-container=$(buildah from "docker.io/gentoo/stage3-amd64-nomultilib:latest")
+container=$(buildah from "docker.io/gentoo/stage3-x86:latest")
 buildah config --label maintainer="$MAINTAINER" "$container"
 
 copy () {
@@ -34,7 +34,7 @@ copy root/ /
 run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
-run eselect profile set default/linux/amd64/17.1/no-multilib
+run eselect profile set default/linux/x86/17.0
 run "source /etc/profile && env-update"
 
 build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc

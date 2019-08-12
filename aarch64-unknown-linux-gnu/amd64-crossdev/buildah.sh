@@ -3,10 +3,15 @@ set -e
 
 cd "$(dirname $0)"
 
+source "../env.sh"
+
+FROM_DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_amd64-unknown-linux-gnu"
+DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_aarch64-unknown-linux-gnu_amd64-crossdev"
+
 CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
 
-container=$(buildah from "docker.io/$DOCKER_USERNAME/amd64-gentoo-stable-nomultilib:latest")
+container=$(buildah from "$FROM_DOCKER_CONTAINER:latest")
 buildah config --label maintainer="$MAINTAINER" "$container"
 
 copy () {
@@ -21,7 +26,7 @@ build () {
   buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
 }
 commit () {
-  buildah commit --format docker "$container" "$1"
+  buildah commit --format docker "$container" "$DOCKER_CONTAINER"
 }
 
 copy root/ /
@@ -45,4 +50,4 @@ build aarch64-unknown-linux-gnu-emerge -v1 \
 run rm /usr/aarch64-unknown-linux-gnu/etc/portage/make.profile
 run rm -r /usr/aarch64-unknown-linux-gnu/etc/portage/patches
 
-commit "$DOCKER_USERNAME/aarch64-unknown-linux-gnu-gentoo-stable-amd64-crossdev"
+commit
