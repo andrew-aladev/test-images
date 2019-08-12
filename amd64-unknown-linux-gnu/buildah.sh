@@ -3,7 +3,9 @@ set -e
 
 cd "$(dirname $0)"
 
-DOCKER_CONTAINER="test_amd64-unknown-linux-gnu"
+source "../env.sh"
+
+DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_amd64-unknown-linux-gnu"
 
 CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
@@ -32,7 +34,7 @@ copy root/ /
 run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
-run eselect profile set default/linux/amd64/17.0/no-multilib
+run eselect profile set default/linux/amd64/17.1/no-multilib
 run "source /etc/profile && env-update"
 
 build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc

@@ -18,7 +18,6 @@ Please ensure that your local user is in `docker` group.
 Than open [`env.sh`](env.sh) and update variables.
 
 ```sh
-source ./env.sh
 ./build.sh
 ```
 
