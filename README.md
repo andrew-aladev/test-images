@@ -2,6 +2,10 @@
 
 You can find them on https://hub.docker.com/u/puchuu.
 
+## Goal
+
+GCC and Clang (where possible) with sanitizers for most popular platforms.
+
 ## Build
 
 Packages are building using qemu static user, compilation is heavy.
@@ -22,6 +26,8 @@ Than open [`env.sh`](env.sh) and update variables.
 ```sh
 ./build.sh
 ```
+
+Build is rootless, just use your regular `my_user`.
 
 ## License
 
