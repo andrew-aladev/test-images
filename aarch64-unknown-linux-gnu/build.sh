@@ -3,5 +3,6 @@ set -e
 
 cd "$(dirname $0)"
 
-./amd64-crossdev/buildah.sh
+./amd64-crossdev/build.sh
+./base/build.sh
 #./main/build.sh

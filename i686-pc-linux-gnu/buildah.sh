@@ -5,7 +5,7 @@ cd "$(dirname $0)"
 
 source "../env.sh"
 
-DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_i686-pc-linux-gnu"
+DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_i686-pc-linux-gnu"
 
 CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
@@ -25,7 +25,7 @@ build () {
   buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
 }
 commit () {
-  buildah commit --format docker "$container" "$DOCKER_CONTAINER"
+  buildah commit --format docker "$container" "$DOCKER_IMAGE"
 }
 
 run rm -r /usr/share/{doc,man,info}

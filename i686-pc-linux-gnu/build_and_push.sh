@@ -3,5 +3,5 @@ set -e
 
 cd "$(dirname $0)"
 
-./buildah.sh
+./build.sh
 ./push.sh

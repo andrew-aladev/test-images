@@ -5,6 +5,10 @@ cd "$(dirname $0)"
 
 source "../env.sh"
 
-DOCKER_CONTAINER="${DOCKER_CONTAINER_PREFIX}_i686-pc-linux-gnu"
+DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_i686-pc-linux-gnu"
 
-buildah pull "docker://docker.io/$DOCKER_USERNAME/$DOCKER_CONTAINER:latest"
+LOCAL_IMAGE="$DOCKER_IMAGE:latest"
+REMOTE_IMAGE="docker://docker.io/$DOCKER_USERNAME/$DOCKER_IMAGE:latest"
+
+buildah pull "$REMOTE_IMAGE"
+buildah tag "$REMOTE_IMAGE" "$LOCAL_IMAGE"
