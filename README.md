@@ -6,12 +6,18 @@ You can find them on https://hub.docker.com/u/puchuu.
 
 GCC and Clang (where possible) with sanitizers for most popular platforms.
 
+## Dependencies
+
+- docker
+- buildah
+- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mips64 mips64el mipsel mipsn32 mipsn32el"`
+
 ## Build
 
 Packages are building using qemu static user, compilation is heavy.
 Recommended CPU is any modern one with >= 8 cores.
 
-Please install qemu with `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mips64 mips64el mipsel mipsn32 mipsn32el"` and start `qemu-binfmt` service.
+Please start `docker` and `qemu-binfmt` services.
 
 Than add your local user to `/etc/subuid` and `/etc/subgid`:
 
