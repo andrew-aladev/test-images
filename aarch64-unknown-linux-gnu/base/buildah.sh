@@ -4,35 +4,18 @@ set -e
 cd "$(dirname $0)"
 
 source "../../env.sh"
+source "../../utils.sh"
 
 CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64-unknown-linux-gnu_amd64-crossdev"
 DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64-unknown-linux-gnu_base"
 
-CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
-MAKEOPTS="-j$CPU_COUNT"
+CONTAINER=$(buildah from "scratch")
+buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
-container=$(buildah from "scratch")
-buildah config --label maintainer="$MAINTAINER" "$container"
-
-copy () {
-  buildah copy "$container" $@
-}
-run () {
-  command="$@"
-  buildah run "$container" -- sh -c "$command"
-}
-build () {
-  command="MAKEOPTS=\"$MAKEOPTS\" $@"
-  buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
-}
-commit () {
-  buildah commit --format docker "$container" "$DOCKER_IMAGE"
-}
-
-crossdev_container=$(buildah from "$CROSSDEV_DOCKER_IMAGE")
-crossdev=$(buildah mount "$crossdev_container")
-copy "$crossdev/usr/aarch64-unknown-linux-gnu/" /
-buildah unmount "$crossdev_container"
+CROSSDEV_CONTAINER=$(buildah from "$CROSSDEV_DOCKER_IMAGE")
+CROSSDEV_ROOT=$(buildah mount "$CROSSDEV_CONTAINER")
+copy "$CROSSDEV_ROOT/usr/aarch64-unknown-linux-gnu/" /
+buildah unmount "$CROSSDEV_CONTAINER"
 
 copy root/ /
 

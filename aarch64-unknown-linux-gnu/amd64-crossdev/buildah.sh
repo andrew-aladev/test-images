@@ -4,30 +4,13 @@ set -e
 cd "$(dirname $0)"
 
 source "../../env.sh"
+source "../../utils.sh"
 
 FROM_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_amd64-pc-linux-gnu"
 DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64-unknown-linux-gnu_amd64-crossdev"
 
-CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
-MAKEOPTS="-j$CPU_COUNT"
-
-container=$(buildah from "$FROM_DOCKER_IMAGE:latest")
-buildah config --label maintainer="$MAINTAINER" "$container"
-
-copy () {
-  buildah copy "$container" $@
-}
-run () {
-  command="$@"
-  buildah run "$container" -- sh -c "$command"
-}
-build () {
-  command="MAKEOPTS=\"$MAKEOPTS\" $@"
-  buildah run --cap-add=CAP_SYS_PTRACE "$container" -- sh -c "$command"
-}
-commit () {
-  buildah commit --format docker "$container" "$DOCKER_IMAGE"
-}
+CONTAINER=$(buildah from "$FROM_DOCKER_IMAGE:latest")
+buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
