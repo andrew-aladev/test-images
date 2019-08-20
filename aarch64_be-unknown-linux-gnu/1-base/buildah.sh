@@ -6,15 +6,15 @@ cd "$(dirname $0)"
 source "../../env.sh"
 source "../../utils.sh"
 
-CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64-unknown-linux-gnu_amd64-crossdev"
-DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64-unknown-linux-gnu_base"
+CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64_be-unknown-linux-gnu_amd64-crossdev"
+DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64_be-unknown-linux-gnu_base"
 
 CONTAINER=$(buildah from "scratch")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 CROSSDEV_CONTAINER=$(buildah from "$CROSSDEV_DOCKER_IMAGE")
 CROSSDEV_ROOT=$(buildah mount "$CROSSDEV_CONTAINER")
-copy "$CROSSDEV_ROOT/usr/aarch64-unknown-linux-gnu/" /
+copy "$CROSSDEV_ROOT/usr/aarch64_be-unknown-linux-gnu/" /
 buildah unmount "$CROSSDEV_CONTAINER"
 
 copy root/ /
