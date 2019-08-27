@@ -23,7 +23,7 @@ run "cd /usr/aarch64_be-unknown-linux-gnu/usr/bin/ && \
   ln -s qemu-aarch64_be qemu-aarch64_be-static"
 
 run rm /usr/aarch64_be-unknown-linux-gnu/etc/portage/make.profile
-run ln -s /usr/portage/profiles/default/linux/arm64/17.0 /usr/aarch64_be-unknown-linux-gnu/etc/portage/make.profile
+run ln -s /usr/portage/profiles/default/linux/arm64/17.0/big-endian /usr/aarch64_be-unknown-linux-gnu/etc/portage/make.profile
 
 build aarch64_be-unknown-linux-gnu-emerge -v1 \
   sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers \
