@@ -4,11 +4,6 @@ set -e
 cd "$(dirname $0)"
 
 source "../env.sh"
+source "../utils.sh"
 
-DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_aarch64_be-unknown-linux-gnu"
-
-LOCAL_IMAGE="$DOCKER_IMAGE:latest"
-REMOTE_IMAGE="docker://docker.io/$DOCKER_USERNAME/$DOCKER_IMAGE:latest"
-
-buildah pull "$REMOTE_IMAGE"
-buildah tag "$REMOTE_IMAGE" "$LOCAL_IMAGE"
+docker_pull "${DOCKER_IMAGE_PREFIX}_aarch64_be-unknown-linux-gnu"
