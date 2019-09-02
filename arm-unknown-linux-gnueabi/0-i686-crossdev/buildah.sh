@@ -25,7 +25,7 @@ run "cd /usr/arm-unknown-linux-gnueabi/usr/bin/ && \
 run rm /usr/arm-unknown-linux-gnueabi/etc/portage/make.profile
 run ln -s /usr/portage/profiles/default/linux/arm/17.0 /usr/arm-unknown-linux-gnueabi/etc/portage/make.profile
 
-build USE=\"-ncurses\" arm-unknown-linux-gnueabi-emerge -v1 \
+build arm-unknown-linux-gnueabi-emerge -v1 \
   sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers \
   sys-apps/portage app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget

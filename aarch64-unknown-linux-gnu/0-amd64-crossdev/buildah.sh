@@ -25,7 +25,7 @@ run "cd /usr/aarch64-unknown-linux-gnu/usr/bin/ && \
 run rm /usr/aarch64-unknown-linux-gnu/etc/portage/make.profile
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0 /usr/aarch64-unknown-linux-gnu/etc/portage/make.profile
 
-build USE=\"-ncurses\" aarch64-unknown-linux-gnu-emerge -v1 \
+build aarch64-unknown-linux-gnu-emerge -v1 \
   sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers \
   sys-apps/portage app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
