@@ -13,12 +13,13 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 run rm -r /usr/share/{doc,man,info}
 copy root/ /
+run "env-update"
 
 run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
 run eselect profile set default/linux/x86/17.0
-run "source /etc/profile && env-update"
+run "env-update && source /etc/profile"
 
 build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc
 build emerge -ve @world

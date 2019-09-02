@@ -18,6 +18,7 @@ copy "$CROSSDEV_ROOT/usr/arm-unknown-linux-gnueabi/" /
 buildah unmount "$CROSSDEV_CONTAINER"
 
 copy root/ /
+run "env-update"
 
 run chown -R portage:portage /usr/portage
 run emerge-webrsync
@@ -29,7 +30,7 @@ build emerge -v1 sys-apps/portage
 
 build USE=\"-nls\" emerge -v1 sys-apps/diffutils
 build emerge -v1 sys-apps/baselayout
-run "source /etc/profile && env-update"
+run "env-update && source /etc/profile"
 
 build emerge -v1 app-arch/gzip
 run locale-gen
