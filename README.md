@@ -10,7 +10,7 @@ GCC and Clang (where possible) with sanitizers for most popular platforms.
 
 - docker
 - buildah
-- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mips64 mips64el mipsel mipsn32 mipsn32el"`
+- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mips64 mips64el mipsel"`
 
 ## Build
 
