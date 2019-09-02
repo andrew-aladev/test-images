@@ -6,7 +6,7 @@ cd "$(dirname $0)"
 source "../../env.sh"
 source "../../utils.sh"
 
-CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_amd64-crossdev"
+CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_i686-crossdev"
 DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_base"
 
 CONTAINER=$(buildah from "scratch")

@@ -6,8 +6,8 @@ cd "$(dirname $0)"
 source "../../env.sh"
 source "../../utils.sh"
 
-FROM_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_amd64-pc-linux-gnu"
-DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_amd64-crossdev"
+FROM_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_i686-pc-linux-gnu"
+DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_i686-crossdev"
 
 CONTAINER=$(buildah from "$FROM_DOCKER_IMAGE:latest")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"

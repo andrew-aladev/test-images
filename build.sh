@@ -7,3 +7,4 @@ cd "$(dirname $0)"
 ./i686-pc-linux-gnu/build.sh
 ./aarch64-unknown-linux-gnu/build.sh
 ./aarch64_be-unknown-linux-gnu/build.sh
+./arm-unknown-linux-gnueabi/build.sh
