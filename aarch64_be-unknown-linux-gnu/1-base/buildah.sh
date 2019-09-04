@@ -25,7 +25,6 @@ run emerge-webrsync
 
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0/big-endian /etc/portage/make.profile
 run "echo \"\" > /var/lib/portage/world"
-
 build emerge -v1 sys-apps/portage
 
 build USE=\"-nls\" emerge -v1 sys-apps/diffutils

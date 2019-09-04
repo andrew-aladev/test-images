@@ -6,7 +6,7 @@ cd "$(dirname $0)"
 source "../../env.sh"
 source "../../utils.sh"
 
-CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_i686-crossdev"
+CROSSDEV_DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_amd64-crossdev"
 DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}_arm-unknown-linux-gnueabi_base"
 
 CONTAINER=$(buildah from "scratch")
@@ -25,7 +25,6 @@ run emerge-webrsync
 
 run ln -s /usr/portage/profiles/default/linux/arm/17.0 /etc/portage/make.profile
 run "echo \"\" > /var/lib/portage/world"
-
 build emerge -v1 sys-apps/portage
 
 build USE=\"-nls\" emerge -v1 sys-apps/diffutils
