@@ -15,7 +15,6 @@ run rm -r /usr/share/{doc,man,info}
 copy root/ /
 run "env-update"
 
-run chown -R portage:portage /usr/portage
 run emerge-webrsync
 
 run eselect profile set default/linux/x86/17.0
