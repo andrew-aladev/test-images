@@ -24,6 +24,7 @@ build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc
 build emerge -ve @world
 build emerge -v app-portage/gentoolkit
 build emerge -v clang
+run "env-update && source /etc/profile"
 
 build "update && upgrade && cleanup"
 
