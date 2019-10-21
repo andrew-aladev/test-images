@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 git remote add github    "git@github.com:andrew-aladev/test-images.git"    || true
