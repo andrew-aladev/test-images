@@ -29,8 +29,7 @@ build arm-unknown-linux-gnueabi-emerge -v1 \
   app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
 
-build arm-unknown-linux-gnueabi-emerge -v1 \
-  sys-apps/portage
+build arm-unknown-linux-gnueabi-emerge -v1 sys-apps/portage
 
 run rm /usr/arm-unknown-linux-gnueabi/etc/portage/make.profile
 run rm -r /usr/arm-unknown-linux-gnueabi/etc/portage/patches
