@@ -29,6 +29,18 @@ build arm-unknown-linux-gnueabi-emerge -v1 \
   app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
 
+# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
+run cp /usr/arm-unknown-linux-gnueabi/lib/ld-linux.so* /lib/
+run sed -i "s/export PYTHON=\${EPREFIX}\/usr\/bin\/\${impl}/export PYTHON=arm-unknown-linux-gnueabi-\${impl}/g" \
+  /usr/portage/eclass/python-utils-r1.eclass
+run sed -i "s/\${EPYTHON:-python}/arm-unknown-linux-gnueabi-\${EPYTHON:-python}/g" \
+  /usr/portage/eclass/distutils-r1.eclass
+
+copy arm-unknown-linux-gnueabi-python3.6 /usr/bin/
+run "cd /usr/bin && \
+  ln -s arm-unknown-linux-gnueabi-python3.6 arm-unknown-linux-gnueabi-python3 && \
+  ln -s arm-unknown-linux-gnueabi-python3.6 arm-unknown-linux-gnueabi-python"
+
 build arm-unknown-linux-gnueabi-emerge -v1 sys-apps/portage
 
 run rm /usr/arm-unknown-linux-gnueabi/etc/portage/make.profile

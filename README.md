@@ -15,7 +15,7 @@ GCC and Clang (where possible) with sanitizers for most popular platforms.
 ## Build
 
 Packages are building using qemu static user, compilation is heavy.
-Recommended CPU is any modern one with >= 8 cores.
+Recommended CPU is any modern one with >= 16 cores.
 
 Please start `docker` and `qemu-binfmt` services.
 
@@ -34,6 +34,23 @@ Than open [`env.sh`](env.sh) and update variables.
 ```
 
 Build is rootless, just use your regular `my_user`.
+
+## Cross build
+
+```
++-------------------------+
+|                         |
+|           +-----------+ |              +-----------+
+|           |           | |              |           |
+| native    | cross     | |    export    | cross     |
+| container | container | | +----------> | container |
+|           |           | |              | (+ qemu)  |
+|           +-----------+ |              |           |
+|                         |              +-----------+
++-------------------------+
+```
+
+Native container creates minimal cross image, adds `qemu`, exports it and rebuilds everything.
 
 ## License
 
