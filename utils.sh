@@ -3,17 +3,31 @@
 CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
 
+quote_args () {
+  whitespace="[[:space:]]"
+
+  for arg in "$@"; do
+    if [[ $arg =~ $whitespace ]]; then
+      echo -n " '$arg'"
+    else
+      echo -n " $arg"
+    fi
+  done
+}
+
 copy () {
-  buildah copy "$CONTAINER" $@
+  command=$(quote_args "$@")
+  eval buildah copy "$CONTAINER" "$command"
 }
 
 run () {
-  command="$@"
+  command=$(quote_args "$@")
   buildah run "$CONTAINER" -- sh -c "$command"
 }
 
 build () {
-  command="MAKEOPTS=\"$MAKEOPTS\" $@"
+  command=$(quote_args "$@")
+  command="MAKEOPTS=\"$MAKEOPTS\" $command"
   buildah run --cap-add=CAP_SYS_PTRACE "$CONTAINER" -- sh -c "$command"
 }
 
