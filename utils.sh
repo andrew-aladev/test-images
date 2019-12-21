@@ -4,14 +4,8 @@ CPU_COUNT=$(grep -c "^processor" "/proc/cpuinfo")
 MAKEOPTS="-j$CPU_COUNT"
 
 quote_args () {
-  whitespace="[[:space:]]"
-
   for arg in "$@"; do
-    if [[ $arg =~ $whitespace ]]; then
-      echo -n " '$arg'"
-    else
-      echo -n " $arg"
-    fi
+    printf " %q" "$arg"
   done
 }
 

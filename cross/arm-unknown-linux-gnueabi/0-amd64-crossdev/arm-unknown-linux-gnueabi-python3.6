@@ -1,15 +1,10 @@
 #!/bin/bash
 
 quoted_args=""
-whitespace="[[:space:]]"
 
 for arg in "$@"; do
-  if [[ $arg =~ $whitespace ]]; then
-    quoted_args+=" '$arg'"
-  else
-    quoted_args+=" $arg"
-  fi
+  quoted_args+=$(printf " %q" "$arg")
 done
 
 LD_LIBRARY_PATH="/usr/arm-unknown-linux-gnueabi/lib:/usr/arm-unknown-linux-gnueabi/usr/lib:/usr/arm-unknown-linux-gnueabi/usr/lib/gcc/arm-unknown-linux-gnueabi/9.2.0/" \
-  eval /usr/arm-unknown-linux-gnueabi/usr/bin/python3.6 $quoted_args
+  eval /usr/arm-unknown-linux-gnueabi/usr/bin/python3.6 "$quoted_args"
