@@ -1,0 +1,5 @@
+dev-python/pyblake2 python_target_3_6.conf
+app-portage/gemato python_target_3_6.conf
+dev-python/certifi python_target_3_6.conf
+dev-python/setuptools python_target_3_6.conf
+sys-apps/portage python_target_3_6.conf
