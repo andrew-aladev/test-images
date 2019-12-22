@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-cd "$(dirname $0)"
+DIR=$(dirname "${BASH_SOURCE[0]}")
+cd "$DIR"
 
 ./0-amd64-crossdev/build.sh
 ./1-base/build.sh

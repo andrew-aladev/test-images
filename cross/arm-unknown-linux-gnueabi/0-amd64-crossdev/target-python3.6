@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+TARGET="arm-unknown-linux-gnueabi"
+
+quoted_args=""
+
+for arg in "$@"; do
+  quoted_args+=$(printf " %q" "$arg")
+done
+
+LD_LIBRARY_PATH="/usr/${TARGET}/lib:/usr/${TARGET}/usr/lib:/usr/${TARGET}/usr/lib/gcc/${TARGET}/9.2.0/" \
+  eval "/usr/${TARGET}/usr/bin/python3.6" "$quoted_args"
