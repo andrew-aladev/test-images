@@ -30,7 +30,7 @@ build "${TARGET}-emerge" -v1 \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
-build "${TARGET}-emerge" -v1 dev-lang/python
+build "${TARGET}-emerge" -v1 dev-lang/python:2.7 dev-lang/python:3.6
 
 run find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
   -exec cp "{}" /lib/ \;
@@ -52,6 +52,7 @@ run ln -s "/usr/bin/${TARGET}-python3.6" "/usr/bin/${TARGET}-python"
 build "${TARGET}-emerge" -v1 sys-apps/portage
 
 run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -r "/usr/${TARGET}/etc/portage/package.keywords"
 run rm -r "/usr/${TARGET}/etc/portage/patches"
 
 commit
