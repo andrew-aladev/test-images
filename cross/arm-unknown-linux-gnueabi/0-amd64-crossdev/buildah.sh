@@ -51,7 +51,9 @@ run ln -s "/usr/bin/${TARGET}-python3.6" "/usr/bin/${TARGET}-python"
 
 build "${TARGET}-emerge" -v1 sys-apps/portage
 
+run rm -r "/usr/${TARGET}/etc/portage/env"
 run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -r "/usr/${TARGET}/etc/portage/package.env"
 run rm -r "/usr/${TARGET}/etc/portage/package.keywords"
 run rm -r "/usr/${TARGET}/etc/portage/patches"
 
