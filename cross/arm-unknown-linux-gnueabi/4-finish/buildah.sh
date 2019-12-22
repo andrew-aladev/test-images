@@ -13,9 +13,11 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 build emerge -v app-portage/gentoolkit
 build emerge -v clang
 
-build "update && upgrade && cleanup"
+run update
+build upgrade
+run cleanup
 
-run rm -rf /etc/._cfg*
+run find /etc -maxdepth 1 -name ._cfg* -delete
 run eselect news read
 
 commit

@@ -2,7 +2,7 @@
 set -e
 
 DIR=$(dirname "${BASH_SOURCE[0]}")
-source "${DIR}/../../../env.sh"
+source "${DIR}/../env.sh"
 
-FROM_IMAGE_NAME="${IMAGE_PREFIX}_arm-unknown-linux-gnueabi_world"
-IMAGE_NAME="${IMAGE_PREFIX}_arm-unknown-linux-gnueabi"
+FROM_IMAGE_NAME="${IMAGE_PREFIX}_${TARGET}_world"
+IMAGE_NAME="${IMAGE_PREFIX}_${TARGET}"
