@@ -1,0 +1,30 @@
+diff --git a/bits/dirent.h b/bits/dirent.h
+index a924dccc..1dbd7cee 100644
+--- a/bits/dirent.h
++++ b/bits/dirent.h
+@@ -53,9 +53,4 @@ struct dirent64
+ #define _DIRENT_HAVE_D_NAMLEN 1
+ #define _DIRENT_HAVE_D_TYPE 1
+ 
+-#ifdef __INO_T_MATCHES_INO64_T
+-/* Inform libc code that these two types are effectively identical.  */
+-# define _DIRENT_MATCHES_DIRENT64	1
+-#else
+-# define _DIRENT_MATCHES_DIRENT64	0
+-#endif
++#define _DIRENT_MATCHES_DIRENT64 0
+diff --git a/sysdeps/unix/sysv/linux/bits/dirent.h b/sysdeps/unix/sysv/linux/bits/dirent.h
+index a92d2e13..9d83c8cc 100644
+--- a/sysdeps/unix/sysv/linux/bits/dirent.h
++++ b/sysdeps/unix/sysv/linux/bits/dirent.h
+@@ -51,9 +51,4 @@ struct dirent64
+ #define _DIRENT_HAVE_D_OFF
+ #define _DIRENT_HAVE_D_TYPE
+ 
+-#if defined __OFF_T_MATCHES_OFF64_T && defined __INO_T_MATCHES_INO64_T
+-/* Inform libc code that these two types are effectively identical.  */
+-# define _DIRENT_MATCHES_DIRENT64	1
+-#else
+-# define _DIRENT_MATCHES_DIRENT64	0
+-#endif
++# define _DIRENT_MATCHES_DIRENT64 0
