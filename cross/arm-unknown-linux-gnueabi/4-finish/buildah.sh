@@ -10,7 +10,6 @@ source "./env.sh"
 CONTAINER=$(buildah from "$FROM_DOCKER_IMAGE")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
-build emerge -v app-portage/gentoolkit
 build emerge -v clang
 
 run update

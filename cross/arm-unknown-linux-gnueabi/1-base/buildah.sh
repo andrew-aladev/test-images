@@ -26,8 +26,7 @@ build emerge -v1 sys-apps/portage
 
 build USE="-nls" emerge -v1 sys-apps/diffutils
 build emerge -v1 sys-apps/baselayout
-run env-update
-run source /etc/profile
+run eval "env-update && source /etc/profile"
 
 build emerge -v1 app-arch/gzip
 run locale-gen
@@ -38,5 +37,11 @@ build USE="-nls" emerge -v1 dev-lang/perl
 build emerge -v1 dev-util/pkgconfig
 build USE="-filecaps" emerge -v1 sys-libs/pam
 build emerge -v1 sys-libs/pam sys-apps/shadow
+
+build emerge -v app-portage/gentoolkit
+
+run update
+build upgrade
+run cleanup
 
 commit
