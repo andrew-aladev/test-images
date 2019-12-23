@@ -21,8 +21,7 @@ run env-update
 run emerge-webrsync
 
 run ln -s /usr/portage/profiles/default/linux/arm/17.0 /etc/portage/make.profile
-run echo "" | tee /var/lib/portage/world
-build emerge -v1 sys-apps/portage
+run eval "echo '' > /var/lib/portage/world"
 
 build USE="-nls" emerge -v1 sys-apps/diffutils
 build emerge -v1 sys-apps/baselayout
@@ -38,6 +37,7 @@ build emerge -v1 dev-util/pkgconfig
 build USE="-filecaps" emerge -v1 sys-libs/pam
 build emerge -v1 sys-libs/pam sys-apps/shadow
 
+build emerge -v1 sys-apps/portage
 build emerge -v app-portage/gentoolkit
 
 run update
