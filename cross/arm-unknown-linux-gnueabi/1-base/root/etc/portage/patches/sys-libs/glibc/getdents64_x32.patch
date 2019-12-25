@@ -17,3 +17,15 @@ index e1e2a8b8..ca301cf9 100644
    if (retval == -1)
      return -1;
  
+diff --git a/sysdeps/unix/sysv/linux/syscall-names.list b/sysdeps/unix/sysv/linux/syscall-names.list
+index d0cca839..798bf745 100644
+--- a/sysdeps/unix/sysv/linux/syscall-names.list
++++ b/sysdeps/unix/sysv/linux/syscall-names.list
+@@ -150,6 +150,7 @@ getcpu
+ getcwd
+ getdents
+ getdents64
++getdents64_x32
+ getdomainname
+ getdtablesize
+ getegid
