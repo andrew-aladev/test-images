@@ -1,5 +1,5 @@
 diff --git a/linux-headers/asm-arm/unistd-common.h b/linux-headers/asm-arm/unistd-common.h
-index eb5d361..5860d47 100644
+index eb5d361b11..5860d47263 100644
 --- a/linux-headers/asm-arm/unistd-common.h
 +++ b/linux-headers/asm-arm/unistd-common.h
 @@ -390,5 +390,6 @@
@@ -10,7 +10,7 @@ index eb5d361..5860d47 100644
  
  #endif /* _ASM_ARM_UNISTD_COMMON_H */
 diff --git a/linux-headers/asm-generic/unistd.h b/linux-headers/asm-generic/unistd.h
-index 1fc8faa..c0f46b7 100644
+index 1fc8faa6e9..c0f46b7e0a 100644
 --- a/linux-headers/asm-generic/unistd.h
 +++ b/linux-headers/asm-generic/unistd.h
 @@ -851,8 +851,12 @@ __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
@@ -28,43 +28,43 @@ index 1fc8faa..c0f46b7 100644
  /*
   * 32 bit systems traditionally used different
 diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips/unistd_n32.h
-index 659d5c9..90ece5b 100644
+index 7dffe8e34e..988c49551a 100644
 --- a/linux-headers/asm-mips/unistd_n32.h
 +++ b/linux-headers/asm-mips/unistd_n32.h
-@@ -365,6 +365,7 @@
+@@ -364,6 +364,7 @@
+ #define __NR_fsmount	(__NR_Linux + 432)
  #define __NR_fspick	(__NR_Linux + 433)
  #define __NR_pidfd_open	(__NR_Linux + 434)
- #define __NR_clone3	(__NR_Linux + 435)
 +#define __NR_getdents64_x32	(__NR_Linux + 436)
  
  
  #endif /* _ASM_MIPS_UNISTD_N32_H */
 diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips/unistd_n64.h
-index 4b6310a..5392fac 100644
+index f4592d6fc5..a43efe7c92 100644
 --- a/linux-headers/asm-mips/unistd_n64.h
 +++ b/linux-headers/asm-mips/unistd_n64.h
-@@ -341,6 +341,7 @@
+@@ -340,6 +340,7 @@
+ #define __NR_fsmount	(__NR_Linux + 432)
  #define __NR_fspick	(__NR_Linux + 433)
  #define __NR_pidfd_open	(__NR_Linux + 434)
- #define __NR_clone3	(__NR_Linux + 435)
 +#define __NR_getdents64_x32	(__NR_Linux + 436)
  
  
  #endif /* _ASM_MIPS_UNISTD_N64_H */
 diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips/unistd_o32.h
-index 4ce7b4e..2ab1365 100644
+index 04c6728352..e7cb6657a1 100644
 --- a/linux-headers/asm-mips/unistd_o32.h
 +++ b/linux-headers/asm-mips/unistd_o32.h
-@@ -411,6 +411,7 @@
+@@ -410,6 +410,7 @@
+ #define __NR_fsmount	(__NR_Linux + 432)
  #define __NR_fspick	(__NR_Linux + 433)
  #define __NR_pidfd_open	(__NR_Linux + 434)
- #define __NR_clone3	(__NR_Linux + 435)
 +#define __NR_getdents64_x32	(__NR_Linux + 436)
  
  
  #endif /* _ASM_MIPS_UNISTD_O32_H */
 diff --git a/linux-headers/asm-powerpc/unistd_32.h b/linux-headers/asm-powerpc/unistd_32.h
-index 5584cc1..dbf00f2 100644
+index 5584cc1b4f..dbf00f2010 100644
 --- a/linux-headers/asm-powerpc/unistd_32.h
 +++ b/linux-headers/asm-powerpc/unistd_32.h
 @@ -418,6 +418,7 @@
@@ -76,7 +76,7 @@ index 5584cc1..dbf00f2 100644
  
  #endif /* _ASM_POWERPC_UNISTD_32_H */
 diff --git a/linux-headers/asm-powerpc/unistd_64.h b/linux-headers/asm-powerpc/unistd_64.h
-index 251bcff..1d4de96 100644
+index 251bcff77e..1d4de964bf 100644
 --- a/linux-headers/asm-powerpc/unistd_64.h
 +++ b/linux-headers/asm-powerpc/unistd_64.h
 @@ -390,6 +390,7 @@
@@ -88,7 +88,7 @@ index 251bcff..1d4de96 100644
  
  #endif /* _ASM_POWERPC_UNISTD_64_H */
 diff --git a/linux-headers/asm-s390/unistd_32.h b/linux-headers/asm-s390/unistd_32.h
-index 7cce3ee..d4b76b6 100644
+index 7cce3ee296..d4b76b6c3c 100644
 --- a/linux-headers/asm-s390/unistd_32.h
 +++ b/linux-headers/asm-s390/unistd_32.h
 @@ -408,5 +408,6 @@
@@ -99,7 +99,7 @@ index 7cce3ee..d4b76b6 100644
  
  #endif /* _ASM_S390_UNISTD_32_H */
 diff --git a/linux-headers/asm-s390/unistd_64.h b/linux-headers/asm-s390/unistd_64.h
-index 2371ff1..3595350 100644
+index 2371ff1e7a..359535007b 100644
 --- a/linux-headers/asm-s390/unistd_64.h
 +++ b/linux-headers/asm-s390/unistd_64.h
 @@ -356,5 +356,6 @@
@@ -110,7 +110,7 @@ index 2371ff1..3595350 100644
  
  #endif /* _ASM_S390_UNISTD_64_H */
 diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/unistd_32.h
-index e8ebec1..b49edf4 100644
+index e8ebec1cdc..b49edf45a3 100644
 --- a/linux-headers/asm-x86/unistd_32.h
 +++ b/linux-headers/asm-x86/unistd_32.h
 @@ -426,5 +426,6 @@
@@ -121,7 +121,7 @@ index e8ebec1..b49edf4 100644
  
  #endif /* _ASM_X86_UNISTD_32_H */
 diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/unistd_64.h
-index a2f863d..4ba1bdd 100644
+index a2f863d549..4ba1bdd3e2 100644
 --- a/linux-headers/asm-x86/unistd_64.h
 +++ b/linux-headers/asm-x86/unistd_64.h
 @@ -348,5 +348,6 @@
@@ -132,7 +132,7 @@ index a2f863d..4ba1bdd 100644
  
  #endif /* _ASM_X86_UNISTD_64_H */
 diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/unistd_x32.h
-index 4cdc67d..7b26a76 100644
+index 4cdc67d848..7b26a76994 100644
 --- a/linux-headers/asm-x86/unistd_x32.h
 +++ b/linux-headers/asm-x86/unistd_x32.h
 @@ -337,5 +337,6 @@
@@ -143,7 +143,7 @@ index 4cdc67d..7b26a76 100644
  
  #endif /* _ASM_X86_UNISTD_X32_H */
 diff --git a/linux-user/aarch64/syscall_nr.h b/linux-user/aarch64/syscall_nr.h
-index f00ffd7..817bcc8 100644
+index f00ffd7fb8..817bcc8f6b 100644
 --- a/linux-user/aarch64/syscall_nr.h
 +++ b/linux-user/aarch64/syscall_nr.h
 @@ -276,5 +276,6 @@
@@ -154,7 +154,7 @@ index f00ffd7..817bcc8 100644
  
  #endif
 diff --git a/linux-user/alpha/syscall_nr.h b/linux-user/alpha/syscall_nr.h
-index 2e5541b..6d1bbc2 100644
+index 2e5541bbf9..6d1bbc23bd 100644
 --- a/linux-user/alpha/syscall_nr.h
 +++ b/linux-user/alpha/syscall_nr.h
 @@ -453,5 +453,6 @@
@@ -165,7 +165,7 @@ index 2e5541b..6d1bbc2 100644
  
  #endif
 diff --git a/linux-user/arm/syscall_nr.h b/linux-user/arm/syscall_nr.h
-index e7eda0d..643d372 100644
+index e7eda0d766..643d3725a1 100644
 --- a/linux-user/arm/syscall_nr.h
 +++ b/linux-user/arm/syscall_nr.h
 @@ -399,5 +399,6 @@
@@ -176,7 +176,7 @@ index e7eda0d..643d372 100644
  
  #endif
 diff --git a/linux-user/cris/syscall_nr.h b/linux-user/cris/syscall_nr.h
-index 4b6cf65..e014d2c 100644
+index 4b6cf65c42..e014d2cd00 100644
 --- a/linux-user/cris/syscall_nr.h
 +++ b/linux-user/cris/syscall_nr.h
 @@ -363,5 +363,6 @@
@@ -187,7 +187,7 @@ index 4b6cf65..e014d2c 100644
  
  #endif
 diff --git a/linux-user/hppa/syscall_nr.h b/linux-user/hppa/syscall_nr.h
-index ae41e94..b7f1257 100644
+index ae41e94321..b7f1257969 100644
 --- a/linux-user/hppa/syscall_nr.h
 +++ b/linux-user/hppa/syscall_nr.h
 @@ -354,5 +354,6 @@
@@ -198,7 +198,7 @@ index ae41e94..b7f1257 100644
  
  #endif
 diff --git a/linux-user/i386/syscall_nr.h b/linux-user/i386/syscall_nr.h
-index 3234ec2..53a1a50 100644
+index 3234ec21c6..53a1a507e4 100644
 --- a/linux-user/i386/syscall_nr.h
 +++ b/linux-user/i386/syscall_nr.h
 @@ -383,5 +383,6 @@
@@ -209,7 +209,7 @@ index 3234ec2..53a1a50 100644
  
  #endif
 diff --git a/linux-user/m68k/syscall_nr.h b/linux-user/m68k/syscall_nr.h
-index d33d8e9..d24e09c 100644
+index d33d8e98a7..d24e09c801 100644
 --- a/linux-user/m68k/syscall_nr.h
 +++ b/linux-user/m68k/syscall_nr.h
 @@ -382,5 +382,6 @@
@@ -220,7 +220,7 @@ index d33d8e9..d24e09c 100644
  
  #endif
 diff --git a/linux-user/microblaze/syscall_nr.h b/linux-user/microblaze/syscall_nr.h
-index aa2eb93..1554a34 100644
+index aa2eb93881..1554a34da7 100644
 --- a/linux-user/microblaze/syscall_nr.h
 +++ b/linux-user/microblaze/syscall_nr.h
 @@ -393,5 +393,6 @@
@@ -231,7 +231,7 @@ index aa2eb93..1554a34 100644
  
  #endif
 diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 39915b3..b4ab6e5 100644
+index 39915b3fde..b4ab6e52bc 100644
 --- a/linux-user/mips/cpu_loop.c
 +++ b/linux-user/mips/cpu_loop.c
 @@ -390,6 +390,7 @@ static const uint8_t mips_syscall_args[] = {
@@ -243,7 +243,7 @@ index 39915b3..b4ab6e5 100644
  #  undef MIPS_SYS
  # endif /* O32 */
 diff --git a/linux-user/mips/syscall_nr.h b/linux-user/mips/syscall_nr.h
-index 7fa7fa5..eb67542 100644
+index 7fa7fa5a86..eb67542f8b 100644
 --- a/linux-user/mips/syscall_nr.h
 +++ b/linux-user/mips/syscall_nr.h
 @@ -376,5 +376,6 @@
@@ -254,7 +254,7 @@ index 7fa7fa5..eb67542 100644
  
  #endif
 diff --git a/linux-user/mips64/syscall_nr.h b/linux-user/mips64/syscall_nr.h
-index db40f69..75fe6f5 100644
+index db40f69ca2..75fe6f5f0f 100644
 --- a/linux-user/mips64/syscall_nr.h
 +++ b/linux-user/mips64/syscall_nr.h
 @@ -339,6 +339,7 @@
@@ -274,7 +274,7 @@ index db40f69..75fe6f5 100644
  
  #endif
 diff --git a/linux-user/nios2/syscall_nr.h b/linux-user/nios2/syscall_nr.h
-index 8fb8786..e824435 100644
+index 8fb87864ca..e824435208 100644
 --- a/linux-user/nios2/syscall_nr.h
 +++ b/linux-user/nios2/syscall_nr.h
 @@ -274,6 +274,7 @@
@@ -286,7 +286,7 @@ index 8fb8786..e824435 100644
  #define TARGET_NR_link                      1025
  #define TARGET_NR_unlink                    1026
 diff --git a/linux-user/openrisc/syscall_nr.h b/linux-user/openrisc/syscall_nr.h
-index 7763dbc..90cde3f 100644
+index 7763dbcfd8..90cde3f219 100644
 --- a/linux-user/openrisc/syscall_nr.h
 +++ b/linux-user/openrisc/syscall_nr.h
 @@ -398,6 +398,9 @@
@@ -300,7 +300,7 @@ index 7763dbc..90cde3f 100644
   * All syscalls below here should go away really,
   * these are provided for both review and as a porting
 diff --git a/linux-user/ppc/syscall_nr.h b/linux-user/ppc/syscall_nr.h
-index b57a07b..82d99a7 100644
+index b57a07b931..82d99a72eb 100644
 --- a/linux-user/ppc/syscall_nr.h
 +++ b/linux-user/ppc/syscall_nr.h
 @@ -398,5 +398,6 @@
@@ -311,7 +311,7 @@ index b57a07b..82d99a7 100644
  
  #endif
 diff --git a/linux-user/riscv/syscall_nr.h b/linux-user/riscv/syscall_nr.h
-index 5c87282..67e4e77 100644
+index 5c87282209..67e4e77552 100644
 --- a/linux-user/riscv/syscall_nr.h
 +++ b/linux-user/riscv/syscall_nr.h
 @@ -299,6 +299,7 @@
@@ -323,7 +323,7 @@ index 5c87282..67e4e77 100644
  #define TARGET_NR_syscalls (TARGET_NR_kexec_file_load + 1)
  
 diff --git a/linux-user/s390x/syscall_nr.h b/linux-user/s390x/syscall_nr.h
-index b1553a0..4337f86 100644
+index b1553a0810..4337f865e1 100644
 --- a/linux-user/s390x/syscall_nr.h
 +++ b/linux-user/s390x/syscall_nr.h
 @@ -304,6 +304,7 @@
@@ -335,7 +335,7 @@ index b1553a0..4337f86 100644
  /*
   * There are some system calls that are not present on 64 bit, some
 diff --git a/linux-user/sh4/syscall_nr.h b/linux-user/sh4/syscall_nr.h
-index d53a2a0..455b909 100644
+index d53a2a07dd..455b90976c 100644
 --- a/linux-user/sh4/syscall_nr.h
 +++ b/linux-user/sh4/syscall_nr.h
 @@ -389,5 +389,6 @@
@@ -346,7 +346,7 @@ index d53a2a0..455b909 100644
  
  #endif
 diff --git a/linux-user/sparc/syscall_nr.h b/linux-user/sparc/syscall_nr.h
-index 162099f..e76babd 100644
+index 162099f9ce..e76babd075 100644
 --- a/linux-user/sparc/syscall_nr.h
 +++ b/linux-user/sparc/syscall_nr.h
 @@ -359,5 +359,6 @@
@@ -357,7 +357,7 @@ index 162099f..e76babd 100644
  
  #endif
 diff --git a/linux-user/sparc64/syscall_nr.h b/linux-user/sparc64/syscall_nr.h
-index 6b088c9..693cb08 100644
+index 6b088c9862..693cb08ff8 100644
 --- a/linux-user/sparc64/syscall_nr.h
 +++ b/linux-user/sparc64/syscall_nr.h
 @@ -362,5 +362,6 @@
@@ -368,7 +368,7 @@ index 6b088c9..693cb08 100644
  
  #endif
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 1de4319..65bb2e9 100644
+index 1de4319dcf..65bb2e9b16 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
 @@ -1656,3 +1656,6 @@
@@ -379,7 +379,7 @@ index 1de4319..65bb2e9 100644
 +{ TARGET_NR_getdents64_x32, "getdents64_x32" , NULL, NULL, NULL },
 +#endif
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 171c0ca..6ad5f43 100644
+index 171c0caef3..6ad5f43976 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
 @@ -235,6 +235,7 @@ static type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,	\
@@ -531,7 +531,7 @@ index 171c0ca..6ad5f43 100644
          ret = get_errno(fchownat(arg1, p, low2highuid(arg3),
                                   low2highgid(arg4), arg5));
 diff --git a/linux-user/tilegx/syscall_nr.h b/linux-user/tilegx/syscall_nr.h
-index c104b94..cfc7054 100644
+index c104b94230..cfc70543c8 100644
 --- a/linux-user/tilegx/syscall_nr.h
 +++ b/linux-user/tilegx/syscall_nr.h
 @@ -278,6 +278,7 @@
@@ -543,7 +543,7 @@ index c104b94..cfc7054 100644
  #define TARGET_NR_open                          1024
  #define TARGET_NR_link                          1025
 diff --git a/linux-user/x86_64/syscall_nr.h b/linux-user/x86_64/syscall_nr.h
-index 9b6981e..1c60824 100644
+index 9b6981e74c..1c60824490 100644
 --- a/linux-user/x86_64/syscall_nr.h
 +++ b/linux-user/x86_64/syscall_nr.h
 @@ -328,5 +328,6 @@
@@ -554,7 +554,7 @@ index 9b6981e..1c60824 100644
  
  #endif
 diff --git a/linux-user/xtensa/syscall_nr.h b/linux-user/xtensa/syscall_nr.h
-index 27645be..7e36647 100644
+index 27645bea47..7e366471e0 100644
 --- a/linux-user/xtensa/syscall_nr.h
 +++ b/linux-user/xtensa/syscall_nr.h
 @@ -434,4 +434,6 @@
