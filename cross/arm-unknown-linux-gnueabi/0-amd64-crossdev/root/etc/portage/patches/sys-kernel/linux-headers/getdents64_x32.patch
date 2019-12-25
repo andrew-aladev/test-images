@@ -1,0 +1,432 @@
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 8e13b0b29..d5f85e9a9 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -475,3 +475,4 @@
+ 543	common	fspick				sys_fspick
+ 544	common	pidfd_open			sys_pidfd_open
+ # 545 reserved for clone3
++546	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 6da7dc4d7..e5ac03786 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -449,3 +449,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index 94ab29cf4..724e03890 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -879,6 +879,8 @@ __SYSCALL(__NR_fspick, sys_fspick)
+ __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+ #define __NR_clone3 435
+ __SYSCALL(__NR_clone3, sys_clone3)
++#define __NR_getdents64_x32 436
++__SYSCALL(__NR_getdents64_x32, sys_getdents64_x32)
+ 
+ /*
+  * Please add new compat syscalls above this comment and update
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index 36d5faf4c..e946c06f4 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -356,3 +356,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index a88a285a0..7e0926ea3 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -435,3 +435,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 09b0cd7da..d39a24158 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -441,3 +441,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index e7c5ab38e..d63e575df 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -374,3 +374,4 @@
+ 433	n32	fspick				sys_fspick
+ 434	n32	pidfd_open			sys_pidfd_open
+ 435	n32	clone3				__sys_clone3
++436	n32	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 13cd66581..574c12761 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -350,3 +350,4 @@
+ 433	n64	fspick				sys_fspick
+ 434	n64	pidfd_open			sys_pidfd_open
+ 435	n64	clone3				__sys_clone3
++436	n64	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 353539ea4..0ad196ef5 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -423,3 +423,4 @@
+ 433	o32	fspick				sys_fspick
+ 434	o32	pidfd_open			sys_pidfd_open
+ 435	o32	clone3				__sys_clone3
++436	o32	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index 285ff5161..991528947 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -433,3 +433,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3_wrapper
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 43f736ed4..79579ad61 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -517,3 +517,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	nospu	clone3				ppc_clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index 3054e9c03..773378cb5 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -438,3 +438,4 @@
+ 433  common	fspick			sys_fspick			sys_fspick
+ 434  common	pidfd_open		sys_pidfd_open			sys_pidfd_open
+ 435  common	clone3			sys_clone3			sys_clone3
++436  common	getdents64_x32		sys_getdents64_x32		sys_getdents64_x32
+diff --git a/arch/sh/include/uapi/asm/unistd_64.h b/arch/sh/include/uapi/asm/unistd_64.h
+index 75da54851..ee3083ac0 100644
+--- a/arch/sh/include/uapi/asm/unistd_64.h
++++ b/arch/sh/include/uapi/asm/unistd_64.h
+@@ -415,9 +415,10 @@
+ #define __NR_copy_file_range	391
+ #define __NR_preadv2		392
+ #define __NR_pwritev2		393
++#define __NR_getdents64_x32	394
+ 
+ #ifdef __KERNEL__
+-#define __NR_syscalls		394
++#define __NR_syscalls		395
+ #endif
+ 
+ #endif /* __ASM_SH_UNISTD_64_H */
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index b5ed26c4c..e3c34e436 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -438,3 +438,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/arch/sh/kernel/syscalls_64.S b/arch/sh/kernel/syscalls_64.S
+index 1bcb86f0b..7826d4307 100644
+--- a/arch/sh/kernel/syscalls_64.S
++++ b/arch/sh/kernel/syscalls_64.S
+@@ -417,3 +417,4 @@ sys_call_table:
+ 	.long sys_copy_file_range
+ 	.long sys_preadv2
+ 	.long sys_pwritev2
++	.long sys_getdents64_x32
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index 8c8cc7537..b73e1f267 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -481,3 +481,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++436	common	getdents64_x32		sys_getdents64_x32
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 15908eb9b..652c4f058 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -440,3 +440,4 @@
+ 433	i386	fspick			sys_fspick			__ia32_sys_fspick
+ 434	i386	pidfd_open		sys_pidfd_open			__ia32_sys_pidfd_open
+ 435	i386	clone3			sys_clone3			__ia32_sys_clone3
++436	i386	getdents64_x32		sys_getdents64_x32		__ia32_sys_getdents64_x32
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index c29976eca..b1b67e00c 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -357,6 +357,7 @@
+ 433	common	fspick			__x64_sys_fspick
+ 434	common	pidfd_open		__x64_sys_pidfd_open
+ 435	common	clone3			__x64_sys_clone3/ptregs
++436	common	getdents64_x32		__x64_sys_getdents64_x32
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 25f4de729..7cef72074 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -406,3 +406,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/fs/readdir.c b/fs/readdir.c
+index d26d5ea4d..3cebf78f9 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -194,7 +194,7 @@ SYSCALL_DEFINE3(old_readdir, unsigned int, fd,
+ 
+ /*
+  * New, all-improved, singing, dancing, iBCS2-compliant getdents()
+- * interface. 
++ * interface.
+  */
+ struct linux_dirent {
+ 	unsigned long	d_ino;
+@@ -350,10 +350,9 @@ static int filldir64(struct dir_context *ctx, const char *name, int namlen,
+ 	return -EFAULT;
+ }
+ 
+-int ksys_getdents64(unsigned int fd, struct linux_dirent64 __user *dirent,
+-		    unsigned int count)
++static inline int __getdents64(struct file *file, struct linux_dirent64 __user *dirent,
++			       unsigned int count)
+ {
+-	struct fd f;
+ 	struct linux_dirent64 __user * lastdirent;
+ 	struct getdents_callback64 buf = {
+ 		.ctx.actor = filldir64,
+@@ -362,14 +361,7 @@ int ksys_getdents64(unsigned int fd, struct linux_dirent64 __user *dirent,
+ 	};
+ 	int error;
+ 
+-	if (!access_ok(dirent, count))
+-		return -EFAULT;
+-
+-	f = fdget_pos(fd);
+-	if (!f.file)
+-		return -EBADF;
+-
+-	error = iterate_dir(f.file, &buf.ctx);
++	error = iterate_dir(file, &buf.ctx);
+ 	if (error >= 0)
+ 		error = buf.error;
+ 	lastdirent = buf.previous;
+@@ -380,10 +372,26 @@ int ksys_getdents64(unsigned int fd, struct linux_dirent64 __user *dirent,
+ 		else
+ 			error = count - buf.count;
+ 	}
+-	fdput_pos(f);
+ 	return error;
+ }
+ 
++int ksys_getdents64(unsigned int fd, struct linux_dirent64 __user *dirent,
++		    unsigned int count)
++{
++	struct fd f;
++	int retval;
++
++	if (!access_ok(dirent, count))
++		return -EFAULT;
++
++	f = fdget_pos(fd);
++	if (!f.file)
++		return -EBADF;
++
++	retval = __getdents64(f.file, dirent, count);
++	fdput_pos(f);
++	return retval;
++}
+ 
+ SYSCALL_DEFINE3(getdents64, unsigned int, fd,
+ 		struct linux_dirent64 __user *, dirent, unsigned int, count)
+@@ -391,6 +399,32 @@ SYSCALL_DEFINE3(getdents64, unsigned int, fd,
+ 	return ksys_getdents64(fd, dirent, count);
+ }
+ 
++int ksys_getdents64_x32(unsigned int fd, struct linux_dirent64 __user *dirent,
++			unsigned int count)
++{
++	struct fd f;
++	int retval;
++
++	if (!access_ok(dirent, count))
++		return -EFAULT;
++
++	f = fdget_pos(fd);
++	if (!f.file)
++		return -EBADF;
++
++	f.file->f_mode |= FMODE_32BITHASH;
++
++	retval = __getdents64(f.file, dirent, count);
++	fdput_pos(f);
++	return retval;
++}
++
++SYSCALL_DEFINE3(getdents64_x32, unsigned int, fd,
++		struct linux_dirent64 __user *, dirent, unsigned int, count)
++{
++	return ksys_getdents64_x32(fd, dirent, count);
++}
++
+ #ifdef CONFIG_COMPAT
+ struct compat_old_linux_dirent {
+ 	compat_ulong_t	d_ino;
+@@ -553,4 +587,4 @@ COMPAT_SYSCALL_DEFINE3(getdents, unsigned int, fd,
+ 	fdput_pos(f);
+ 	return error;
+ }
+-#endif
++#endif /* CONFIG_COMPAT */
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 2960dedcf..2713fe537 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -451,8 +451,11 @@ asmlinkage long sys_quotactl(unsigned int cmd, const char __user *special,
+ 
+ /* fs/readdir.c */
+ asmlinkage long sys_getdents64(unsigned int fd,
+-				struct linux_dirent64 __user *dirent,
+-				unsigned int count);
++			       struct linux_dirent64 __user *dirent,
++			       unsigned int count);
++asmlinkage long sys_getdents64_x32(unsigned int fd,
++				   struct linux_dirent64 __user *dirent,
++				   unsigned int count);
+ 
+ /* fs/read_write.c */
+ asmlinkage long sys_llseek(unsigned int fd, unsigned long offset_high,
+@@ -1239,6 +1242,8 @@ int ksys_fchmod(unsigned int fd, umode_t mode);
+ int ksys_fchown(unsigned int fd, uid_t user, gid_t group);
+ int ksys_getdents64(unsigned int fd, struct linux_dirent64 __user *dirent,
+ 		    unsigned int count);
++int ksys_getdents64_x32(unsigned int fd, struct linux_dirent64 __user *dirent,
++			unsigned int count);
+ int ksys_ioctl(unsigned int fd, unsigned int cmd, unsigned long arg);
+ off_t ksys_lseek(unsigned int fd, off_t offset, unsigned int whence);
+ ssize_t ksys_read(unsigned int fd, char __user *buf, size_t count);
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 1fc8faa6e..c0f46b7e0 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -851,8 +851,12 @@ __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+ __SYSCALL(__NR_clone3, sys_clone3)
+ #endif
+ 
++/* fs/readdir.c */
++#define __NR_getdents64_x32 436
++__SYSCALL(__NR_getdents64_x32, sys_getdents64_x32)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 436
++#define __NR_syscalls 437
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/tools/include/nolibc/nolibc.h b/tools/include/nolibc/nolibc.h
+index 2551e9b71..197eb67a8 100644
+--- a/tools/include/nolibc/nolibc.h
++++ b/tools/include/nolibc/nolibc.h
+@@ -1532,6 +1532,12 @@ int sys_getdents64(int fd, struct linux_dirent64 *dirp, int count)
+ 	return my_syscall3(__NR_getdents64, fd, dirp, count);
+ }
+ 
++static __attribute__((unused))
++int sys_getdents64_x32(int fd, struct linux_dirent64 *dirp, int count)
++{
++	return my_syscall3(__NR_getdents64_x32, fd, dirp, count);
++}
++
+ static __attribute__((unused))
+ pid_t sys_getpgrp(void)
+ {
+@@ -1912,6 +1918,18 @@ int getdents64(int fd, struct linux_dirent64 *dirp, int count)
+ 	return ret;
+ }
+ 
++static __attribute__((unused))
++int getdents64_x32(int fd, struct linux_dirent64 *dirp, int count)
++{
++	int ret = sys_getdents64_x32(fd, dirp, count);
++
++	if (ret < 0) {
++		SET_ERRNO(-ret);
++		ret = -1;
++	}
++	return ret;
++}
++
+ static __attribute__((unused))
+ pid_t getpgrp(void)
+ {
+diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
+index 1fc8faa6e..c0f46b7e0 100644
+--- a/tools/include/uapi/asm-generic/unistd.h
++++ b/tools/include/uapi/asm-generic/unistd.h
+@@ -851,8 +851,12 @@ __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+ __SYSCALL(__NR_clone3, sys_clone3)
+ #endif
+ 
++/* fs/readdir.c */
++#define __NR_getdents64_x32 436
++__SYSCALL(__NR_getdents64_x32, sys_getdents64_x32)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 436
++#define __NR_syscalls 437
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
+index 43f736ed4..79579ad61 100644
+--- a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
++++ b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
+@@ -517,3 +517,4 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	nospu	clone3				ppc_clone3
++436	common	getdents64_x32			sys_getdents64_x32
+diff --git a/tools/perf/arch/s390/entry/syscalls/syscall.tbl b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
+index b38d48464..141065abc 100644
+--- a/tools/perf/arch/s390/entry/syscalls/syscall.tbl
++++ b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
+@@ -228,7 +228,7 @@
+ 217  common	pivot_root		sys_pivot_root			compat_sys_pivot_root
+ 218  common	mincore			sys_mincore			compat_sys_mincore
+ 219  common	madvise			sys_madvise			compat_sys_madvise
+-220  common	getdents64		sys_getdents64			compat_sys_getdents64
++220  common	getdents64		sys_getdents64			-
+ 221  32		fcntl64			-				compat_sys_fcntl64
+ 222  common	readahead		sys_readahead			compat_sys_s390_readahead
+ 223  32		sendfile64		-				compat_sys_sendfile64
+@@ -388,3 +388,4 @@
+ 378  common	s390_guarded_storage	sys_s390_guarded_storage	compat_sys_s390_guarded_storage
+ 379  common	statx			sys_statx			compat_sys_statx
+ 380  common	s390_sthyi		sys_s390_sthyi			compat_sys_s390_sthyi
++381  common	getdents64_x32		sys_getdents64_x32		-
+diff --git a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
+index c29976eca..b1b67e00c 100644
+--- a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -357,6 +357,7 @@
+ 433	common	fspick			__x64_sys_fspick
+ 434	common	pidfd_open		__x64_sys_pidfd_open
+ 435	common	clone3			__x64_sys_clone3/ptregs
++436	common	getdents64_x32		__x64_sys_getdents64_x32
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
