@@ -52,6 +52,11 @@ Build is rootless, just use your regular `my_user`.
 
 Native container creates minimal cross image, adds `qemu`, exports it and rebuilds everything.
 
+## Related bugs
+
+- [github.com/gentoo/gentoo/pull/9822](https://github.com/gentoo/gentoo/pull/9822)
+- [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
+
 ## License
 
 MIT

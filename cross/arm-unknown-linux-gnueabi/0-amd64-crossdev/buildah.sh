@@ -12,7 +12,7 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
-# Rebuilding linux-headers to apply getdents64_x32 patch.
+# Rebuilding linux-headers to apply getdents64_x32 patch for https://bugzilla.kernel.org/show_bug.cgi?id=205957.
 build emerge -v1 sys-kernel/linux-headers
 
 build emerge -v sys-devel/crossdev app-emulation/qemu

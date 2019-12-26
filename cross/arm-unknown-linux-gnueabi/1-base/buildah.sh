@@ -31,9 +31,12 @@ build emerge -v1 app-arch/gzip
 run locale-gen
 
 build USE="-nls" emerge -v1 sys-apps/gawk sys-apps/net-tools
+
 build USE="-berkdb -nls" emerge -v1 dev-lang/perl
-build USE="-nls" emerge -v1 dev-lang/perl
-build emerge -v1 dev-util/pkgconfig
+build USE="internal-glib" emerge -v1 dev-util/pkgconfig
+build emerge -v1 dev-lang/perl
+build USE="-nls" emerge -v1 dev-util/pkgconfig
+
 build USE="-filecaps" emerge -v1 sys-libs/pam
 build emerge -v1 sys-libs/pam sys-apps/shadow
 
