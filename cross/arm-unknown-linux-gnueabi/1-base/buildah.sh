@@ -32,15 +32,16 @@ run locale-gen
 
 build USE="-nls" emerge -v1 sys-apps/gawk sys-apps/net-tools
 
-build USE="-berkdb -nls" emerge -v1 dev-lang/perl
 build USE="internal-glib" emerge -v1 dev-util/pkgconfig
-build emerge -v1 dev-lang/perl
 build USE="-nls" emerge -v1 dev-util/pkgconfig
+
+build USE="-berkdb -nls" emerge -v1 dev-lang/perl
+build emerge -v1 dev-lang/perl
 
 build USE="-filecaps" emerge -v1 sys-libs/pam
 build emerge -v1 sys-libs/pam sys-apps/shadow
 
-build emerge -v1 sys-apps/portage
+build emerge -v sys-apps/portage
 build emerge -v app-portage/gentoolkit
 
 run update
