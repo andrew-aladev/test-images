@@ -12,11 +12,6 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
-build emerge -v1 sys-devel/gcc
-build emerge -v1 sys-devel/binutils
-build emerge -v1 sys-libs/glibc
-build emerge -ve @world
-
 build emerge -v clang
 
 run update

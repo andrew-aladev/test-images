@@ -43,8 +43,4 @@ build emerge -v1 sys-libs/pam sys-apps/shadow
 build emerge -v sys-apps/portage
 build emerge -v app-portage/gentoolkit
 
-run update
-build upgrade
-run cleanup
-
 commit
