@@ -12,7 +12,7 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 CROSSDEV_CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 CROSSDEV_ROOT=$(buildah mount "$CROSSDEV_CONTAINER")
-copy "$CROSSDEV_ROOT/usr/${TARGET}/" /
+copy "${CROSSDEV_ROOT}/usr/${TARGET}/" /
 buildah unmount "$CROSSDEV_CONTAINER"
 
 copy root/ /
