@@ -7,7 +7,7 @@ cd "$DIR"
 source "../../../utils.sh"
 source "./env.sh"
 
-CONTAINER=$(buildah from "$FROM_DOCKER_IMAGE")
+CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 build emerge -ve @world
