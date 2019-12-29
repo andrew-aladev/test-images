@@ -10,8 +10,6 @@ source "./env.sh"
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
-copy root/ /
-
 build emerge -v1 sys-devel/gcc
 build emerge -v1 sys-devel/binutils
 build emerge -v1 sys-libs/glibc
