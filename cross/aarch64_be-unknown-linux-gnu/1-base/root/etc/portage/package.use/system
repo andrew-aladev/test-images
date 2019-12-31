@@ -1,4 +1,2 @@
 sys-devel/gcc sanitize
-sys-devel/llvm gold
-sys-devel/clang static-analyzer
 sys-libs/glibc suid
