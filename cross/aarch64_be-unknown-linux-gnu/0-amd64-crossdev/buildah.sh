@@ -34,8 +34,8 @@ build "${TARGET}-emerge" -v1 \
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
 build "${TARGET}-emerge" -v1 dev-lang/python:3.6
 
-run find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
-  -exec cp "{}" /lib/ \;
+run find "/usr/${TARGET}/lib64" -maxdepth 1 -name ld* \
+  -exec cp "{}" /lib64/ \;
 run sed -i "s/export PYTHON=\${EPREFIX}\/usr\/bin\/\${impl}/export PYTHON=${TARGET}-\${impl}/g" \
   /usr/portage/eclass/python-utils-r1.eclass
 run sed -i "s/\${EPYTHON:-python}/${TARGET}-\${EPYTHON:-python}/g" \
