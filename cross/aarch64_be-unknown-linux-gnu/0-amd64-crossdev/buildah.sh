@@ -35,7 +35,7 @@ build "${TARGET}-emerge" -v1 \
 build "${TARGET}-emerge" -v1 dev-lang/python:3.6
 
 run find "/usr/${TARGET}/lib64" -maxdepth 1 -name ld* \
-  -exec cp "{}" /lib64/ \;
+  -exec cp "{}" /lib/ \;
 run sed -i "s/export PYTHON=\${EPREFIX}\/usr\/bin\/\${impl}/export PYTHON=${TARGET}-\${impl}/g" \
   /usr/portage/eclass/python-utils-r1.eclass
 run sed -i "s/\${EPYTHON:-python}/${TARGET}-\${EPYTHON:-python}/g" \
