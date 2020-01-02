@@ -9,5 +9,22 @@ for arg in "$@"; do
   quoted_args+=$(printf " %q" "$arg")
 done
 
-LD_LIBRARY_PATH="/usr/${TARGET}/lib:/usr/${TARGET}/usr/lib:/usr/${TARGET}/usr/lib/gcc/${TARGET}/9.2.0/" \
-  eval "/usr/${TARGET}/usr/bin/python3.6" "$quoted_args"
+# It is not possible to use LD_LIBRARY_PATH.
+# Python will provide this path to child subprocesses and they will try to load libraries from wrong path.
+# Using LD_PRELOAD instead.
+# Wrong LD_PRELOAD will be just ignored by child subprocesses.
+LIBRARY_PATHES=(
+  "lib64/libc.so.6"
+  "lib64/libdl.so.2"
+  "lib64/libpthread.so.0"
+  "lib64/libutil.so.1"
+  "lib64/libm.so.6"
+  "usr/lib64/libpython3.6m.so.1.0"
+)
+LD_PRELOAD=()
+
+for LIBRARY_PATH in "${LIBRARY_PATHES[@]}"; do
+  LD_PRELOAD+=("/usr/${TARGET}/${LIBRARY_PATH}")
+done
+
+LD_PRELOAD="${LD_PRELOAD[@]}" eval "/usr/${TARGET}/usr/bin/python3.6" "$quoted_args"
