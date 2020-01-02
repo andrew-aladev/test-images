@@ -1,0 +1,4 @@
+cross-mips-unknown-linux-gnu/binutils ~mips
+cross-mips-unknown-linux-gnu/gcc ~mips
+cross-mips-unknown-linux-gnu/glibc ~mips
+cross-mips-unknown-linux-gnu/linux-headers ~mips
