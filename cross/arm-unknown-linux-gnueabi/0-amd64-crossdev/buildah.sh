@@ -12,6 +12,9 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
+# Rebuilding glibc to apply elf_mismatch_is_not_fatal patch for https://sourceware.org/bugzilla/show_bug.cgi?id=25341.
+build emerge -v1 sys-libs/glibc
+
 # Rebuilding linux-headers to apply getdents64_x32 patch for https://bugzilla.kernel.org/show_bug.cgi?id=205957.
 build emerge -v1 sys-kernel/linux-headers
 
