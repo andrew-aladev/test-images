@@ -49,7 +49,7 @@ run find /usr/portage/sys-apps/portage -maxdepth 1 -name portage-*.ebuild \
   -exec sed -i "s/\${D%\/}\${PYTHON_SITEDIR}/\${D%\/}\${PYTHON_SITEDIR#\${EROOT%\/}}/g" "{}" \; \
   -exec ebuild "{}" manifest \;
 
-copy target-python3.6 "/usr/bin/${TARGET}-python3.6"
+copy target-python3.6.sh "/usr/bin/${TARGET}-python3.6"
 run eval " \
   cd /usr/bin && \
   ln -s \"${TARGET}-python3.6\" \"${TARGET}-python3\" && \
