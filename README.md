@@ -4,7 +4,7 @@ You can find them on https://hub.docker.com/u/puchuu.
 
 ## Goal
 
-GCC and Clang (where possible) with sanitizers for most popular platforms.
+GCC and Clang with sanitizers (where possible) for most popular platforms.
 
 ## Dependencies
 
