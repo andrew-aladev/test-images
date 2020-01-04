@@ -25,7 +25,9 @@ copy crossdev-root/ "/usr/${TARGET}/"
 run eval " \
   cd \"/usr/${TARGET}/usr/bin\" && \
   cp /usr/bin/qemu-mips . && \
-  ln -s qemu-mips qemu-mips-static"
+  ln -s qemu-mips qemu-mips-static && \
+  cp /usr/bin/qemu-mipsn32 . && \
+  ln -s qemu-mipsn32 qemu-mipsn32-static"
 
 run rm "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/mips/17.0 "/usr/${TARGET}/etc/portage/make.profile"
