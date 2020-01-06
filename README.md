@@ -59,8 +59,8 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [bugs.gentoo.org/666560](https://bugs.gentoo.org/666560)
 - [bugs.gentoo.org/584052](https://bugs.gentoo.org/584052)
 - [sourceware.org/bugzilla/show_bug.cgi?id=25341](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
-- [bugs.gentoo.org/704776](https://bugs.gentoo.org/704776)
 - [bugs.gentoo.org/704816](https://bugs.gentoo.org/704816)
+- [bugs.launchpad.net/qemu/+bug/1858461](https://bugs.launchpad.net/qemu/+bug/1858461)
 
 ## License
 
