@@ -1,0 +1,12 @@
+diff --git a/sysdeps/unix/sysv/linux/getdents.c b/sysdeps/unix/sysv/linux/getdents.c
+index 3eec4c4221..8a9c015fb1 100644
+--- a/sysdeps/unix/sysv/linux/getdents.c
++++ b/sysdeps/unix/sysv/linux/getdents.c
+@@ -21,6 +21,7 @@
+ #if !_DIRENT_MATCHES_DIRENT64
+ 
+ # include <unistd.h>
++# include <asm/unistd_x32.h> // Replaces syscall numbers with x32.
+ # include <string.h>
+ # include <errno.h>
+ 
