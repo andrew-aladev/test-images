@@ -10,6 +10,7 @@ source "./env.sh"
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
-build emerge -ve @world
+build emerge -ve @world \
+  --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers"
 
 commit
