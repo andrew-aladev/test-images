@@ -100,10 +100,10 @@ index aa2eb93881..2dabe4c7c8 100644
 +
  #endif
 diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 39915b3fde..048e4367aa 100644
+index 39915b3fde..e317410141 100644
 --- a/linux-user/mips/cpu_loop.c
 +++ b/linux-user/mips/cpu_loop.c
-@@ -446,7 +446,7 @@ void cpu_loop(CPUMIPSState *env)
+@@ -446,14 +446,19 @@ void cpu_loop(CPUMIPSState *env)
              env->active_tc.PC += 4;
  # ifdef TARGET_ABI_MIPSO32
              syscall_num = env->active_tc.gpr[2] - 4000;
@@ -112,13 +112,14 @@ index 39915b3fde..048e4367aa 100644
                  ret = -TARGET_ENOSYS;
              } else {
                  int nb_args;
-@@ -454,6 +454,11 @@ void cpu_loop(CPUMIPSState *env)
+                 abi_ulong sp_reg;
                  abi_ulong arg5 = 0, arg6 = 0, arg7 = 0, arg8 = 0;
  
-                 nb_args = mips_syscall_args[syscall_num];
-+
+-                nb_args = mips_syscall_args[syscall_num];
 +                if (env->active_tc.gpr[2] == TARGET_NR_getdents64_x32) {
 +                  nb_args = 3;
++                } else {
++                  nb_args = mips_syscall_args[syscall_num];
 +                }
 +
                  sp_reg = env->active_tc.gpr[29];
