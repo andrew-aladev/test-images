@@ -32,6 +32,8 @@ Than open [`env.sh`](env.sh) and update variables.
 
 ```sh
 ./build.sh
+./push.sh
+./pull.sh
 ```
 
 Build is rootless, just use your regular `my_user`.
