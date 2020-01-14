@@ -7,7 +7,7 @@ cd "$DIR"
 source "../../utils.sh"
 source "./env.sh"
 
-docker_pull "$FROM_IMAGE_NAME"
+docker_pull "$FROM_IMAGE_NAME" "$FROM_DOCKER_USERNAME"
 
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
@@ -22,8 +22,9 @@ run emerge-webrsync
 run eselect profile set default/linux/x86/17.0
 run eval "env-update && source /etc/profile"
 
-build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc
-build emerge -ve @world
+build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
+build emerge -ve @world \
+  --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers"
 build emerge -v app-portage/gentoolkit
 build emerge -v clang
 

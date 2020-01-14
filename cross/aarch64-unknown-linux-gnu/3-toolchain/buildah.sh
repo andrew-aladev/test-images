@@ -15,8 +15,4 @@ build emerge -v1 sys-devel/binutils
 build emerge -v1 sys-libs/glibc
 build emerge -v1 sys-kernel/linux-headers
 
-run update
-build upgrade
-run cleanup
-
 commit

@@ -30,8 +30,9 @@ build () {
 
 commit () {
   image_name="${1:-IMAGE_NAME}"
-  container="${2:-CONTAINER}"
-  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${image_name}"
+  docker_username="${2:-DOCKER_USERNAME}"
+  container="${3:-CONTAINER}"
+  docker_image_name="docker://docker.io/${docker_username}/${image_name}"
 
   buildah commit --format docker "$container" "$image_name"
   buildah tag "$image_name" "$docker_image_name"
@@ -39,15 +40,17 @@ commit () {
 
 docker_push () {
   image_name="${1:-IMAGE_NAME}"
-  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${image_name}"
+  docker_username="${2:-DOCKER_USERNAME}"
+  docker_image_name="docker://docker.io/${docker_username}/${image_name}"
 
-  docker login --username "$DOCKER_USERNAME"
+  docker login --username "$docker_username"
   buildah push "$image_name" "$docker_image_name"
 }
 
 docker_pull () {
   image_name="${1:-IMAGE_NAME}"
-  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${image_name}"
+  docker_username="${2:-DOCKER_USERNAME}"
+  docker_image_name="docker://docker.io/${docker_username}/${image_name}"
 
   buildah pull "$docker_image_name"
   buildah tag "$docker_image_name" "$image_name"
