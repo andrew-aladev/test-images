@@ -7,6 +7,8 @@ cd "$DIR"
 source "../../utils.sh"
 source "./env.sh"
 
+docker_pull "$FROM_IMAGE_NAME"
+
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
