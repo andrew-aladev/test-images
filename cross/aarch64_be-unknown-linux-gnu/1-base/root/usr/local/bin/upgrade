@@ -1,3 +1,7 @@
 #!/bin/bash
 
-emerge --ask=n -vuDN --with-bdeps=y world $@
+for arg in "$@"; do
+  quoted_args+=$(printf " %q" "$arg")
+done
+
+eval emerge -avuDN --with-bdeps=y world "$quoted_args"
