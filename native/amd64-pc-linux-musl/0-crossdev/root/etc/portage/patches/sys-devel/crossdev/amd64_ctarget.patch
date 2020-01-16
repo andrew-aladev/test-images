@@ -1,0 +1,13 @@
+diff --git a/crossdev b/crossdev
+index b0c44c5..7e0d9d1 100755
+--- a/crossdev
++++ b/crossdev
+@@ -219,7 +219,7 @@ parse_target() {
+ 		sparc*)     TARCH=sparc;;
+ 		s390*)      TARCH=s390;;
+ 		sh*)        TARCH=sh;;
+-		x86_64*)    TARCH=amd64;;
++		x86_64*|amd64*) TARCH=amd64;;
+ 		*)          TARCH="*";;
+ 	esac
+ 	case ${CTARGET} in

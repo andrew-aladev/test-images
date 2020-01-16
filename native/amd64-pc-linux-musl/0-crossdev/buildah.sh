@@ -12,8 +12,12 @@ docker_pull "$FROM_IMAGE_NAME"
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
+copy root/ /
+
 build emerge -v sys-devel/crossdev
 build crossdev -t "$TARGET" --stable
+
+copy crossdev-root/ "/usr/${TARGET}/"
 
 run rm "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
