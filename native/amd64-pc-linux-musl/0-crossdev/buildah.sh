@@ -14,10 +14,10 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
+build emerge -v sys-devel/crossdev
 run sed -i "s/x86_64\*)/x86_64\*|amd64\*)/g" \
   /usr/portage/eclass/toolchain-funcs.eclass
 
-build emerge -v sys-devel/crossdev
 build crossdev -t "$TARGET" --stable
 
 copy crossdev-root/ "/usr/${TARGET}/"
