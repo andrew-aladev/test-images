@@ -16,7 +16,7 @@ build emerge -v sys-devel/crossdev
 build crossdev -t "$TARGET" --stable
 
 run rm "/usr/${TARGET}/etc/portage/make.profile"
-run ln -s /usr/portage/profiles/default/linux/x86/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
+run ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
 build "${TARGET}-emerge" -v1 \
   sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
