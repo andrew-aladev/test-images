@@ -11,7 +11,8 @@ CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 run update
-build upgrade
+build upgrade \
+  --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers"
 run cleanup
 
 commit
