@@ -34,6 +34,10 @@ run eval "env-update && source /etc/profile"
 
 build emerge -v1 app-arch/gzip
 
+# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
+build PYTHON_TARGETS="python3_6" emerge -v1 dev-lang/python-exec sys-apps/portage
+# TODO end of workaround
+
 build USE="-nls" emerge -v1 sys-apps/gawk sys-apps/net-tools
 
 build USE="internal-glib" emerge -v1 dev-util/pkgconfig

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-TARGET="x86_64-pc-linux-gnu"
+TARGET="x86_64-pc-linux-musl"
 TARGET_PREFIX="/usr/${TARGET}"
 LIBRARY_PATHES=("lib" "usr/lib" "usr/lib/gcc/${TARGET}/*")
 
