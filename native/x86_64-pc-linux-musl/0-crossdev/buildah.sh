@@ -62,9 +62,11 @@ run eval " \
   cd /usr/bin && \
   ln -s \"${TARGET}-python3.6\" \"${TARGET}-python3\" && \
   ln -s \"${TARGET}-python3.6\" \"${TARGET}-python\""
+
+build EPYTHON_FOR_BUILD="${TARGET}-python3.6" "${TARGET}-emerge" -v1 dev-lang/python:3.6
 # TODO end of workaround
 
-build FEATURES="-sandbox -usersandbox" "${TARGET}-emerge" -v1 sys-apps/portage
+build "${TARGET}-emerge" -v1 sys-apps/portage
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
 run find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.6/*" -o -path "*/portage/python3.6/*" \) -type f \
