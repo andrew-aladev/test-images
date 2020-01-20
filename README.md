@@ -11,12 +11,13 @@ GCC and Clang with sanitizers (where possible) for most popular platforms.
 - `"CONFIG_X86_X32=y"` in kernel config
 - docker
 - buildah
-- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mips64 mips64el mipsel"`
+- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips64 mips64el mips mipsel"`
 
 ## Build
 
 Packages are building using qemu static user, compilation is heavy.
 Recommended CPU is any modern one with >= 16 cores.
+Max required RAM ~ 2 GB per core.
 
 Please start `docker` and `qemu-binfmt` services.
 

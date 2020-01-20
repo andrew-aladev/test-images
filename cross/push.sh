@@ -10,4 +10,8 @@ cd "$DIR"
 ./arm-unknown-linux-gnueabi/push.sh
 ./armeb-unknown-linux-gnueabi/push.sh
 
+./mips64-unknown-linux-gnu/push.sh
+./mips64el-unknown-linux-gnu/push.sh
+
 ./mips-unknown-linux-gnu/push.sh
+./mipsel-unknown-linux-gnu/push.sh
