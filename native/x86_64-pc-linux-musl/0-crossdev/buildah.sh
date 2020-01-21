@@ -66,10 +66,16 @@ run eval " \
 
 # Different libc requires double python recompilation https://bugs.gentoo.org/705970.
 build EPYTHON_FOR_BUILD="${TARGET}-python3.6" "${TARGET}-emerge" -v1 dev-lang/python:3.6
-
 # TODO end of workaround
 
+# It is not possible to use cross compiled sandbox with another libc https://bugs.gentoo.org/706020.
+build "${TARGET}-emerge" -v1 sys-apps/sandbox
+run mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak
+
 build "${TARGET}-emerge" -v1 sys-apps/portage
+
+# It is not possible to use cross compiled sandbox with another libc https://bugs.gentoo.org/706020.
+run mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib/libsandbox.so"
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
