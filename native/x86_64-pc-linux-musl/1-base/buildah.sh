@@ -20,11 +20,6 @@ run env-update
 
 run emerge-webrsync
 
-# Allow user patches for gentoo functions.
-run find "/usr/portage/sys-apps/gentoo-functions" -maxdepth 1 -name gentoo-functions-*.ebuild \
-  -exec sed -i "s/src_prepare\s*(\s*)\s*{\s*/src_prepare() {\n epatch_user \n/g" "{}" \; \
-  -exec ebuild "{}" manifest \;
-
 run ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl /etc/portage/make.profile
 run eval "echo '' > /var/lib/portage/world"
 
@@ -34,10 +29,16 @@ run eval "env-update && source /etc/profile"
 
 build emerge -v1 app-arch/gzip
 
+# Rebuilding coreutils before usage https://bugs.gentoo.org/687236.
+build USE="-acl -nls" emerge -v1 sys-apps/coreutils
+
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
 build PYTHON_TARGETS="python3_6" emerge -v1 dev-lang/python-exec sys-apps/portage
 # TODO end of workaround
+
+# Using standalone version of queue from glibc https://bugs.gentoo.org/604590.
+build emerge -v sys-libs/queue-standalone
 
 build USE="-nls" emerge -v1 sys-apps/gawk sys-apps/net-tools
 
