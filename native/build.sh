@@ -6,3 +6,6 @@ cd "$DIR"
 
 ./x86_64-pc-linux-gnu/build.sh
 ./i686-pc-linux-gnu/build.sh
+
+./x86_64-pc-linux-musl/build.sh
+./i686-pc-linux-musl/build.sh

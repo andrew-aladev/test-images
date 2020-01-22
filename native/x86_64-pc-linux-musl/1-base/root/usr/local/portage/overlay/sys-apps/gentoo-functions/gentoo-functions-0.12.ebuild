@@ -25,6 +25,8 @@ PATCHES=(
 )
 
 src_prepare() {
+  epatch "${PATCHES[@]}"
+
 	tc-export CC
 	append-lfs-flags
 }
