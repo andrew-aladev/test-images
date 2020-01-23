@@ -23,8 +23,6 @@ run eval "env-update && source /etc/profile"
 build emerge -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
 build emerge -ve @world \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers"
-build emerge -v app-portage/gentoolkit
-build emerge -v clang
 
 run update
 build upgrade
