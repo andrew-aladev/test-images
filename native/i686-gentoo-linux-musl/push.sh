@@ -5,6 +5,6 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 cd "$DIR"
 
 source "../../utils.sh"
-source "./env.sh"
+source "./5-finish/env.sh"
 
 docker_push
