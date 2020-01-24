@@ -1,2 +1,4 @@
 # Using latest linux headers version.
 sys-kernel/linux-headers ~x86
+
+sys-apps/sysvinit ~x86

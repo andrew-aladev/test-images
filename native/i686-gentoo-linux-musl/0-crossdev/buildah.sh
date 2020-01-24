@@ -18,7 +18,9 @@ copy root/ /
 build emerge -v1 sys-libs/glibc
 
 build emerge -v sys-devel/crossdev
-build crossdev -t "$TARGET" --stable
+
+# Disable stack protector https://bugs.gentoo.org/706210.
+build USE="-ssp" crossdev -t "$TARGET" --stable
 
 copy crossdev-root/ "/usr/${TARGET}/"
 
@@ -27,7 +29,12 @@ run ln -s /usr/portage/profiles/default/linux/x86/17.0/musl "/usr/${TARGET}/etc/
 
 # Fix musl arch.
 run find "/usr/portage/sys-libs/musl" -maxdepth 1 -name musl-*.ebuild \
-  -exec sed -i "s/local arch=.*$/local arch=\"x86\"/g" "{}" \; \
+  -exec sed -i "s/local arch=.*$/local arch=\"i386\"/g" "{}" \; \
+  -exec ebuild "{}" manifest \;
+
+# Fix curl pkgconfig dependency.
+run find "/usr/portage/net-misc/curl" -maxdepth 1 -name curl-*.ebuild \
+  -exec sed -i "s/virtual\/pkgconfig\-0\-r1.*$/virtual\/pkgconfig\-0\-r1/g" "{}" \; \
   -exec ebuild "{}" manifest \;
 
 build "${TARGET}-emerge" -v1 \
