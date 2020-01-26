@@ -69,7 +69,6 @@ run eval " \
   cd \"/usr/${TARGET}/etc/portage\" && \
   rm make.profile && \
   rm -r package.keywords && \
-  rm -r package.mask && \
   rm -r package.use && \
   rm -r patches"
 
