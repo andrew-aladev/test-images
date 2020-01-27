@@ -7,8 +7,8 @@ cd "$DIR"
 ./aarch64-unknown-linux-gnu/build.sh
 ./aarch64_be-unknown-linux-gnu/build.sh
 
-./arm-unknown-linux-gnueabi/build.sh
-./armeb-unknown-linux-gnueabi/build.sh
+./arm-unknown-linux-gnu/build.sh
+./armeb-unknown-linux-gnu/build.sh
 
 ./mips64-unknown-linux-gnu/build.sh
 ./mips64el-unknown-linux-gnu/build.sh
