@@ -1,2 +1,2 @@
-# This revision of ebuild works with EROOT.
-=app-crypt/pinentry-1.1.0-r3 ~arm64
+# Last version of ebuild works with EROOT.
+app-crypt/pinentry ~arm64

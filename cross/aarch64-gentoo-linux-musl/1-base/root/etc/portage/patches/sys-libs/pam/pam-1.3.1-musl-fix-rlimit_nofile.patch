@@ -1,0 +1,15 @@
+@@ -, +, @@ 
+---
+ modules/pam_unix/pam_unix_acct.c | 1 +
+ 1 file changed, 1 insertion(+)
+--- a/modules/pam_unix/pam_unix_acct.c	
++++ a/modules/pam_unix/pam_unix_acct.c	
+@@ -48,6 +48,7 @@ 
+ #include <time.h>		/* for time() */
+ #include <errno.h>
+ #include <sys/wait.h>
++#include <sys/resource.h>	/* for RLIMIT_NOFILE */
+ 
+ #include <security/_pam_macros.h>
+ 
+-- 
