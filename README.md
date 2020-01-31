@@ -76,6 +76,7 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [bugs.gentoo.org/706210](https://bugs.gentoo.org/706210)
 - [github.com/openssl/openssl/issues/10948](https://github.com/openssl/openssl/issues/10948)
 - [bugs.gentoo.org/707332](https://bugs.gentoo.org/707332)
+- [bugs.gentoo.org/707660](https://bugs.gentoo.org/707660)
 
 ## License
 
