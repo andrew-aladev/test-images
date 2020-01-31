@@ -14,13 +14,16 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
+run mkdir "/usr/${TARGET}"
+copy crossdev-root/ "/usr/${TARGET}/"
+
+build emerge -v sys-devel/crossdev
+build crossdev -t "$TARGET" --stable
+
 # Rebuilding glibc to apply elf_mismatch_is_not_fatal patch for https://sourceware.org/bugzilla/show_bug.cgi?id=25341.
 build emerge -v1 sys-libs/glibc
 
-build emerge -v sys-devel/crossdev app-emulation/qemu
-build crossdev -t "$TARGET" --stable
-
-copy crossdev-root/ "/usr/${TARGET}/"
+build emerge -v app-emulation/qemu
 run eval " \
   cd \"/usr/${TARGET}/usr/bin\" && \
   cp /usr/bin/qemu-mips . && \

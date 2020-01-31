@@ -14,13 +14,14 @@ buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
 
 copy root/ /
 
-# Rebuilding glibc to apply elf_mismatch_is_not_fatal patch for https://sourceware.org/bugzilla/show_bug.cgi?id=25341.
-build emerge -v1 sys-libs/glibc
+mkdir "/usr/${TARGET}"
+copy crossdev-root/ "/usr/${TARGET}/"
 
 build emerge -v sys-devel/crossdev
 build crossdev -t "$TARGET" --stable
 
-copy crossdev-root/ "/usr/${TARGET}/"
+# Rebuilding glibc to apply elf_mismatch_is_not_fatal patch for https://sourceware.org/bugzilla/show_bug.cgi?id=25341.
+build emerge -v1 sys-libs/glibc
 
 run rm "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
