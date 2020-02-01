@@ -29,7 +29,7 @@ run eval " \
   cp /usr/bin/qemu-aarch64_be . && \
   ln -s qemu-aarch64_be qemu-aarch64_be-static"
 
-run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0/big-endian "/usr/${TARGET}/etc/portage/make.profile"
 
 build "${TARGET}-emerge" -v1 \

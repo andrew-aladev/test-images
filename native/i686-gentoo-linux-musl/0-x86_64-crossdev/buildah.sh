@@ -25,7 +25,7 @@ build USE="-ssp" crossdev -t "$TARGET" --stable
 # Rebuilding glibc to apply elf_mismatch_is_not_fatal patch for https://sourceware.org/bugzilla/show_bug.cgi?id=25341.
 build emerge -v1 sys-libs/glibc
 
-run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/x86/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
 # Fix musl arch.

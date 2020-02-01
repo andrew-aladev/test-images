@@ -29,7 +29,7 @@ run eval " \
   cp /usr/bin/qemu-aarch64 . && \
   ln -s qemu-aarch64 qemu-aarch64-static"
 
-run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
 # Fix musl arch.

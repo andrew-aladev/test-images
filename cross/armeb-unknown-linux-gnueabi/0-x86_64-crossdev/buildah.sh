@@ -29,7 +29,7 @@ run eval " \
   cp /usr/bin/qemu-armeb . && \
   ln -s qemu-armeb qemu-armeb-static"
 
-run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/arm/17.0 "/usr/${TARGET}/etc/portage/make.profile"
 
 build "${TARGET}-emerge" -v1 \

@@ -29,7 +29,7 @@ run eval " \
   cp /usr/bin/qemu-mipsel . && \
   ln -s qemu-mipsel qemu-mipsel-static"
 
-run rm "/usr/${TARGET}/etc/portage/make.profile"
+run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/mips/17.0/mipsel "/usr/${TARGET}/etc/portage/make.profile"
 
 build "${TARGET}-emerge" -v1 \
