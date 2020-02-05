@@ -26,7 +26,7 @@ build emerge -v1 sys-libs/glibc
 run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
-# Fix musl arch.
+# Fix musl arch for crossdev only.
 run find "/usr/portage/sys-libs/musl" -maxdepth 1 -name musl-*.ebuild \
   -exec sed -i "s/local arch=.*$/local arch=\"x86_64\"/g" "{}" \; \
   -exec ebuild "{}" manifest \;

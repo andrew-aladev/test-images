@@ -32,12 +32,12 @@ run eval " \
 run rm -f "/usr/${TARGET}/etc/portage/make.profile"
 run ln -s /usr/portage/profiles/default/linux/arm64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
-# Fix musl arch.
+# Fix musl arch for crossdev only.
 run find "/usr/portage/sys-libs/musl" -maxdepth 1 -name musl-*.ebuild \
   -exec sed -i "s/local arch=.*$/local arch=\"aarch64\"/g" "{}" \; \
   -exec ebuild "{}" manifest \;
 
-# Fix curl pkgconfig dependency.
+# Fix curl pkgconfig dependency for crossdev only.
 run find "/usr/portage/net-misc/curl" -maxdepth 1 -name curl-*.ebuild \
   -exec sed -i "s/virtual\/pkgconfig\-0\-r1.*$/virtual\/pkgconfig\-0\-r1/g" "{}" \; \
   -exec ebuild "{}" manifest \;
