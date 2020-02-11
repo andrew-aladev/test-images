@@ -7,8 +7,10 @@ cd "$DIR"
 source "../../../utils.sh"
 source "./env.sh"
 
+check_up_to_date
+
 CONTAINER=$(buildah from "scratch")
-buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
+buildah config --label maintainer="$MAINTAINER" --arch="mips64" "$CONTAINER"
 
 CROSSDEV_CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
 CROSSDEV_ROOT=$(buildah mount "$CROSSDEV_CONTAINER")

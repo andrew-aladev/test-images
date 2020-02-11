@@ -7,8 +7,10 @@ cd "$DIR"
 source "../../../utils.sh"
 source "./env.sh"
 
+check_up_to_date
+
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
-buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
+buildah config --label maintainer="$MAINTAINER" --arch="mips" "$CONTAINER"
 
 build emerge -v1 sys-devel/gcc
 build emerge -v1 sys-devel/binutils

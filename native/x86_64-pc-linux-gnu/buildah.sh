@@ -8,9 +8,10 @@ source "../../utils.sh"
 source "./env.sh"
 
 docker_pull "$FROM_IMAGE_NAME" "$FROM_DOCKER_USERNAME"
+check_up_to_date
 
 CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
-buildah config --label maintainer="$MAINTAINER" "$CONTAINER"
+buildah config --label maintainer="$MAINTAINER" --arch="amd64" "$CONTAINER"
 
 run eval "rm -r /usr/share/{doc,man,info}"
 

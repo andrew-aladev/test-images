@@ -25,7 +25,7 @@ build () {
   command=$(quote_args "$@")
   command="MAKEOPTS=\"$MAKEOPTS\" $command"
 
-  buildah run --cap-add=CAP_SYS_PTRACE "$CONTAINER" -- sh -c "$command"
+  buildah run --cap-add=CAP_SYS_PTRACE --cap-add=CAP_SETFCAP "$CONTAINER" -- sh -c "$command"
 }
 
 commit () {
@@ -36,6 +36,39 @@ commit () {
 
   buildah commit --format docker "$container" "$image_name"
   buildah tag "$image_name" "$docker_image_name"
+}
+
+get_image_created_date () {
+  buildah inspect --format "{{.Docker.Created.UTC.Format \"2006-01-02 15:04:05\"}}" "$1"
+}
+
+check_up_to_date () {
+  from_image_name="${1:-${FROM_IMAGE_NAME}}"
+  image_name="${2:-${IMAGE_NAME}}"
+
+  from_image=$(buildah images -q "$from_image_name" || :)
+  image=$(buildah images -q "$image_name" || :)
+
+  if [ -z "$from_image" ]; then
+    >&2 echo "from image is required"
+    exit 1
+  fi
+
+  if [ -z "$image" ]; then
+    echo "image: ${IMAGE_NAME} has not yet been built"
+    return
+  fi
+
+  from_image_created_date=$(get_image_created_date "$from_image")
+  image_created_date=$(get_image_created_date "$image")
+
+  if [[ ! "$from_image_created_date" < "$image_created_date" ]]; then
+    echo "from image: ${FROM_IMAGE_NAME} is more recent than image: ${IMAGE_NAME}, it will be rebuilt"
+    return
+  fi
+
+  echo "image: ${IMAGE_NAME} is already up to date"
+  exit 0
 }
 
 docker_push () {
