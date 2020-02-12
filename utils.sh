@@ -42,6 +42,10 @@ get_image_created_date () {
   buildah inspect --format "{{.Docker.Created.UTC.Format \"2006-01-02 15:04:05\"}}" "$1"
 }
 
+get_today_date () {
+  date -u +"%Y-%m-%d %H:%M:%S"
+}
+
 check_up_to_date () {
   from_image_name="${1:-${FROM_IMAGE_NAME}}"
   image_name="${2:-${IMAGE_NAME}}"
@@ -64,6 +68,11 @@ check_up_to_date () {
 
   if [[ ! "$from_image_created_date" < "$image_created_date" ]]; then
     echo "from image: ${FROM_IMAGE_NAME} is more recent than image: ${IMAGE_NAME}, it will be rebuilt"
+    return
+  fi
+
+  if ([ ! -z "$REBUILD_DATE" ] && [[ ! "$REBUILD_DATE" < "$image_created_date" ]]); then
+    echo "image: ${IMAGE_NAME} will be rebuilt"
     return
   fi
 

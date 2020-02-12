@@ -5,3 +5,5 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 source "${DIR}/../../env.sh"
 
 TARGET="mips64-unknown-linux-gnu"
+
+REBUILD_DATE=$(< "${DIR}/.rebuild_date") || :

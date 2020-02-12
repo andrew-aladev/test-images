@@ -15,7 +15,7 @@ buildah config --label maintainer="$MAINTAINER" --arch="amd64" "$CONTAINER"
 
 copy root/ /
 
-mkdir "/usr/${TARGET}"
+run mkdir "/usr/${TARGET}"
 copy crossdev-root/ "/usr/${TARGET}/"
 
 build emerge -v sys-devel/crossdev
@@ -90,7 +90,7 @@ run find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.6/*" -o -path 
 run eval " \
   cd \"/usr/${TARGET}/etc/portage\" && \
   rm make.profile && \
-  rm -r package.keywords && \
+  rm -r package.accept_keywords && \
   rm -r patches"
 
 commit

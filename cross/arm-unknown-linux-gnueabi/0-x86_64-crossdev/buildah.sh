@@ -72,7 +72,7 @@ run find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.6/*" -o -path 
 run eval " \
   cd \"/usr/${TARGET}/etc/portage\" && \
   rm make.profile && \
-  rm -r package.keywords && \
+  rm -r package.accept_keywords && \
   rm -r package.use && \
   rm -r patches"
 
