@@ -31,9 +31,6 @@ run eval "env-update && source /etc/profile"
 
 build emerge -v1 app-arch/gzip
 
-# Rebuilding coreutils before usage https://bugs.gentoo.org/687236.
-build USE="-acl -nls" emerge -v1 sys-apps/coreutils
-
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
 build PYTHON_TARGETS="python3_6" emerge -v1 dev-lang/python-exec sys-apps/portage
