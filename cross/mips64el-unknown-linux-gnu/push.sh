@@ -7,4 +7,4 @@ cd "$DIR"
 source "../../utils.sh"
 source "./5-finish/env.sh"
 
-docker_push
+push

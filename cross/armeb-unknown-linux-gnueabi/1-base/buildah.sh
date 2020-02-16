@@ -9,13 +9,13 @@ source "./env.sh"
 
 check_up_to_date
 
-CONTAINER=$(buildah from "scratch")
-buildah config --label maintainer="$MAINTAINER" --arch="arm" "$CONTAINER"
+CONTAINER=$(from "scratch")
+config --arch="arm"
 
-CROSSDEV_CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
-CROSSDEV_ROOT=$(buildah mount "$CROSSDEV_CONTAINER")
+CROSSDEV_CONTAINER=$(from "$FROM_IMAGE_NAME")
+CROSSDEV_ROOT=$(mount "$CROSSDEV_CONTAINER")
 copy "${CROSSDEV_ROOT}/usr/${TARGET}/" /
-buildah unmount "$CROSSDEV_CONTAINER"
+unmount "$CROSSDEV_CONTAINER"
 
 copy root/ /
 run env-update

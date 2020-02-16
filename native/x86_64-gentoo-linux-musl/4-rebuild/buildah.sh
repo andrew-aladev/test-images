@@ -9,8 +9,8 @@ source "./env.sh"
 
 check_up_to_date
 
-CONTAINER=$(buildah from "$FROM_IMAGE_NAME")
-buildah config --label maintainer="$MAINTAINER" --arch="amd64" "$CONTAINER"
+CONTAINER=$(from "$FROM_IMAGE_NAME")
+config --arch="amd64"
 
 build emerge -ve @world \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers"
