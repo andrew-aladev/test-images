@@ -79,6 +79,8 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [bugs.gentoo.org/707660](https://bugs.gentoo.org/707660)
 - [bugs.gentoo.org/651908](https://bugs.gentoo.org/651908)
 - [github.com/containers/buildah/issues/2165](https://github.com/containers/buildah/issues/2165)
+- [gitlab.com/gnutls/gnutls/issues/941](https://gitlab.com/gnutls/gnutls/issues/941)
+- [bugs.gentoo.org/710122](https://bugs.gentoo.org/710122)
 
 ## License
 

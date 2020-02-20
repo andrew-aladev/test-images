@@ -53,4 +53,8 @@ build emerge -v1 sys-libs/pam sys-apps/shadow
 build emerge -v sys-apps/portage
 build emerge -v app-portage/gentoolkit
 
+# TODO remove this workaround after https://bugs.gentoo.org/710122 will be fixed.
+build emerge -v1 net-libs/gnutls dev-libs/nettle
+# TODO end of workaround
+
 commit
