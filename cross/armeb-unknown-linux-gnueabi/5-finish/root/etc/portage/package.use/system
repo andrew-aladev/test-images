@@ -1,4 +1,7 @@
 sys-devel/gcc sanitize
 sys-libs/glibc suid
 sys-devel/llvm gold
-sys-devel/clang static-analyzer
+
+#https://bugs.gentoo.org/710786
+sys-devel/clang -static-analyzer
+sys-devel/clang-runtime -compiler-rt -sanitize
