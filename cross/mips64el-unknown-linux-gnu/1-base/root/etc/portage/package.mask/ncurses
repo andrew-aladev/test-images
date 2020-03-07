@@ -1,0 +1,2 @@
+# Cross compilation of ncurses 6.2 is broken https://bugs.gentoo.org/711590.
+=sys-libs/ncurses-6.2-r1

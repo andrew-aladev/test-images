@@ -73,8 +73,8 @@ run eval " \
   cd \"/usr/${TARGET}/etc/portage\" && \
   rm make.profile && \
   rm -r package.accept_keywords && \
-  rm -r package.use && \
   rm -r package.mask && \
+  rm -r package.use && \
   rm -r patches"
 
 commit

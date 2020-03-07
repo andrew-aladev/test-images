@@ -1,4 +1,4 @@
 cross-mipsel-unknown-linux-gnu/binutils ~mips
 cross-mipsel-unknown-linux-gnu/gcc ~mips
-<=cross-mipsel-unknown-linux-gnu/glibc-2.30 ~mips
+<=cross-mipsel-unknown-linux-gnu/glibc-2.31 ~mips
 cross-mipsel-unknown-linux-gnu/linux-headers ~mips

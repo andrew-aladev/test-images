@@ -1,9 +1,9 @@
 diff --git a/elf/dl-load.c b/elf/dl-load.c
-index f972524421..d78e82e056 100644
+index 5abeb867f1..646aacd3b8 100644
 --- a/elf/dl-load.c
 +++ b/elf/dl-load.c
-@@ -1592,13 +1592,17 @@ open_verify (const char *name, int fd,
- 	       (ELFMAG3 << (EI_MAG0 * 8)))
+@@ -1587,13 +1587,17 @@ open_verify (const char *name, int fd,
+ 	       | (ELFMAG3 << (EI_MAG0 * 8)))
  #endif
  	      )
 -	    errstring = N_("invalid ELF header");
@@ -21,7 +21,7 @@ index f972524421..d78e82e056 100644
  	      goto close_and_out;
  	    }
  	  else if (ehdr->e_ident[EI_DATA] != byteorder)
-@@ -1607,39 +1611,56 @@ open_verify (const char *name, int fd,
+@@ -1602,39 +1606,56 @@ open_verify (const char *name, int fd,
  		errstring = N_("ELF file data encoding not big-endian");
  	      else
  		errstring = N_("ELF file data encoding not little-endian");
@@ -91,7 +91,7 @@ index f972524421..d78e82e056 100644
  	}
        else if (__glibc_unlikely (ehdr->e_type == ET_EXEC
  				 && (mode & __RTLD_OPENEXEC) == 0))
-@@ -1655,7 +1676,7 @@ open_verify (const char *name, int fd,
+@@ -1650,7 +1671,7 @@ open_verify (const char *name, int fd,
        else if (__glibc_unlikely (ehdr->e_phentsize != sizeof (ElfW(Phdr))))
  	{
  	  errstring = N_("ELF file's phentsize not the expected size");
@@ -100,7 +100,7 @@ index f972524421..d78e82e056 100644
  	}
  
        maplength = ehdr->e_phnum * sizeof (ElfW(Phdr));
-@@ -1678,7 +1699,10 @@ open_verify (const char *name, int fd,
+@@ -1673,7 +1694,10 @@ open_verify (const char *name, int fd,
        if (__glibc_unlikely (elf_machine_reject_phdr_p
  			    (phdr, ehdr->e_phnum, fbp->buf, fbp->len,
  			     loader, fd)))
@@ -112,7 +112,7 @@ index f972524421..d78e82e056 100644
  
        /* Check .note.ABI-tag if present.  */
        for (ph = phdr; ph < &phdr[ehdr->e_phnum]; ++ph)
-@@ -1748,6 +1772,8 @@ open_verify (const char *name, int fd,
+@@ -1743,6 +1767,8 @@ open_verify (const char *name, int fd,
  		|| (GLRO(dl_osversion) && GLRO(dl_osversion) < osversion))
  	      {
  	      close_and_out:

@@ -1,2 +1,5 @@
 # Using latest linux headers version.
 sys-kernel/linux-headers ~mips
+
+# We need at least glibc 2.30 https://bugs.gentoo.org/708758.
+<=sys-libs/glibc-2.31 ~mips
