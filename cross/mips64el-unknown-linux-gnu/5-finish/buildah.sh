@@ -12,10 +12,6 @@ check_up_to_date
 CONTAINER=$(from "$FROM_IMAGE_NAME")
 config --arch="mips64"
 
-copy root/ /
-
-build emerge -v clang
-
 run update
 build upgrade
 run cleanup
