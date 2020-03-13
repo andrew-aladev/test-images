@@ -11,7 +11,7 @@ GCC and Clang with sanitizers (where possible) for most popular platforms.
 - `"CONFIG_X86_X32=y"` in kernel config
 - docker
 - buildah
-- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips64 mips64el mips mipsel"`
+- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mipsel"`
 
 ## Build
 
