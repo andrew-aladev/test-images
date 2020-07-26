@@ -26,4 +26,4 @@ for arg in "$@"; do
 done
 
 LD_LIBRARY_PATH="$LD_LIBRARY_PATH" \
-  eval "${TARGET_PREFIX}/usr/bin/python3.6" "$quoted_args"
+  eval "${TARGET_PREFIX}/usr/bin/python3.8" "$quoted_args"

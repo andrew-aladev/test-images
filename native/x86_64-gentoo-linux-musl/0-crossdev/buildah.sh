@@ -41,7 +41,7 @@ build "${TARGET}-emerge" -v1 \
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
-build "${TARGET}-emerge" -v1 dev-lang/python:3.6
+build "${TARGET}-emerge" -v1 dev-lang/python:3.8
 
 run find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
   -exec cp "{}" /lib/ \;
@@ -55,14 +55,14 @@ run find /usr/portage/sys-apps/portage -maxdepth 1 -name portage-*.ebuild \
   -exec sed -i "s/\${D%\/}\${PYTHON_SITEDIR}/\${D%\/}\${PYTHON_SITEDIR#\${EROOT%\/}}/g" "{}" \; \
   -exec ebuild "{}" manifest \;
 
-copy target-python3.6.sh "/usr/bin/${TARGET}-python3.6"
+copy target-python3.8.sh "/usr/bin/${TARGET}-python3.8"
 run eval " \
   cd /usr/bin && \
-  ln -s \"${TARGET}-python3.6\" \"${TARGET}-python3\" && \
-  ln -s \"${TARGET}-python3.6\" \"${TARGET}-python\""
+  ln -s \"${TARGET}-python3.8\" \"${TARGET}-python3\" && \
+  ln -s \"${TARGET}-python3.8\" \"${TARGET}-python\""
 
 # Different libc requires double python recompilation https://bugs.gentoo.org/705970.
-build EPYTHON_FOR_BUILD="${TARGET}-python3.6" "${TARGET}-emerge" -v1 dev-lang/python:3.6
+build EPYTHON_FOR_BUILD="${TARGET}-python3.8" "${TARGET}-emerge" -v1 dev-lang/python:3.8
 # TODO end of workaround
 
 # It is not possible to use cross compiled sandbox with another libc https://bugs.gentoo.org/706020.
@@ -76,7 +76,7 @@ run mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib/libsandbox.so"
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
-run find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.6/*" -o -path "*/portage/python3.6/*" \) -type f \
+run find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.8/*" -o -path "*/portage/python3.8/*" \) -type f \
   -exec sed -i "s/#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;
 # TODO end of workaround
 

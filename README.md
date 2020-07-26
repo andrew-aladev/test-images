@@ -58,6 +58,8 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 
 ## Related bugs
 
+- [sys-libs/glibc - MIPS/Linux inline syscall template is miscompiled](https://bugs.gentoo.org/708758)
+
 - [github.com/gentoo/gentoo/pull/9822](https://github.com/gentoo/gentoo/pull/9822)
 - [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
 - [bugs.gentoo.org/666560](https://bugs.gentoo.org/666560)
