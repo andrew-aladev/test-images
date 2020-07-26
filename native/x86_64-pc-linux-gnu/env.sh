@@ -6,5 +6,5 @@ source "${DIR}/../../env.sh"
 
 FROM_USERNAME="gentoo"
 FROM_IMAGE_NAME="stage3-amd64-nomultilib"
-IMAGE_PLATFORM="linux/amd64"
 IMAGE_NAME="${IMAGE_PREFIX}_x86_64-pc-linux-gnu"
+IMAGE_PLATFORM="linux/amd64"

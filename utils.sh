@@ -39,13 +39,15 @@ copy () {
 build () {
   from_username="${1:-${FROM_USERNAME}}"
   from_image_name="${2:-${FROM_IMAGE_NAME}}"
-  maintainer="${3:-${MAINTAINER}}"
+  image_name="${3:-${IMAGE_NAME}}"
   image_platform="${4:-${IMAGE_PLATFORM}}"
+  maintainer="${5:-${MAINTAINER}}"
 
   tool bud \
     --build-arg FROM_IMAGE="docker.io/${from_username}/${from_image_name}" \
-    --label maintainer="${maintainer}" \
+    --tag "$image_name"
     --platform="$image_platform" \
+    --label maintainer="${maintainer}" \
     --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
     --isolation="rootless" \
