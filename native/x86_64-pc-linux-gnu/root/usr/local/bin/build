@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for arg in "$@"; do
+  quoted_args+=$(printf " %q" "$arg")
+done
+
+MAKEOPTS="-j$(lscpu -p | grep -cv '#')" eval emerge "$quoted_args"
