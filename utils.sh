@@ -45,7 +45,7 @@ build () {
 
   tool bud \
     --build-arg FROM_IMAGE="docker.io/${from_username}/${from_image_name}" \
-    --tag "$image_name"
+    --tag "$image_name" \
     --platform="$image_platform" \
     --label maintainer="${maintainer}" \
     --cap-add=CAP_SYS_PTRACE \
