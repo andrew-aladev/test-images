@@ -37,17 +37,16 @@ copy () {
 }
 
 build () {
-  from_username="${1:-${FROM_USERNAME}}"
-  from_image_name="${2:-${FROM_IMAGE_NAME}}"
-  image_name="${3:-${IMAGE_NAME}}"
-  image_platform="${4:-${IMAGE_PLATFORM}}"
-  maintainer="${5:-${MAINTAINER}}"
+  from_image="${1:-${FROM_IMAGE}}"
+  image_name="${2:-${IMAGE_NAME}}"
+  image_platform="${3:-${IMAGE_PLATFORM}}"
+  maintainer="${4:-${MAINTAINER}}"
 
   tool bud \
-    --build-arg FROM_IMAGE="docker.io/${from_username}/${from_image_name}" \
+    --build-arg FROM_IMAGE="$from_image" \
     --tag "$image_name" \
     --platform="$image_platform" \
-    --label maintainer="${maintainer}" \
+    --label maintainer="$maintainer" \
     --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
     --isolation="rootless" \

@@ -4,7 +4,6 @@ set -e
 DIR=$(dirname "${BASH_SOURCE[0]}")
 source "${DIR}/../../env.sh"
 
-FROM_USERNAME="gentoo"
-FROM_IMAGE_NAME="stage3-x86"
+FROM_IMAGE="docker.io/gentoo/stage3-x86"
 IMAGE_NAME="${IMAGE_PREFIX}_i686-pc-linux-gnu"
 IMAGE_PLATFORM="linux/x86"
