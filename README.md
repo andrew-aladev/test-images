@@ -16,8 +16,8 @@ GCC and Clang with sanitizers (where possible) for most popular platforms.
 ## Build
 
 Packages are building using qemu static user, compilation is heavy.
-Recommended CPU is any modern one with >= 4 cores.
-Max required RAM ~ 2 GB per core.
+Recommended CPU is any modern one with >= `4 cores`.
+Max required RAM ~ `2 GB` per core.
 
 Please start `docker` and `qemu-binfmt` services.
 
@@ -58,20 +58,20 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 
 ## Related bugs
 
-- [sys-libs/glibc - MIPS/Linux inline syscall template is miscompiled](https://bugs.gentoo.org/708758)
+- [sys-libs/glibc: MIPS/Linux inline syscall template is miscompiled](https://bugs.gentoo.org/708758)
+- [app-misc/ca-certificates: use 'doins' instead of 'cp -pPR' to workaround musl bug](https://bugs.gentoo.org/687236)
+- [dev-lang/python: cross compilation using different libc is broken](https://bugs.gentoo.org/705970)
+- [dev-lang/python: cross compiled python installs wrong version of lib2to3/Grammar pickle](https://bugs.gentoo.org/704816)
+- [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
+- [sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
 
 - [github.com/gentoo/gentoo/pull/9822](https://github.com/gentoo/gentoo/pull/9822)
 - [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
 - [bugs.gentoo.org/666560](https://bugs.gentoo.org/666560)
 - [bugs.gentoo.org/584052](https://bugs.gentoo.org/584052)
-- [sourceware.org/bugzilla/show_bug.cgi?id=25341](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
-- [bugs.gentoo.org/704816](https://bugs.gentoo.org/704816)
 - [bugs.launchpad.net/qemu/+bug/1858461](https://bugs.launchpad.net/qemu/+bug/1858461)
-- [bugs.gentoo.org/645626](https://bugs.gentoo.org/645626)
 - [bugs.gentoo.org/705800](https://bugs.gentoo.org/705800)
-- [bugs.gentoo.org/705970](https://bugs.gentoo.org/705970)
 - [bugs.gentoo.org/706020](https://bugs.gentoo.org/706020)
-- [bugs.gentoo.org/687236](https://bugs.gentoo.org/687236)
 - [bugs.gentoo.org/687234](https://bugs.gentoo.org/687234)
 - [bugs.gentoo.org/604590](https://bugs.gentoo.org/604590)
 - [github.com/google/sanitizers/issues/1080](https://github.com/google/sanitizers/issues/1080)

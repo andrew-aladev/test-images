@@ -31,22 +31,22 @@ unmount () {
 copy () {
   source="$1"
   destination="$2"
-  container="${3:-${CONTAINER}}"
 
-  tool copy "$container" "$source" "$destination"
+  tool copy "$CONTAINER" "$source" "$destination"
 }
 
 build () {
-  from_image="${1:-${FROM_IMAGE}}"
-  image_name="${2:-${IMAGE_NAME}}"
-  image_platform="${3:-${IMAGE_PLATFORM}}"
-  maintainer="${4:-${MAINTAINER}}"
+  build_args="--build-arg FROM_IMAGE=$FROM_IMAGE"
+
+  for more_arg in $MORE_ARGS; do
+    build_args+=" --build-arg ${more_arg}=${!more_arg}"
+  done
 
   tool bud \
-    --build-arg FROM_IMAGE="$from_image" \
-    --tag "$image_name" \
-    --platform="$image_platform" \
-    --label maintainer="$maintainer" \
+    $build_args \
+    --tag "$IMAGE_NAME" \
+    --platform="$IMAGE_PLATFORM" \
+    --label maintainer="$MAINTAINER" \
     --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
     --isolation="rootless" \
@@ -55,23 +55,19 @@ build () {
 }
 
 push () {
-  image_name="${1:-${IMAGE_NAME}}"
-  docker_username="${2:-${DOCKER_USERNAME}}"
-  docker_image_name="docker://docker.io/${docker_username}/${image_name}"
+  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${IMAGE_NAME}"
 
   logged_docker_username=$(tool login --get-login "docker.io" || :)
-  if [ "$logged_docker_username" != "$docker_username" ]; then
-    tool login --username "$docker_username" "docker.io"
+  if [ "$logged_docker_username" != "$DOCKER_USERNAME" ]; then
+    tool login --username "$DOCKER_USERNAME" "docker.io"
   fi
 
-  tool push "$image_name" "$docker_image_name"
+  tool push "$IMAGE_NAME" "$docker_image_name"
 }
 
 pull () {
-  image_name="${1:-${IMAGE_NAME}}"
-  docker_username="${2:-${DOCKER_USERNAME}}"
-  docker_image_name="docker://docker.io/${docker_username}/${image_name}"
+  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${IMAGE_NAME}"
 
   tool pull "$docker_image_name"
-  tool tag "$docker_image_name" "$image_name"
+  tool tag "$docker_image_name" "$IMAGE_NAME"
 }

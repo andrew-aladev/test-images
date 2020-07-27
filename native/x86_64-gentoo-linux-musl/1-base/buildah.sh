@@ -33,7 +33,7 @@ build emerge -v1 app-arch/gzip
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
-build PYTHON_TARGETS="python3_8" emerge -v1 dev-lang/python-exec sys-apps/portage
+build PYTHON_TARGETS="python3_7" emerge -v1 dev-lang/python-exec sys-apps/portage
 # TODO end of workaround
 
 # Using standalone version of queue from glibc https://bugs.gentoo.org/604590.

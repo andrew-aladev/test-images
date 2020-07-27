@@ -1,3 +1,6 @@
+# sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective.
+# https://sourceware.org/bugzilla/show_bug.cgi?id=25341
+
 diff --git a/elf/dl-load.c b/elf/dl-load.c
 index 5abeb867f1..646aacd3b8 100644
 --- a/elf/dl-load.c
@@ -69,7 +72,7 @@ index 5abeb867f1..646aacd3b8 100644
 +	    goto call_lose;
 +	  }
  	}
- 
+
        if (__glibc_unlikely (ehdr->e_version != EV_CURRENT))
  	{
  	  errstring = N_("ELF file version does not match current one");
@@ -98,7 +101,7 @@ index 5abeb867f1..646aacd3b8 100644
 -	  goto call_lose;
 +	  goto close_and_out;
  	}
- 
+
        maplength = ehdr->e_phnum * sizeof (ElfW(Phdr));
 @@ -1673,7 +1694,10 @@ open_verify (const char *name, int fd,
        if (__glibc_unlikely (elf_machine_reject_phdr_p
@@ -109,7 +112,7 @@ index 5abeb867f1..646aacd3b8 100644
 +	  errstring = N_("ELF machine dependent header inspection failed");
 +	  goto close_and_out;
 +	}
- 
+
        /* Check .note.ABI-tag if present.  */
        for (ph = phdr; ph < &phdr[ehdr->e_phnum]; ++ph)
 @@ -1743,6 +1767,8 @@ open_verify (const char *name, int fd,

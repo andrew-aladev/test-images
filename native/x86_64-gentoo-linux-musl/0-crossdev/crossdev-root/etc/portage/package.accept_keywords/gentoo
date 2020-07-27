@@ -1,2 +1,2 @@
-# Update header to <sys/sysmacros.h> https://gitweb.gentoo.org/proj/gentoo-functions.git/commit/consoletype.c?h=0.13&id=1518beca0b5a2730a87da9ce82299ef6469bfe8a
-sys-apps/gentoo-functions ~amd64
+# We need at least gentoo-functions 0.13 for musl.
+~sys-apps/gentoo-functions-0.13 ~amd64
