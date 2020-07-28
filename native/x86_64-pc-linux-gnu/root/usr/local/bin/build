@@ -1,9 +1,5 @@
 #!/bin/bash
 set -e
 
-for arg in "$@"; do
-  quoted_args+=$(printf " %q" "$arg")
-done
-
 source "/etc/profile.d/makeopts.sh"
-eval emerge "$quoted_args"
+emerge "$@"

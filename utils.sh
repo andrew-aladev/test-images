@@ -1,17 +1,10 @@
 #!/bin/bash
 
-XDG_RUNTIME_DIR="/tmp/buildah-user"
+XDG_RUNTIME_DIR="/tmp/buildah-runtime"
 mkdir -p "$XDG_RUNTIME_DIR"
 
-quote_args () {
-  for arg in "$@"; do
-    printf " %q" "$arg"
-  done
-}
-
 tool () {
-  command=$(quote_args "$@")
-  XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" eval buildah "$command"
+  XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" buildah "$@"
 }
 
 # -----
@@ -36,14 +29,14 @@ copy () {
 }
 
 build () {
-  build_args="--build-arg FROM_IMAGE=$FROM_IMAGE"
+  build_args=(--build-arg FROM_IMAGE="${FROM_IMAGE}")
 
-  for more_arg in $MORE_ARGS; do
-    build_args+=" --build-arg ${more_arg}=${!more_arg}"
+  for build_arg in $BUILD_ARGS; do
+    build_args+=(--build-arg ${build_arg}="${!build_arg}")
   done
 
   tool bud \
-    $build_args \
+    "${build_args[@]}" \
     --tag "$IMAGE_NAME" \
     --platform="$IMAGE_PLATFORM" \
     --label maintainer="$MAINTAINER" \
