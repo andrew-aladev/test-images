@@ -40,7 +40,10 @@ RUN find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
   sed -i "s/\${EPYTHON:-python}/target-\${EPYTHON:-python}/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
   sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
-    /usr/portage/eclass/distutils-r1.eclass
+    /usr/portage/eclass/distutils-r1.eclass && \
+  find /usr/portage/sys-apps/portage -maxdepth 1 -name portage-*.ebuild \
+    -exec sed -i "s/\${D}\${sitedir}/\${D}\${sitedir#\${EROOT}}/g" "{}" \; \
+    -exec ebuild "{}" manifest \;
 
 # Different libc requires double python recompilation https://bugs.gentoo.org/705970.
 RUN EPYTHON_FOR_BUILD="target-python3.7" target-build.sh -v1 dev-lang/python:3.7
