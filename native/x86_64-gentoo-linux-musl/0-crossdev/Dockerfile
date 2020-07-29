@@ -35,7 +35,7 @@ RUN target-build.sh -v1 dev-lang/python:3.7
 
 RUN find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
     -exec cp "{}" /lib/ \; && \
-  sed -i "s/export PYTHON=\${EPREFIX}.*\${impl}/export PYTHON=target-\${impl}/g" \
+  sed -i "s/export PYTHON=.*\${impl}/export PYTHON=target-\${impl}/g" \
     /usr/portage/eclass/python-utils-r1.eclass && \
   sed -i "s/\${EPYTHON:-python}/target-\${EPYTHON:-python}/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
