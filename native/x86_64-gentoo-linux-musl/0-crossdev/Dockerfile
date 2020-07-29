@@ -10,14 +10,14 @@ RUN cd /usr/local/bin && \
   ln -s target-python3.7.sh target-python3 && \
   ln -s target-python3.7.sh target-python
 
+# Rebuilding glibc for applying patches.
+RUN build.sh -v1 sys-libs/glibc
+
 RUN mkdir "/usr/${TARGET}"
 COPY crossdev-root/ "/usr/${TARGET}/"
 
 RUN build.sh -v sys-devel/crossdev
 RUN crossdev.sh -t "$TARGET" --stable
-
-# Rebuilding glibc for applying patches.
-RUN build.sh -v1 sys-libs/glibc
 
 RUN rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
   ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
@@ -35,9 +35,9 @@ RUN target-build.sh -v1 dev-lang/python:3.7
 
 RUN find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
     -exec cp "{}" /lib/ \; && \
-  sed -i "s/export PYTHON=\${EPREFIX}.*\${impl}/export PYTHON=${TARGET}-\${impl}/g" \
+  sed -i "s/export PYTHON=\${EPREFIX}.*\${impl}/export PYTHON=target-\${impl}/g" \
     /usr/portage/eclass/python-utils-r1.eclass && \
-  sed -i "s/\${EPYTHON:-python}/${TARGET}-\${EPYTHON:-python}/g" \
+  sed -i "s/\${EPYTHON:-python}/target-\${EPYTHON:-python}/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
   sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
     /usr/portage/eclass/distutils-r1.eclass
