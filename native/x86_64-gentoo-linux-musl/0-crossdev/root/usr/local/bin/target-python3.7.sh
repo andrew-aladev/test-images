@@ -2,7 +2,7 @@
 set -e
 
 DIR=$(dirname "${BASH_SOURCE[0]}")
-source "${DIR}/target.sh"
+source "${DIR}/target-env.sh"
 
 TARGET_PREFIX="/usr/${TARGET}"
 LIBRARY_PATHES=("lib" "usr/lib" "usr/lib/gcc/${TARGET}/*")

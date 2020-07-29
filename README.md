@@ -64,6 +64,7 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [dev-lang/python: cross compiled python installs wrong version of lib2to3/Grammar pickle](https://bugs.gentoo.org/704816)
 - [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
 - [sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
+- [sys-libs/musl: does not support sysroot installation](https://bugs.gentoo.org/732482)
 
 - [github.com/gentoo/gentoo/pull/9822](https://github.com/gentoo/gentoo/pull/9822)
 - [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
