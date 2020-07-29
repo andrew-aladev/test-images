@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 2003-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit autotools flag-o-matic multilib-minimal
+inherit flag-o-matic multilib-minimal toolchain-funcs
 
 DESCRIPTION="Libraries/utilities to handle ELF objects (drop in replacement for libelf)"
 HOMEPAGE="http://elfutils.org/"
@@ -11,17 +11,12 @@ SRC_URI="https://sourceware.org/elfutils/ftp/${PV}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-2+ LGPL-3+ ) utils? ( GPL-3+ )"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sh ~sparc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv s390 ~sparc x86 ~amd64-linux ~x86-linux"
 IUSE="bzip2 lzma nls static-libs test +threads +utils valgrind"
 
-RDEPEND=">=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
-	bzip2? ( >=app-arch/bzip2-1.0.6-r4[${MULTILIB_USEDEP}] )
-	lzma? ( >=app-arch/xz-utils-5.0.5-r1[${MULTILIB_USEDEP}] )
-	elibc_musl? (
-		sys-libs/argp-standalone
-		sys-libs/fts-standalone
-		sys-libs/obstack-standalone
-	)
+RDEPEND=">=sys-libs/zlib-1.2.8-r1[static-libs?,${MULTILIB_USEDEP}]
+	bzip2? ( >=app-arch/bzip2-1.0.6-r4[static-libs?,${MULTILIB_USEDEP}] )
+	lzma? ( >=app-arch/xz-utils-5.0.5-r1[static-libs?,${MULTILIB_USEDEP}] )
 	!dev-libs/libelf"
 DEPEND="${RDEPEND}
 	valgrind? ( dev-util/valgrind )
@@ -34,24 +29,21 @@ BDEPEND="nls? ( sys-devel/gettext )
 RESTRICT="!test? ( test )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.118-PaX-support.patch
-	"${FILESDIR}"/${PN}-0.175-disable-biarch-test-PR24158.patch
-	"${FILESDIR}"/${PN}-0.177-disable-large.patch
 	"${FILESDIR}"/${PV}/fix-aarch64_fregs.patch
 	"${FILESDIR}"/${PV}/musl-asm_ptrace_h.patch
 	"${FILESDIR}"/${PV}/musl-cdefs.patch
-	"${FILESDIR}"/${PV}/musl-macros.patch
+	"${FILESDIR}"/${PV}/musl-error_h.patch
 	"${FILESDIR}"/${PV}/musl-fts-obstack.patch
+	"${FILESDIR}"/${PV}/musl-macros.patch
 	"${FILESDIR}"/${PV}/musl-qsort_r.patch
 	"${FILESDIR}"/${PV}/musl-strerror_r.patch
 	"${FILESDIR}"/${PV}/musl-strndupa.patch
-	"${FILESDIR}"/${PV}/musl-error_h.patch
+	"${FILESDIR}"/${PV}/pax-support.patch
+	"${FILESDIR}"/${PV}/readelf.patch
 )
 
 src_prepare() {
 	default
-
-	eautoreconf
 
 	if ! use static-libs; then
 		sed -i -e '/^lib_LIBRARIES/s:=.*:=:' -e '/^%.os/s:%.o$::' lib{asm,dw,elf}/Makefile.in || die
@@ -62,6 +54,11 @@ src_prepare() {
 
 src_configure() {
 	use test && append-flags -g #407135
+
+	# Symbol aliases are implemented as asm statements.
+	# Will require porting: https://gcc.gnu.org/PR48200
+	filter-flags '-flto*'
+
 	multilib-minimal_src_configure
 }
 
@@ -78,8 +75,10 @@ multilib_src_configure() {
 }
 
 multilib_src_test() {
+	# CC is a workaround for tests using ${CC-gcc}
 	env	LD_LIBRARY_PATH="${BUILD_DIR}/libelf:${BUILD_DIR}/libebl:${BUILD_DIR}/libdw:${BUILD_DIR}/libasm" \
 		LC_ALL="C" \
+		CC="$(tc-getCC)" \
 		emake check VERBOSE=1
 }
 

@@ -1,1 +1,2 @@
-dev-libs/elfutils ~amd64
+# Using latest elfutils from local overlay.
+dev-libs/elfutils::local ~amd64

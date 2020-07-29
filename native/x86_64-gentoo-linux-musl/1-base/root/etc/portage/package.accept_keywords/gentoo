@@ -1,1 +1,2 @@
-sys-apps/gentoo-functions ~amd64
+# We need at least gentoo-functions 0.13 for musl.
+~sys-apps/gentoo-functions-0.13 ~amd64
