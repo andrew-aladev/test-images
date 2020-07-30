@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 XDG_RUNTIME_DIR="/tmp/buildah-runtime"
 mkdir -p "$XDG_RUNTIME_DIR"
@@ -22,10 +23,32 @@ unmount () {
 }
 
 copy () {
-  source="$1"
-  destination="$2"
+  tool copy "$1" "$2" "$3"
+}
 
-  tool copy "$CONTAINER" "$source" "$destination"
+remove () {
+  tool rm "$1"
+}
+
+attach () {
+  container=$(from "$FROM_IMAGE_NAME")
+
+  (
+    container_root=$(mount "$container")
+    mkdir "attached_directory"
+    copy "$container" "${container_root}$1/" "attached_directory/"
+  ) || error=$?
+
+  unmount "$container" || true
+  remove "$container" || true
+
+  if [ ! -z "$error" ]; then
+    exit "$error"
+  fi
+}
+
+detach () {
+  rm -r "attached_directory" || true
 }
 
 build () {

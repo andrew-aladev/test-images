@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit flag-o-matic multilib-minimal toolchain-funcs
+inherit autotools flag-o-matic multilib-minimal toolchain-funcs
 
 DESCRIPTION="Libraries/utilities to handle ELF objects (drop in replacement for libelf)"
 HOMEPAGE="http://elfutils.org/"
@@ -17,6 +17,11 @@ IUSE="bzip2 lzma nls static-libs test +threads +utils valgrind"
 RDEPEND=">=sys-libs/zlib-1.2.8-r1[static-libs?,${MULTILIB_USEDEP}]
 	bzip2? ( >=app-arch/bzip2-1.0.6-r4[static-libs?,${MULTILIB_USEDEP}] )
 	lzma? ( >=app-arch/xz-utils-5.0.5-r1[static-libs?,${MULTILIB_USEDEP}] )
+	elibc_musl? (
+		sys-libs/argp-standalone
+		sys-libs/fts-standalone
+		sys-libs/obstack-standalone
+	)
 	!dev-libs/libelf"
 DEPEND="${RDEPEND}
 	valgrind? ( dev-util/valgrind )
@@ -44,6 +49,8 @@ PATCHES=(
 
 src_prepare() {
 	default
+
+	eautoreconf
 
 	if ! use static-libs; then
 		sed -i -e '/^lib_LIBRARIES/s:=.*:=:' -e '/^%.os/s:%.o$::' lib{asm,dw,elf}/Makefile.in || die
