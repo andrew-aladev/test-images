@@ -8,7 +8,7 @@ source "../../../utils.sh"
 source "./env.sh"
 
 container=$(attach "/usr/${TARGET}")
-BUILD_ARGS="" build || error=$?
+build || error=$?
 detach "$container" || true
 
 if [ ! -z "$error" ]; then

@@ -1,3 +1,6 @@
+# dev-python/certifi: cross compilation is broken, importing its successor.
+# https://bugs.gentoo.org/734988
+
 diff --git a/setup.py b/setup.py
 index 294dbfb..47bb069 100755
 --- a/setup.py
@@ -5,7 +8,7 @@ index 294dbfb..47bb069 100755
 @@ -1,7 +1,17 @@
  #!/usr/bin/env python
  # vim:fileencoding=utf-8:noet
- 
+
 -from setuptools import setup
 +# While I generally consider it an antipattern to try and support both
 +# setuptools and distutils with a single setup.py, in this specific instance
@@ -18,6 +21,5 @@ index 294dbfb..47bb069 100755
 +    from setuptools import setup
 +except ImportError:
 +    from distutils.core import setup
- 
+
  from certifi import __version__
- 

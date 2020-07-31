@@ -64,14 +64,6 @@ RUN find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.7/*" -o -path 
 
 # Removing all important portage configs.
 RUN cd "/usr/${TARGET}/etc/portage" && \
-  rm -f make.conf && \
-  rm -f make.profile && \
-  rm -rf env && \
-  rm -rf package.accept_keywords && \
-  rm -rf package.env && \
-  rm -rf package.license && \
-  rm -rf package.mask && \
-  rm -rf package.unmask && \
-  rm -rf package.use && \
-  rm -rf patches && \
-  rm -rf repos.conf
+  rm -f make.{conf,profile} && \
+  rm -rf {env,patches,repos.conf} && \
+  rm -rf package.{accept_keywords,env,license,mask,unmask,use}

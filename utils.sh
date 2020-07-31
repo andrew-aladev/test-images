@@ -35,7 +35,6 @@ attach () {
 
   (
     container_root=$(mount "$container")
-    mkdir "attached_root"
     bindfs -r "${container_root}$1" "attached_root"
   ) || error=$?
 
@@ -49,19 +48,16 @@ attach () {
 
 detach () {
   fusermount -zu "attached_root" || true
-  rmdir "attached_root" || true
 
   unmount "$1" || true
   remove "$1" || true
 }
 
 build () {
-  ARGS=${BUILD_ARGS:-"FROM_IMAGE"}
-
   args=()
 
-  for arg in $ARGS; do
-    args+=(--build-arg ${arg}="${!arg}")
+  for arg_name in $1; do
+    args+=(--build-arg ${arg_name}="${!arg_name}")
   done
 
   tool bud \

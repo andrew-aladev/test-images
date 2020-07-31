@@ -75,6 +75,8 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [sys-libs/musl profiles: add link time protection against DT_TEXTREL](https://bugs.gentoo.org/707660)
 - [app-misc/ca-certificates: use 'doins' instead of 'cp -pPR' to workaround musl bug](https://bugs.gentoo.org/687236)
 - [sys-apps/sandbox: wrappers are broken when cross compiled using different libc](https://bugs.gentoo.org/706020)
+- [dev-python/certifi: cross compilation is broken, importing its successor](https://bugs.gentoo.org/734988)
+- [sys-devel/clang-runtime: feature request - musl support](https://github.com/google/sanitizers/issues/1080)
 
 - [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
 - [bugs.gentoo.org/666560](https://bugs.gentoo.org/666560)
@@ -82,7 +84,6 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [bugs.launchpad.net/qemu/+bug/1858461](https://bugs.launchpad.net/qemu/+bug/1858461)
 - [bugs.gentoo.org/687234](https://bugs.gentoo.org/687234)
 - [bugs.gentoo.org/604590](https://bugs.gentoo.org/604590)
-- [github.com/google/sanitizers/issues/1080](https://github.com/google/sanitizers/issues/1080)
 - [bugs.gentoo.org/706210](https://bugs.gentoo.org/706210)
 - [github.com/openssl/openssl/issues/10948](https://github.com/openssl/openssl/issues/10948)
 - [bugs.gentoo.org/707332](https://bugs.gentoo.org/707332)
