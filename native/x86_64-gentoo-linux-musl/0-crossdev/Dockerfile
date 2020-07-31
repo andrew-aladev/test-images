@@ -62,7 +62,16 @@ RUN find "/usr/${TARGET}/usr/lib" \( -path "*/python-exec/python3.7/*" -o -path 
   -exec sed -i "s/#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;
 # TODO end of workaround
 
+# Removing all important portage configs.
 RUN cd "/usr/${TARGET}/etc/portage" && \
-  rm make.profile && \
-  rm -r package.accept_keywords && \
-  rm -r patches
+  rm -f make.conf && \
+  rm -f make.profile && \
+  rm -rf env && \
+  rm -rf package.accept_keywords && \
+  rm -rf package.env && \
+  rm -rf package.license && \
+  rm -rf package.mask && \
+  rm -rf package.unmask && \
+  rm -rf package.use && \
+  rm -rf patches && \
+  rm -rf repos.conf

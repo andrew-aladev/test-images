@@ -9,9 +9,10 @@ GCC and Clang with sanitizers (where possible) for most popular platforms.
 ## Dependencies
 
 - `"CONFIG_X86_X32=y"` in kernel config
-- docker
-- buildah
-- qemu `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mipsel"`
+- [docker cli](https://github.com/docker/cli)
+- [buildah](https://github.com/containers/buildah)
+- [bindfs](https://github.com/mpartel/bindfs)
+- [qemu](https://github.com/qemu/qemu) `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mipsel"`
 
 ## Build
 
@@ -21,9 +22,15 @@ Max required RAM ~ `2 GB` per core.
 
 Please start `docker` and `qemu-binfmt` services.
 
+Than allow other users in `/etc/fuse.conf`:
+
+```
+user_allow_other
+```
+
 Than add your local user to `/etc/subuid` and `/etc/subgid`:
 
-```sh
+```
 my_user:100000:65536
 ```
 

@@ -15,11 +15,11 @@ from () {
 }
 
 mount () {
-  tool mount "$1"
+  tool unshare -- sh -c "buildah mount $1"
 }
 
 unmount () {
-  tool unmount "$1"
+  tool unshare -- sh -c "buildah unmount $1"
 }
 
 copy () {
@@ -31,35 +31,41 @@ remove () {
 }
 
 attach () {
-  container=$(from "$FROM_IMAGE_NAME")
+  container=$(from "$FROM_IMAGE")
 
   (
     container_root=$(mount "$container")
-    mkdir "attached_directory"
-    copy "$container" "${container_root}$1/" "attached_directory/"
+    mkdir "attached_root"
+    bindfs -r "${container_root}$1" "attached_root"
   ) || error=$?
 
-  unmount "$container" || true
-  remove "$container" || true
-
   if [ ! -z "$error" ]; then
+    detach "$container"
     exit "$error"
   fi
+
+  echo "$container"
 }
 
 detach () {
-  rm -r "attached_directory" || true
+  fusermount -zu "attached_root" || true
+  rmdir "attached_root" || true
+
+  unmount "$1" || true
+  remove "$1" || true
 }
 
 build () {
-  build_args=(--build-arg FROM_IMAGE="${FROM_IMAGE}")
+  ARGS=${BUILD_ARGS:-"FROM_IMAGE"}
 
-  for build_arg in $BUILD_ARGS; do
-    build_args+=(--build-arg ${build_arg}="${!build_arg}")
+  args=()
+
+  for arg in $ARGS; do
+    args+=(--build-arg ${arg}="${!arg}")
   done
 
   tool bud \
-    "${build_args[@]}" \
+    "${args[@]}" \
     --tag "$IMAGE_NAME" \
     --platform="$IMAGE_PLATFORM" \
     --label maintainer="$MAINTAINER" \

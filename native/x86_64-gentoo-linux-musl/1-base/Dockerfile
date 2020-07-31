@@ -1,6 +1,6 @@
 FROM scratch
 
-COPY attached_directory/ /
+COPY attached_root/ /
 COPY root/ /
 RUN env-update
 
