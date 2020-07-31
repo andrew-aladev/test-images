@@ -35,7 +35,7 @@ attach () {
 
   (
     container_root=$(mount "$container")
-    bindfs -r "${container_root}$1" "attached_root"
+    bindfs -r -o nonempty "${container_root}$1" "attached_root"
   ) || error=$?
 
   if [ ! -z "$error" ]; then
