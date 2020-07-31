@@ -35,6 +35,7 @@ attach () {
 
   (
     container_root=$(mount "$container")
+    fusermount -zu "attached_root" || true
     bindfs -r -o nonempty "${container_root}$1" "attached_root"
   ) || error=$?
 
