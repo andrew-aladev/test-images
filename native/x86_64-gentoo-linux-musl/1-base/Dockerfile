@@ -7,8 +7,7 @@ RUN env-update && emerge-webrsync && \
   ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl /etc/portage/make.profile && \
   echo "" > /var/lib/portage/world
 
-RUN USE="-nls" build.sh -v1 sys-apps/diffutils && \
-  build.sh -v1 sys-apps/baselayout && \
+RUN build.sh -v1 sys-apps/baselayout && \
   env-update && source /etc/profile
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
