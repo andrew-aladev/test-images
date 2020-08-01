@@ -3,19 +3,11 @@ FROM $FROM_IMAGE
 
 COPY root/ /
 
-RUN USE="-nls" build.sh -v1 sys-apps/gawk sys-apps/net-tools
-
-RUN USE="internal-glib" build.sh -v1 dev-util/pkgconfig
-RUN USE="-berkdb -nls" build.sh -v1 dev-lang/perl
-RUN build.sh -v1 dev-lang/perl
-RUN USE="-nls" build.sh -v1 dev-util/pkgconfig
-RUN build.sh -v1 dev-util/pkgconfig
-
-RUN build.sh -v1 sys-apps/diffutils app-arch/gzip && \
-  build.sh -v1 sys-apps/gawk sys-apps/net-tools && \
-  USE="-filecaps" build.sh -v1 sys-libs/pam && \
-  build.sh -v1 sys-libs/pam sys-apps/shadow && \
-  build.sh -v sys-apps/portage
+RUN build.sh -v1 app-arch/gzip && \
+  USE="-nls" build.sh -v1 sys-apps/diffutils sys-apps/net-tools sys-apps/shadow sys-apps/texinfo && \
+  USE="-nls" build.sh -v1 dev-libs/elfutils && \
+  USE="internal-glib" build.sh -v1 dev-util/pkgconfig && \
+  USE="-nls" build.sh -v1 dev-util/pkgconfig
 
 RUN upgrade.sh \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers"

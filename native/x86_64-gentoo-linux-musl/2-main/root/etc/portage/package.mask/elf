@@ -1,2 +1,2 @@
-# Masking elfutils from main gentoo repository (not compatible with musl).
-dev-libs/elfutils::gentoo
+# Masking elfutils (not compatible with musl).
+dev-libs/elfutils
