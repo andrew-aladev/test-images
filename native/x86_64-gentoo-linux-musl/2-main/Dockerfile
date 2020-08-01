@@ -3,8 +3,10 @@ FROM $FROM_IMAGE
 
 COPY root/ /
 
-RUN build.sh -v1 app-arch/gzip && \
-  USE="-nls" build.sh -v1 sys-apps/diffutils sys-apps/net-tools sys-apps/shadow sys-apps/texinfo && \
+# All packages may depend on gzip and diffutils silently.
+# Several packages may depend on gawk, net-tools, shadow, texinfo and pam silently.
+RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils && \
+  USE="-nls" build.sh -v1 sys-apps/gawk sys-apps/net-tools sys-apps/shadow sys-apps/texinfo sys-libs/pam && \
   USE="-nls" build.sh -v1 dev-libs/elfutils && \
   USE="internal-glib" build.sh -v1 dev-util/pkgconfig && \
   USE="-nls" build.sh -v1 dev-util/pkgconfig
