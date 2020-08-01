@@ -11,9 +11,7 @@ RUN build.sh -v1 sys-apps/baselayout && \
   env-update && source /etc/profile
 
 # All packages may depend on gzip and diffutils silently.
-# Several packages may depend on gawk, net-tools, shadow, texinfo and pam silently.
-RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils && \
-  USE="-nls" build.sh -v1 sys-apps/gawk sys-apps/net-tools sys-apps/shadow sys-apps/texinfo sys-libs/pam
+RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
