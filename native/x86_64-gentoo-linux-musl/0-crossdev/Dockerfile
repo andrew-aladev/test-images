@@ -23,7 +23,7 @@ RUN build.sh -v sys-devel/crossdev && \
 
 RUN target-build.sh -v1 sys-devel/gcc && \
   target-build.sh -v1 sys-devel/binutils && \
-  target-build.sh -v1 sys-libs/glibc && \
+  target-build.sh -v1 sys-libs/musl && \
   target-build.sh -v1 sys-kernel/linux-headers
 
 RUN target-build.sh -v1 \
