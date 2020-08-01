@@ -1,2 +1,0 @@
-# Using latest elfutils from local overlay.
-dev-libs/elfutils::local ~amd64

@@ -4,22 +4,20 @@ FROM $FROM_IMAGE
 RUN rm -r /usr/share/{doc,man,info}
 
 COPY root/ /
-RUN env-update
+RUN env-update && emerge-webrsync && \
+  eselect profile set default/linux/amd64/17.1/no-multilib && \
+  env-update && source /etc/profile
 
-RUN emerge-webrsync
+RUN build.sh -v1 sys-devel/gcc && \
+  build.sh -v1 sys-devel/binutils && \
+  build.sh -v1 sys-libs/glibc && \
+  build.sh -v1 sys-kernel/linux-headers
 
-RUN eselect profile set default/linux/amd64/17.1/no-multilib
-RUN env-update && source /etc/profile
-
-RUN build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN build.sh -ve @world \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers"
-RUN build.sh -v app-portage/gentoolkit
-RUN build.sh -v clang
 
-RUN update.sh
-RUN upgrade.sh
-RUN cleanup.sh
+RUN build.sh -v app-portage/gentoolkit sys-devel/clang
 
-RUN find /etc -maxdepth 1 -name ._cfg* -delete
-RUN eselect news read
+RUN update.sh && upgrade.sh && cleanup.sh && \
+  find /etc -maxdepth 1 -name ._cfg* -delete && \
+  eselect news read

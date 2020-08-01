@@ -35,8 +35,8 @@ attach () {
 
   (
     container_root=$(mount "$container")
-    fusermount -zu "attached_root" || true
-    bindfs -r -o nonempty "${container_root}$1" "attached_root"
+    fusermount -zu attached_root || true
+    bindfs -r -o nonempty "${container_root}$1" attached_root
   ) || error=$?
 
   if [ ! -z "$error" ]; then
@@ -48,7 +48,7 @@ attach () {
 }
 
 detach () {
-  fusermount -zu "attached_root" || true
+  fusermount -zu attached_root || true
 
   unmount "$1" || true
   remove "$1" || true
@@ -61,6 +61,9 @@ build () {
     args+=(--build-arg ${arg_name}="${!arg_name}")
   done
 
+  # Layers are enabled by default.
+  layers=${IMAGE_LAYERS:-"true"}
+
   tool bud \
     "${args[@]}" \
     --tag "$IMAGE_NAME" \
@@ -69,7 +72,7 @@ build () {
     --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
     --isolation="rootless" \
-    --layers \
+    --layers="$layers" \
     "."
 }
 
