@@ -5,5 +5,3 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 source "${DIR}/../../env.sh"
 
 TARGET="i686-gentoo-linux-musl"
-
-REBUILD_DATE=$(< "${DIR}/.rebuild_date") || :

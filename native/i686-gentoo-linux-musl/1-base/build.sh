@@ -7,4 +7,10 @@ cd "$DIR"
 source "../../../utils.sh"
 source "./env.sh"
 
-unshare "./buildah.sh"
+container=$(attach "/usr/${TARGET}")
+build || error=$?
+detach "$container" || true
+
+if [ ! -z "$error" ]; then
+  exit "$error"
+fi

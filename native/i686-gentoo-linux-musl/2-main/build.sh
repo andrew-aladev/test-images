@@ -4,6 +4,7 @@ set -e
 DIR=$(dirname "${BASH_SOURCE[0]}")
 cd "$DIR"
 
-./0-crossdev/build.sh
-./1-base/build.sh
-./2-main/build.sh
+source "../../../utils.sh"
+source "./env.sh"
+
+build "FROM_IMAGE"
