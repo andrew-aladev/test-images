@@ -1,0 +1,63 @@
+ARG FROM_IMAGE=x86_64-pc-linux-gnu
+FROM $FROM_IMAGE
+
+ARG TARGET=aarch64-unknown-linux-gnu
+ENV TARGET=$TARGET
+
+COPY root/ /
+RUN cd /usr/local/bin && \
+  ln -s target-python3.7.sh target-python3.7 && \
+  ln -s target-python3.7.sh target-python3 && \
+  ln -s target-python3.7.sh target-python
+
+# Rebuilding glibc for applying patches.
+RUN build.sh -v1 sys-libs/glibc app-emulation/qemu && \
+  cd "/usr/${TARGET}/usr/bin" && \
+  cp /usr/bin/qemu-aarch64 . && \
+  ln -s qemu-aarch64 qemu-aarch64-static
+
+RUN mkdir "/usr/${TARGET}"
+COPY crossdev-root/ "/usr/${TARGET}/"
+
+RUN build.sh -v sys-devel/crossdev && \
+  crossdev.sh -t "$TARGET" --stable && \
+  rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
+  ln -s /usr/portage/profiles/default/linux/arm64/17.0 "/usr/${TARGET}/etc/portage/make.profile"
+
+RUN target-build.sh -v1 sys-devel/gcc && \
+  target-build.sh -v1 sys-devel/binutils && \
+  target-build.sh -v1 sys-libs/glibc && \
+  target-build.sh -v1 sys-kernel/linux-headers
+
+RUN target-build.sh -v1 \
+  app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
+  sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
+
+# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
+RUN target-build.sh -v1 dev-lang/python:3.7 && \
+  find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
+    -exec cp "{}" /lib/ \; && \
+  sed -i "s/export PYTHON=.*\${impl}/export PYTHON=target-\${impl}/g" \
+    /usr/portage/eclass/python-utils-r1.eclass && \
+  sed -i "s/\${EPYTHON:-python}/target-\${EPYTHON:-python}/g" \
+    /usr/portage/eclass/distutils-r1.eclass && \
+  sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
+    /usr/portage/eclass/distutils-r1.eclass && \
+  find /usr/portage/sys-apps/portage -maxdepth 1 -name portage-*.ebuild \
+    -exec sed -i "s/\${sitedir}/\${sitedir#\${EROOT%\/}}/g" "{}" \; \
+    -exec ebuild "{}" manifest \;
+# TODO end of workaround
+
+RUN target-build.sh -v1 sys-apps/portage
+
+# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
+RUN find "/usr/${TARGET}/usr/lib" \
+  \( -path "*/python-exec/python3.7/*" -o -path "*/portage/python3.7/*" \) -type f \
+  -exec sed -i "s/#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;
+# TODO end of workaround
+
+# Removing all important portage configs.
+RUN cd "/usr/${TARGET}/etc/portage" && \
+  rm -f make.{conf,profile} && \
+  rm -rf {env,patches,repos.conf} && \
+  rm -rf package.{accept_keywords,env,license,mask,unmask,use}
