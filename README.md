@@ -68,6 +68,7 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [sys-libs/glibc: MIPS/Linux inline syscall template is miscompiled](https://bugs.gentoo.org/708758)
 - [sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
 - [sys-libs/musl: does not support sysroot installation](https://bugs.gentoo.org/732482)
+- [sys-libs/musl: undefined reference to __stack_chk_fail_local (x86)](https://www.openwall.com/lists/musl/2018/09/11/2)
 - [sys-libs/musl profiles: add link time protection against DT_TEXTREL](https://bugs.gentoo.org/707660)
 - [app-misc/ca-certificates: use 'doins' instead of 'cp -pPR' to workaround musl bug](https://bugs.gentoo.org/687236)
 - [sys-devel/clang-runtime: feature request - musl support](https://github.com/google/sanitizers/issues/1080)
