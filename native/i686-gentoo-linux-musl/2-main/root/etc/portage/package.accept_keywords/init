@@ -1,2 +1,2 @@
 # We need at least sysvinit 2.96 for musl (https://www.openwall.com/lists/musl/2018/09/11/2).
-sys-apps/sysvinit-2.96 ~x86
+~sys-apps/sysvinit-2.96 ~x86
