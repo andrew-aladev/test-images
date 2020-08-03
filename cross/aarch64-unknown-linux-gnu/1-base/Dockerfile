@@ -8,7 +8,8 @@ RUN env-update && emerge-webrsync && \
   echo "" > /var/lib/portage/world
 
 RUN build.sh -v1 sys-apps/baselayout && \
-  env-update && source /etc/profile
+  env-update && source /etc/profile && \
+  locale-gen
 
 # All packages may depend on gzip and diffutils silently.
 RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils

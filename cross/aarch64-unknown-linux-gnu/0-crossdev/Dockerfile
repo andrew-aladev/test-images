@@ -35,7 +35,7 @@ RUN target-build.sh -v1 \
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
 RUN target-build.sh -v1 dev-lang/python:3.7 && \
-  find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
+  find "/usr/${TARGET}/lib64" -maxdepth 1 -name ld* \
     -exec cp "{}" /lib/ \; && \
   sed -i "s/export PYTHON=.*\${impl}/export PYTHON=target-\${impl}/g" \
     /usr/portage/eclass/python-utils-r1.eclass && \
