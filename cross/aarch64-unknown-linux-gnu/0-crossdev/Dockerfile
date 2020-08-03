@@ -11,10 +11,7 @@ RUN cd /usr/local/bin && \
   ln -s target-python3.7.sh target-python
 
 # Rebuilding glibc for applying patches.
-RUN build.sh -v1 sys-libs/glibc app-emulation/qemu && \
-  cd "/usr/${TARGET}/usr/bin" && \
-  cp /usr/bin/qemu-aarch64 . && \
-  ln -s qemu-aarch64 qemu-aarch64-static
+RUN build.sh -v1 sys-libs/glibc app-emulation/qemu
 
 RUN mkdir "/usr/${TARGET}"
 COPY crossdev-root/ "/usr/${TARGET}/"
@@ -22,7 +19,10 @@ COPY crossdev-root/ "/usr/${TARGET}/"
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/arm64/17.0 "/usr/${TARGET}/etc/portage/make.profile"
+  ln -s /usr/portage/profiles/default/linux/arm64/17.0 "/usr/${TARGET}/etc/portage/make.profile" && \
+  cd "/usr/${TARGET}/usr/bin" && \
+  cp /usr/bin/qemu-aarch64 . && \
+  ln -s qemu-aarch64 qemu-aarch64-static
 
 RUN target-build.sh -v1 sys-devel/gcc && \
   target-build.sh -v1 sys-devel/binutils && \
