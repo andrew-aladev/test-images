@@ -21,11 +21,7 @@ RUN build.sh -v sys-devel/crossdev && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
   ln -s /usr/portage/profiles/default/linux/x86/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
-RUN target-build.sh -v1 sys-devel/gcc && \
-  target-build.sh -v1 sys-devel/binutils && \
-  target-build.sh -v1 sys-libs/musl && \
-  target-build.sh -v1 sys-kernel/linux-headers
-
+RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
 RUN target-build.sh -v1 \
   app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget

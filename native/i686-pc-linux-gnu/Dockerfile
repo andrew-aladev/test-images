@@ -8,11 +8,7 @@ RUN env-update && emerge-webrsync && \
   eselect profile set default/linux/x86/17.0 && \
   env-update && source /etc/profile
 
-RUN build.sh -v1 sys-devel/gcc && \
-  build.sh -v1 sys-devel/binutils && \
-  build.sh -v1 sys-libs/glibc && \
-  build.sh -v1 sys-kernel/linux-headers
-
+RUN build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN build.sh -ve @world \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers"
 

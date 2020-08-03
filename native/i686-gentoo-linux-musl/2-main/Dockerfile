@@ -12,11 +12,7 @@ RUN USE="-nls" build.sh -v1 sys-apps/gawk sys-apps/net-tools sys-apps/shadow sys
 RUN upgrade.sh \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers"
 
-RUN build.sh -v1 sys-devel/gcc && \
-  build.sh -v1 sys-devel/binutils && \
-  build.sh -v1 sys-libs/musl && \
-  build.sh -v1 sys-kernel/linux-headers
-
+RUN build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
 RUN build.sh -ve @world \
   --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers"
 
