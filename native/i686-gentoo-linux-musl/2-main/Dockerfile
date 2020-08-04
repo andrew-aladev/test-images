@@ -4,7 +4,8 @@ FROM $FROM_IMAGE
 COPY root/ /
 
 # Several packages may depend on gawk, net-tools, shadow, texinfo and pam silently.
-RUN USE="-nls" build.sh -v1 sys-apps/gawk sys-apps/net-tools sys-apps/shadow sys-apps/texinfo sys-libs/pam && \
+RUN USE="-berkdb -nls -filecaps" build.sh -v1 \
+  sys-apps/gawk sys-apps/net-tools sys-apps/shadow sys-apps/texinfo sys-libs/pam && \
   USE="-nls" build.sh -v1 dev-libs/elfutils && \
   USE="internal-glib" build.sh -v1 dev-util/pkgconfig && \
   USE="-nls" build.sh -v1 dev-util/pkgconfig

@@ -8,11 +8,11 @@ RUN env-update && emerge-webrsync && \
   echo "" > /var/lib/portage/world
 
 RUN build.sh -v1 sys-apps/baselayout && \
-  env-update && source /etc/profile && \
-  locale-gen
+  env-update && source /etc/profile
 
 # All packages may depend on gzip and diffutils silently.
-RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils
+RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils && \
+  locale-gen
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
 RUN PYTHON_TARGETS="python3_7" build.sh -v1 dev-lang/python-exec sys-apps/portage
