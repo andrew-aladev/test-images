@@ -75,7 +75,6 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [dev-lang/python: cross compilation using different libc is broken](https://bugs.gentoo.org/705970)
 - [dev-lang/python: cross compiled python installs wrong version of lib2to3/Grammar pickle](https://bugs.gentoo.org/704816)
 - [dev-lang/python: cross compiling of python modules with and without distutils](https://github.com/gentoo/gentoo/pull/9822)
-- [dev-python/certifi: cross compilation is broken, importing its successor](https://bugs.gentoo.org/734988)
 - [sys-apps/sandbox: wrappers are broken when cross compiled using different libc](https://bugs.gentoo.org/706020)
 - [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
 - [dev-libs/libgpg-error: cross compiling fails with "src/syscfg/lock-obj-pub.<tuple>.h': No such file or directory"](https://bugs.gentoo.org/584052)
