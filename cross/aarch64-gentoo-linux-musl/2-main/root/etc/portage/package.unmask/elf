@@ -1,0 +1,2 @@
+# Unmasking elfutils from local overlay for musl.
+dev-libs/elfutils::local

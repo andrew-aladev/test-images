@@ -1,10 +1,10 @@
-diff --git a/src/syscfg/lock-obj-pub.i686-unknown-linux-musl.h b/src/syscfg/lock-obj-pub.i686-unknown-linux-musl.h
+diff --git a/src/syscfg/lock-obj-pub.linux-musl.h b/src/syscfg/lock-obj-pub.linux-musl.h
 new file mode 100644
-index 0000000..b97273b
+index 0000000..adf10fc
 --- /dev/null
-+++ b/src/syscfg/lock-obj-pub.i686-unknown-linux-musl.h
-@@ -0,0 +1,23 @@
-+## lock-obj-pub.i686-pc-linux-gnu.h
++++ b/src/syscfg/lock-obj-pub.linux-musl.h
+@@ -0,0 +1,26 @@
++## lock-obj-pub.aarch64-unknown-linux-gnu.h
 +## File created by gen-posix-lock-obj - DO NOT EDIT
 +## To be included by mkheader into gpg-error.h
 +
@@ -12,13 +12,16 @@ index 0000000..b97273b
 +{
 +  long _vers;
 +  union {
-+    volatile char _priv[24];
++    volatile char _priv[48];
 +    long _x_align;
 +    long *_xp_align;
 +  } u;
 +} gpgrt_lock_t;
 +
 +#define GPGRT_LOCK_INITIALIZER {1,{{0,0,0,0,0,0,0,0, \
++                                    0,0,0,0,0,0,0,0, \
++                                    0,0,0,0,0,0,0,0, \
++                                    0,0,0,0,0,0,0,0, \
 +                                    0,0,0,0,0,0,0,0, \
 +                                    0,0,0,0,0,0,0,0}}}
 +##
