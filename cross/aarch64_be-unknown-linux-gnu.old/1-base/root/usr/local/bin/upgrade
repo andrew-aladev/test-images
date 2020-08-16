@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for arg in "$@"; do
-  quoted_args+=$(printf " %q" "$arg")
-done
-
-eval emerge --ask=n -vuDN --with-bdeps=y world "$quoted_args"
