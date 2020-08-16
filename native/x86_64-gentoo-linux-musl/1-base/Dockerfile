@@ -15,5 +15,5 @@ RUN USE="-nls" build.sh -v1 app-arch/gzip sys-apps/diffutils
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
-RUN PYTHON_TARGETS="python3_7" build.sh -v1 dev-lang/python-exec sys-apps/portage
+RUN PYTHON_TARGETS="python3_7" USE="-nls" build.sh -v1 dev-lang/python-exec sys-apps/portage
 # TODO end of workaround
