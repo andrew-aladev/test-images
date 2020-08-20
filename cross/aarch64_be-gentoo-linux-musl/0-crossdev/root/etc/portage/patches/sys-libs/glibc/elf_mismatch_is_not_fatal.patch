@@ -1,0 +1,126 @@
+# sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective.
+# https://sourceware.org/bugzilla/show_bug.cgi?id=25341
+
+diff --git a/elf/dl-load.c b/elf/dl-load.c
+index 5abeb867f1..646aacd3b8 100644
+--- a/elf/dl-load.c
++++ b/elf/dl-load.c
+@@ -1587,13 +1587,17 @@ open_verify (const char *name, int fd,
+ 	       | (ELFMAG3 << (EI_MAG0 * 8)))
+ #endif
+ 	      )
+-	    errstring = N_("invalid ELF header");
++	    {
++	      errstring = N_("invalid ELF header");
++	      goto close_and_out;
++    	    }
+ 	  else if (ehdr->e_ident[EI_CLASS] != ELFW(CLASS))
+ 	    {
+ 	      /* This is not a fatal error.  On architectures where
+ 		 32-bit and 64-bit binaries can be run this might
+ 		 happen.  */
+ 	      *found_other_class = true;
++	      errstring = N_("ELF class mismatch");
+ 	      goto close_and_out;
+ 	    }
+ 	  else if (ehdr->e_ident[EI_DATA] != byteorder)
+@@ -1602,39 +1606,56 @@ open_verify (const char *name, int fd,
+ 		errstring = N_("ELF file data encoding not big-endian");
+ 	      else
+ 		errstring = N_("ELF file data encoding not little-endian");
++
++	      goto close_and_out;
+ 	    }
+ 	  else if (ehdr->e_ident[EI_VERSION] != EV_CURRENT)
+-	    errstring
+-	      = N_("ELF file version ident does not match current one");
+-	  /* XXX We should be able so set system specific versions which are
+-	     allowed here.  */
++	    {
++	      errstring
++	        = N_("ELF file version ident does not match current one");
++	      /* XXX We should be able so set system specific versions which are
++	         allowed here.  */
++	      goto close_and_out;
++	    }
+ 	  else if (!VALID_ELF_OSABI (ehdr->e_ident[EI_OSABI]))
+-	    errstring = N_("ELF file OS ABI invalid");
++	    {
++	      errstring = N_("ELF file OS ABI invalid");
++	      goto close_and_out;
++	    }
+ 	  else if (!VALID_ELF_ABIVERSION (ehdr->e_ident[EI_OSABI],
+ 					  ehdr->e_ident[EI_ABIVERSION]))
+-	    errstring = N_("ELF file ABI version invalid");
++	    {
++	      errstring = N_("ELF file ABI version invalid");
++	      goto close_and_out;
++	    }
+ 	  else if (memcmp (&ehdr->e_ident[EI_PAD], &expected[EI_PAD],
+ 			   EI_NIDENT - EI_PAD) != 0)
+-	    errstring = N_("nonzero padding in e_ident");
+-	  else
++	    {
++	      errstring = N_("nonzero padding in e_ident");
++	      goto close_and_out;
++	    }
++	  else {
+ 	    /* Otherwise we don't know what went wrong.  */
+ 	    errstring = N_("internal error");
+-
+-	  goto call_lose;
++	    goto call_lose;
++	  }
+ 	}
+
+       if (__glibc_unlikely (ehdr->e_version != EV_CURRENT))
+ 	{
+ 	  errstring = N_("ELF file version does not match current one");
+-	  goto call_lose;
++	  goto close_and_out;
+ 	}
+       if (! __glibc_likely (elf_machine_matches_host (ehdr)))
+-	goto close_and_out;
++        {
++	  errstring = N_("ELF machine host mismatch");
++	  goto close_and_out;
++        }
+       else if (__glibc_unlikely (ehdr->e_type != ET_DYN
+ 				 && ehdr->e_type != ET_EXEC))
+ 	{
+ 	  errstring = N_("only ET_DYN and ET_EXEC can be loaded");
+-	  goto call_lose;
++	  goto close_and_out;
+ 	}
+       else if (__glibc_unlikely (ehdr->e_type == ET_EXEC
+ 				 && (mode & __RTLD_OPENEXEC) == 0))
+@@ -1650,7 +1671,7 @@ open_verify (const char *name, int fd,
+       else if (__glibc_unlikely (ehdr->e_phentsize != sizeof (ElfW(Phdr))))
+ 	{
+ 	  errstring = N_("ELF file's phentsize not the expected size");
+-	  goto call_lose;
++	  goto close_and_out;
+ 	}
+
+       maplength = ehdr->e_phnum * sizeof (ElfW(Phdr));
+@@ -1673,7 +1694,10 @@ open_verify (const char *name, int fd,
+       if (__glibc_unlikely (elf_machine_reject_phdr_p
+ 			    (phdr, ehdr->e_phnum, fbp->buf, fbp->len,
+ 			     loader, fd)))
+-	goto close_and_out;
++	{
++	  errstring = N_("ELF machine dependent header inspection failed");
++	  goto close_and_out;
++	}
+
+       /* Check .note.ABI-tag if present.  */
+       for (ph = phdr; ph < &phdr[ehdr->e_phnum]; ++ph)
+@@ -1743,6 +1767,8 @@ open_verify (const char *name, int fd,
+ 		|| (GLRO(dl_osversion) && GLRO(dl_osversion) < osversion))
+ 	      {
+ 	      close_and_out:
++	      	if (errstring != NULL)
++		  _dl_debug_printf("%s: %s\n", name, errstring);
+ 		__close_nocancel (fd);
+ 		__set_errno (ENOENT);
+ 		fd = -1;

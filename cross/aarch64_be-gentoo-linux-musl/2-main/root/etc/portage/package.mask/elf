@@ -1,0 +1,2 @@
+# Masking elfutils (not compatible with musl).
+dev-libs/elfutils
