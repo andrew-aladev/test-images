@@ -19,7 +19,7 @@ COPY crossdev-root/ "/usr/${TARGET}/"
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/arm64/17.0 "/usr/${TARGET}/etc/portage/make.profile" && \
+  ln -s /usr/portage/profiles/default/linux/arm64/17.0/big-endian "/usr/${TARGET}/etc/portage/make.profile" && \
   cd "/usr/${TARGET}/usr/bin" && \
   cp /usr/bin/qemu-aarch64_be . && \
   ln -s qemu-aarch64_be qemu-aarch64_be-static
