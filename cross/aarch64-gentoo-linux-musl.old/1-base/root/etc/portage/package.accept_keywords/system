@@ -1,4 +1,0 @@
-# Using latest linux headers version.
-sys-kernel/linux-headers ~arm64
-
-sys-apps/sysvinit ~arm64
