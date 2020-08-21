@@ -1,2 +1,0 @@
-# Disabled assembler use for https://gitlab.com/gnutls/gnutls/issues/941.
-dev-libs/nettle -asm

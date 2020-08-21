@@ -80,20 +80,9 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [dev-libs/libgpg-error: cross compiling fails with "src/syscfg/lock-obj-pub.<tuple>.h': No such file or directory"](https://bugs.gentoo.org/584052)
 
 - [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
-- [bugs.gentoo.org/666560](https://bugs.gentoo.org/666560)
-- [bugs.launchpad.net/qemu/+bug/1858461](https://bugs.launchpad.net/qemu/+bug/1858461)
-- [bugs.gentoo.org/687234](https://bugs.gentoo.org/687234)
-- [bugs.gentoo.org/604590](https://bugs.gentoo.org/604590)
-- [bugs.gentoo.org/706210](https://bugs.gentoo.org/706210)
-- [github.com/openssl/openssl/issues/10948](https://github.com/openssl/openssl/issues/10948)
-- [bugs.gentoo.org/707332](https://bugs.gentoo.org/707332)
 - [bugs.gentoo.org/651908](https://bugs.gentoo.org/651908)
-- [github.com/containers/buildah/issues/2165](https://github.com/containers/buildah/issues/2165)
-- [gitlab.com/gnutls/gnutls/issues/941](https://gitlab.com/gnutls/gnutls/issues/941)
-- [bugs.gentoo.org/710122](https://bugs.gentoo.org/710122)
 - [bugs.gentoo.org/710786](https://bugs.gentoo.org/710786)
 - [bugs.gentoo.org/711590](https://bugs.gentoo.org/711590)
-- [bugs.gentoo.org/708758](https://bugs.gentoo.org/708758)
 
 ## License
 
