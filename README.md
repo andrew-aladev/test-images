@@ -18,7 +18,6 @@ GCC and Clang with sanitizers (where possible) for most popular platforms.
 
 Packages for cross architectures are building using qemu static user, compilation is heavy.
 Recommended CPU is any modern one with >= `4 cores`.
-Max required RAM ~ `2 GB` per core.
 
 Please start `docker` and `qemu-binfmt` services.
 
