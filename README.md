@@ -8,11 +8,10 @@ GCC and Clang with sanitizers (where possible) for most popular platforms.
 
 ## Dependencies
 
-- `"CONFIG_X86_X32=y"` in kernel config
 - [docker cli](https://github.com/docker/cli)
 - [buildah](https://github.com/containers/buildah)
 - [bindfs](https://github.com/mpartel/bindfs)
-- [qemu](https://github.com/qemu/qemu) `QEMU_USER_TARGETS="aarch64 aarch64_be arm armeb mips mipsel"`
+- [qemu](https://github.com/qemu/qemu) `QEMU_USER_TARGETS="aarch64 aarch64_be"`
 
 ## Build
 
@@ -76,12 +75,6 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [dev-lang/python: cross compiling of python modules with and without distutils](https://github.com/gentoo/gentoo/pull/9822)
 - [sys-apps/sandbox: wrappers are broken when cross compiled using different libc](https://bugs.gentoo.org/706020)
 - [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
-- [dev-libs/libgpg-error: cross compiling fails with "src/syscfg/lock-obj-pub.<tuple>.h': No such file or directory"](https://bugs.gentoo.org/584052)
-
-- [bugzilla.kernel.org/show_bug.cgi?id=205957](https://bugzilla.kernel.org/show_bug.cgi?id=205957)
-- [bugs.gentoo.org/651908](https://bugs.gentoo.org/651908)
-- [bugs.gentoo.org/710786](https://bugs.gentoo.org/710786)
-- [bugs.gentoo.org/711590](https://bugs.gentoo.org/711590)
 
 ## License
 

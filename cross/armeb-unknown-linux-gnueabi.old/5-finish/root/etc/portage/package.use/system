@@ -1,8 +1,0 @@
-sys-devel/gcc sanitize
-sys-libs/glibc suid
-sys-devel/llvm gold
-
-# sys-libs/compiler-rt: it is not implemented for armeb.
-# https://bugs.gentoo.org/710786
-sys-devel/clang -static-analyzer
-sys-devel/clang-runtime -compiler-rt -sanitize
