@@ -26,7 +26,9 @@ RUN target-build.sh -v1 \
   app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
 
-# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
+# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
+#   and https://bugs.gentoo.org/705970 will be fixed.
+# Different libc (or libc with another version) requires double python recompilation.
 RUN target-build.sh -v1 dev-lang/python:3.7 && \
   find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
     -exec cp "{}" /lib/ \; && \
@@ -38,12 +40,19 @@ RUN target-build.sh -v1 dev-lang/python:3.7 && \
     /usr/portage/eclass/distutils-r1.eclass && \
   find /usr/portage/sys-apps/portage -maxdepth 1 -name portage-*.ebuild \
     -exec sed -i "s/\${sitedir}/\${sitedir#\${EROOT%\/}}/g" "{}" \; \
-    -exec ebuild "{}" manifest \;
+    -exec ebuild "{}" manifest \; && \
+  EPYTHON_FOR_BUILD="target-python3.7" target-build.sh -v1 dev-lang/python:3.7
 # TODO end of workaround
 
-RUN target-build.sh -v1 sys-apps/portage
+# It is not possible to use cross compiled sandbox with another libc
+#   (or libc with another version) https://bugs.gentoo.org/706020.
+RUN target-build.sh -v1 sys-apps/sandbox && \
+  mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak && \
+  target-build.sh -v1 sys-apps/portage && \
+  mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib/libsandbox.so"
 
-# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged.
+# TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
+#  and https://bugs.gentoo.org/705970 will be fixed.
 RUN find "/usr/${TARGET}/usr/lib" \
   \( -path "*/python-exec/python3.7/*" -o -path "*/portage/python3.7/*" \) -type f \
   -exec sed -i "s/#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;

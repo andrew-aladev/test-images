@@ -1,0 +1,205 @@
+From 5551aa3d5480261bfebe19df490b1b66c0434186 Mon Sep 17 00:00:00 2001
+From: Andrew Aladjev <aladjev.andrew@gmail.com>
+Date: Tue, 25 Aug 2020 00:29:38 +0300
+Subject: [PATCH 1/2] linux user: fixed proc myself execfd behaviour, added
+ tests
+
+---
+ linux-user/elfload.c             |  3 +-
+ linux-user/main.c                | 11 ++++-
+ linux-user/syscall.c             |  7 ++-
+ tests/tcg/multiarch/linux-test.c | 85 ++++++++++++++++++++++++++++++++
+ 4 files changed, 101 insertions(+), 5 deletions(-)
+
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 619c054cc4..ac1974e6cf 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2313,6 +2313,7 @@ exit_errmsg:
+ 
+    IMAGE_NAME is the filename of the image, to use in error messages.
+    IMAGE_FD is the open file descriptor for the image.
++   WARNING : IMAGE_FD won't be closed.
+ 
+    BPRM_BUF is a copy of the beginning of the file; this of course
+    contains the elf file header at offset 0.  It is assumed that this
+@@ -2576,7 +2577,6 @@ static void load_elf_image(const char *image_name, int image_fd,
+ 
+     mmap_unlock();
+ 
+-    close(image_fd);
+     return;
+ 
+  exit_read:
+@@ -2610,6 +2610,7 @@ static void load_elf_interp(const char *filename, struct image_info *info,
+     }
+ 
+     load_elf_image(filename, fd, info, NULL, bprm_buf);
++    close(fd);
+     return;
+ 
+  exit_perror:
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 22578b1633..8edbe3ce08 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -628,6 +628,7 @@ int main(int argc, char **argv, char **envp)
+     int target_argc;
+     int i;
+     int ret;
++    int at_execfd;
+     int execfd;
+     int log_mask;
+     unsigned long max_reserved_va;
+@@ -689,13 +690,15 @@ int main(int argc, char **argv, char **envp)
+ 
+     init_qemu_uname_release();
+ 
+-    execfd = qemu_getauxval(AT_EXECFD);
+-    if (execfd == 0) {
++    at_execfd = qemu_getauxval(AT_EXECFD);
++    if (at_execfd == 0) {
+         execfd = open(exec_path, O_RDONLY);
+         if (execfd < 0) {
+             printf("Error while loading %s: %s\n", exec_path, strerror(errno));
+             _exit(EXIT_FAILURE);
+         }
++    } else {
++        execfd = at_execfd;
+     }
+ 
+     if (cpu_model == NULL) {
+@@ -820,6 +823,10 @@ int main(int argc, char **argv, char **envp)
+ 
+     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
++    /* We shouldn't close at_execfd, it may be used later. */
++    if (execfd != at_execfd) {
++        close(execfd);
++    }
+     if (ret != 0) {
+         printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
+         _exit(EXIT_FAILURE);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff..3cc0f94138 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7472,8 +7472,11 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+     };
+ 
+     if (is_proc_myself(pathname, "exe")) {
+-        int execfd = qemu_getauxval(AT_EXECFD);
+-        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
++        /*
++         * We can't use AT_EXECFD here.
++         * User can close provided fd and another user will receive closed fd.
++         */
++        return safe_openat(dirfd, exec_path, flags, mode);
+     }
+ 
+     for (fake_open = fakes; fake_open->filename; fake_open++) {
+diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
+index 8a7c15cd31..bd370d973e 100644
+--- a/tests/tcg/multiarch/linux-test.c
++++ b/tests/tcg/multiarch/linux-test.c
+@@ -517,6 +517,89 @@ static void test_shm(void)
+     chk_error(shmdt(ptr));
+ }
+ 
++static void test_proc_myself_file(void)
++{
++    int fd1, fd2;
++    char link1[PATH_MAX], link2[PATH_MAX];
++    char buf1[PATH_MAX], buf2[PATH_MAX];
++    int buf1_length, buf2_length;
++
++    /* We can open any file that will always exist. */
++    const char *file_path = "/proc/self/comm";
++
++    char file_realpath[PATH_MAX];
++    if (realpath(file_path, file_realpath) == NULL) {
++        error("proc myself: invalid file");
++    }
++
++    fd1 = chk_error(open(file_path, O_RDONLY));
++    sprintf(link1, "/proc/self/fd/%d", fd1);
++
++    /* Lets try to open same file by first link. */
++    fd2 = chk_error(open(link1, O_RDONLY));
++    sprintf(link2, "/proc/self/fd/%d", fd2);
++
++    /* Two links should point to the same file path. */
++    buf1_length = chk_error(readlink(link1, buf1, PATH_MAX));
++    if (strlen(file_realpath) != buf1_length ||
++        strncmp(file_realpath, buf1, buf1_length) != 0) {
++        error("proc myself: invalid link");
++    }
++    buf2_length = chk_error(readlink(link2, buf2, PATH_MAX));
++    if (strlen(file_realpath) != buf2_length ||
++        strncmp(file_realpath, buf2, buf2_length) != 0) {
++        error("proc myself: invalid link");
++    }
++
++    /* We should be able to read same data from each fd. */
++    buf1_length = chk_error(read(fd1, buf1, PATH_MAX));
++    buf2_length = chk_error(read(fd2, buf2, PATH_MAX));
++    if (buf1_length == 0 || buf1_length != buf2_length ||
++        strncmp(buf1, buf2, buf2_length) != 0) {
++        error("proc myself: invalid file content");
++    }
++
++    chk_error(close(fd2));
++    chk_error(close(fd1));
++}
++
++static void test_proc_myself_exe(void)
++{
++    int fd1, fd2;
++    char link1[PATH_MAX], link2[PATH_MAX];
++    char buf1[PATH_MAX], buf2[PATH_MAX];
++    int buf1_length, buf2_length;
++
++    const char *exe_path = "/proc/self/exe";
++
++    char exe_realpath[PATH_MAX];
++    if (realpath(exe_path, exe_realpath) == NULL) {
++        error("proc myself: invalid exe");
++    }
++
++    fd1 = chk_error(open(exe_path, O_RDONLY));
++    sprintf(link1, "/proc/self/fd/%d", fd1);
++
++    /* Lets try to open link once again. */
++    fd2 = chk_error(open(link1, O_RDONLY));
++    sprintf(link2, "/proc/self/fd/%d", fd2);
++
++    /* Two links should point to the same exe path. */
++    buf1_length = chk_error(readlink(link1, buf1, PATH_MAX));
++    if (strlen(exe_realpath) != buf1_length ||
++        strncmp(exe_realpath, buf1, buf1_length) != 0) {
++        error("proc myself: invalid link");
++    }
++    buf2_length = chk_error(readlink(link2, buf2, PATH_MAX));
++    if (strlen(exe_realpath) != buf2_length ||
++        strncmp(exe_realpath, buf2, buf2_length) != 0) {
++        error("proc myself: invalid link");
++    }
++
++    chk_error(close(fd2));
++    chk_error(close(fd1));
++}
++
+ int main(int argc, char **argv)
+ {
+     test_file();
+@@ -532,5 +615,7 @@ int main(int argc, char **argv)
+ 
+     test_signal();
+     test_shm();
++    test_proc_myself_file();
++    test_proc_myself_exe();
+     return 0;
+ }
+-- 
+2.26.2
+
