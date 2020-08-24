@@ -1,3 +1,6 @@
 sys-devel/gcc sanitize
 sys-devel/llvm gold
 sys-devel/clang static-analyzer
+
+# It is not possible to use sanitizers in musl image (https://github.com/google/sanitizers/issues/1080).
+sys-devel/clang-runtime -sanitize

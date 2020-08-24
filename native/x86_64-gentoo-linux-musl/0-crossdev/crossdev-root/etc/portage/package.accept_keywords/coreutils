@@ -1,2 +1,0 @@
-# We need at least coreutils 8.32 (https://bugs.gentoo.org/687236).
-~sys-apps/coreutils-8.32 ~amd64
