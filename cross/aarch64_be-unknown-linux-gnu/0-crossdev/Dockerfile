@@ -5,10 +5,6 @@ ARG TARGET=aarch64_be-unknown-linux-gnu
 ENV TARGET=$TARGET
 
 COPY root/ /
-RUN cd /usr/local/bin && \
-  ln -s target-python3.7.sh target-python3.7 && \
-  ln -s target-python3.7.sh target-python3 && \
-  ln -s target-python3.7.sh target-python
 
 # Rebuilding glibc for applying patches.
 RUN build.sh -v1 sys-libs/glibc app-emulation/qemu
@@ -20,9 +16,13 @@ RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
   ln -s /usr/portage/profiles/default/linux/arm64/17.0/big-endian "/usr/${TARGET}/etc/portage/make.profile" && \
+  cd /usr/local/bin && \
+    ln -s target-python3.7.sh target-python3.7 && \
+    ln -s target-python3.7.sh target-python3 && \
+    ln -s target-python3.7.sh target-python && \
   cd "/usr/${TARGET}/usr/bin" && \
-  cp /usr/bin/qemu-aarch64_be . && \
-  ln -s qemu-aarch64_be qemu-aarch64_be-static
+    cp /usr/bin/qemu-aarch64_be . && \
+    ln -s qemu-aarch64_be qemu-aarch64_be-static
 
 RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN target-build.sh -v1 \

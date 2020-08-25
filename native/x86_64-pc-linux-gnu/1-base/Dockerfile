@@ -4,7 +4,7 @@ COPY attached_root/ /
 COPY root/ /
 
 RUN env-update && emerge-webrsync && \
-  ln -s /usr/portage/profiles/default/linux/amd64/17.1 /etc/portage/make.profile && \
+  ln -s /usr/portage/profiles/default/linux/amd64/17.1/no-multilib /etc/portage/make.profile && \
   echo "" > /var/lib/portage/world
 
 RUN build.sh -v1 sys-apps/baselayout && \

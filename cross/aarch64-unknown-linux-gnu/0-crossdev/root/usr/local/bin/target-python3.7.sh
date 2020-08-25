@@ -19,4 +19,4 @@ function join {
 }
 
 LD_LIBRARY_PATH=$(join ":" "${LD_LIBRARY_PATHES[@]}") \
-  "${TARGET_PREFIX}/usr/bin/python3" "$@"
+  "${TARGET_PREFIX}/usr/bin/python3.7" "$@"

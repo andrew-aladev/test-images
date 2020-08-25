@@ -5,10 +5,9 @@ ARG TARGET=x86_64-pc-linux-gnu
 ENV TARGET=$TARGET
 
 COPY root/ /
-RUN cd /usr/local/bin && \
-  ln -s target-python3.7.sh target-python3.7 && \
-  ln -s target-python3.7.sh target-python3 && \
-  ln -s target-python3.7.sh target-python
+RUN env-update && emerge-webrsync && \
+  eselect profile set default/linux/amd64/17.1/no-multilib && \
+  env-update && source /etc/profile
 
 # Rebuilding glibc for applying patches.
 RUN build.sh -v1 sys-libs/glibc
@@ -19,7 +18,11 @@ COPY crossdev-root/ "/usr/${TARGET}/"
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/amd64/17.1 "/usr/${TARGET}/etc/portage/make.profile"
+  ln -s /usr/portage/profiles/default/linux/amd64/17.1/no-multilib "/usr/${TARGET}/etc/portage/make.profile" && \
+  cd /usr/local/bin && \
+    ln -s target-python3.7.sh target-python3.7 && \
+    ln -s target-python3.7.sh target-python3 && \
+    ln -s target-python3.7.sh target-python
 
 RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN target-build.sh -v1 \
