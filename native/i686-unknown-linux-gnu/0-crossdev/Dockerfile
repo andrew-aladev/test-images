@@ -1,7 +1,7 @@
 ARG FROM_IMAGE=x86_64-unknown-linux-gnu
 FROM $FROM_IMAGE
 
-ARG TARGET=x86_64-gentoo-linux-musl
+ARG TARGET=i686-unknown-linux-gnu
 ENV TARGET=$TARGET
 
 COPY root/ /
@@ -15,13 +15,13 @@ COPY crossdev-root/ "/usr/${TARGET}/"
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile" && \
+  ln -s /usr/portage/profiles/default/linux/x86/17.0 "/usr/${TARGET}/etc/portage/make.profile" && \
   cd /usr/local/bin && \
     ln -s target-python3.7.sh target-python3.7 && \
     ln -s target-python3.7.sh target-python3 && \
     ln -s target-python3.7.sh target-python
 
-RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
+RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN target-build.sh -v1 \
   app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget

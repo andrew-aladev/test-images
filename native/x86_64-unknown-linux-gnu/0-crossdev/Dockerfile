@@ -1,10 +1,13 @@
-ARG FROM_IMAGE=x86_64-unknown-linux-gnu
+ARG FROM_IMAGE=stage3-amd64-nomultilib
 FROM $FROM_IMAGE
 
-ARG TARGET=x86_64-gentoo-linux-musl
+ARG TARGET=x86_64-unknown-linux-gnu
 ENV TARGET=$TARGET
 
 COPY root/ /
+RUN env-update && emerge-webrsync && \
+  eselect profile set default/linux/amd64/17.1/no-multilib && \
+  env-update && source /etc/profile
 
 # Rebuilding glibc for applying patches.
 RUN build.sh -v1 sys-libs/glibc
@@ -15,13 +18,13 @@ COPY crossdev-root/ "/usr/${TARGET}/"
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile" && \
+  ln -s /usr/portage/profiles/default/linux/amd64/17.1/no-multilib "/usr/${TARGET}/etc/portage/make.profile" && \
   cd /usr/local/bin && \
     ln -s target-python3.7.sh target-python3.7 && \
     ln -s target-python3.7.sh target-python3 && \
     ln -s target-python3.7.sh target-python
 
-RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
+RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN target-build.sh -v1 \
   app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
   sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
@@ -30,7 +33,7 @@ RUN target-build.sh -v1 \
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
 RUN target-build.sh -v1 dev-lang/python:3.7 && \
-  find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
+  find "/usr/${TARGET}/lib64" -maxdepth 1 -name ld* \
     -exec cp "{}" /lib/ \; && \
   sed -i "s/export PYTHON=.*\${impl}/export PYTHON=target-\${impl}/g" \
     /usr/portage/eclass/python-utils-r1.eclass && \
