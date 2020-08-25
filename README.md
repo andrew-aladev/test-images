@@ -64,6 +64,7 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 ## Related bugs
 
 - [sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
+- [sys-libs/glibc-2.31-r6: on x32 - setgroups: bad address](https://bugs.gentoo.org/736904).
 - [sys-libs/musl: does not support sysroot installation](https://bugs.gentoo.org/732482)
 - [sys-libs/musl profiles: add link time protection against DT_TEXTREL](https://bugs.gentoo.org/707660)
 - [sys-devel/clang-runtime: feature request - musl support](https://github.com/google/sanitizers/issues/1080)

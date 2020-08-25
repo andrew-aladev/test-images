@@ -28,7 +28,7 @@ RUN target-build.sh -v1 \
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #   and https://bugs.gentoo.org/705970 will be fixed.
-# Different libc requires double python recompilation.
+# Different libc (or libc with another version) requires double python recompilation.
 RUN target-build.sh -v1 dev-lang/python:3.7 && \
   find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
     -exec cp "{}" /lib/ \; && \
@@ -44,7 +44,8 @@ RUN target-build.sh -v1 dev-lang/python:3.7 && \
   EPYTHON_FOR_BUILD="target-python3.7" target-build.sh -v1 dev-lang/python:3.7
 # TODO end of workaround
 
-# It is not possible to use cross compiled sandbox with another libc https://bugs.gentoo.org/706020.
+# It is not possible to use cross compiled sandbox with another libc
+#   (or libc with another version) https://bugs.gentoo.org/706020.
 RUN target-build.sh -v1 sys-apps/sandbox && \
   mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak && \
   target-build.sh -v1 sys-apps/portage && \
