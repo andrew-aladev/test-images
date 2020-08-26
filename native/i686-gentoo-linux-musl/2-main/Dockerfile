@@ -20,5 +20,5 @@ RUN build.sh -ve @world \
 RUN build.sh -v app-portage/gentoolkit sys-devel/clang
 
 RUN update.sh && upgrade.sh && cleanup.sh && \
-  find /etc -maxdepth 1 -name ._cfg* -delete && \
+  find /etc -maxdepth 1 -name "._cfg*" -delete && \
   eselect news read

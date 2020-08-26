@@ -5,6 +5,10 @@ ARG TARGET=x86_64-gentoo-linux-musl
 ENV TARGET=$TARGET
 
 COPY root/ /
+RUN cd /usr/local/bin && \
+  ln -s target-python3.7.sh target-python3.7 && \
+  ln -s target-python3.7.sh target-python3 && \
+  ln -s target-python3.7.sh target-python
 
 # Rebuilding glibc for applying patches.
 RUN build.sh -v1 sys-libs/glibc
@@ -15,11 +19,7 @@ COPY crossdev-root/ "/usr/${TARGET}/"
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile" && \
-  cd /usr/local/bin && \
-    ln -s target-python3.7.sh target-python3.7 && \
-    ln -s target-python3.7.sh target-python3 && \
-    ln -s target-python3.7.sh target-python
+  ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
 RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
 RUN target-build.sh -v1 \
@@ -30,15 +30,13 @@ RUN target-build.sh -v1 \
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
 RUN target-build.sh -v1 dev-lang/python:3.7 && \
-  find "/usr/${TARGET}/lib" -maxdepth 1 -name ld* \
-    -exec cp "{}" /lib/ \; && \
   sed -i "s/export PYTHON=.*\${impl}/export PYTHON=target-\${impl}/g" \
     /usr/portage/eclass/python-utils-r1.eclass && \
   sed -i "s/\${EPYTHON:-python}/target-\${EPYTHON:-python}/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
   sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
-  find /usr/portage/sys-apps/portage -maxdepth 1 -name portage-*.ebuild \
+  find /usr/portage/sys-apps/portage -maxdepth 1 -name "portage-*.ebuild" \
     -exec sed -i "s/\${sitedir}/\${sitedir#\${EROOT%\/}}/g" "{}" \; \
     -exec ebuild "{}" manifest \; && \
   EPYTHON_FOR_BUILD="target-python3.7" target-build.sh -v1 dev-lang/python:3.7

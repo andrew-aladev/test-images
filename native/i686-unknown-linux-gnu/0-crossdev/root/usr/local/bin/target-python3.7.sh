@@ -12,11 +12,13 @@ for LIBRARY_PATH in "${LIBRARY_PATHES[@]}"; do
   LD_LIBRARY_PATHES+=($(ls -d ${TARGET_PREFIX}/${LIBRARY_PATH}))
 done
 
+LD_PATH=$(ls -d ${TARGET_PREFIX}/lib/ld-linux*)
+
 function join {
   local IFS="$1"
   shift
   echo "$*"
 }
 
-LD_LIBRARY_PATH=$(join ":" "${LD_LIBRARY_PATHES[@]}") \
+LD_LIBRARY_PATH=$(join ":" "${LD_LIBRARY_PATHES[@]}") "$LD_PATH" \
   "${TARGET_PREFIX}/usr/bin/python3.7" "$@"
