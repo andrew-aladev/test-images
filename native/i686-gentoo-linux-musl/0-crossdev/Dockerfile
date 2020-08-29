@@ -5,10 +5,6 @@ ARG TARGET=i686-gentoo-linux-musl
 ENV TARGET=$TARGET
 
 COPY root/ /
-RUN cd /usr/local/bin && \
-  ln -s target-python3.7.sh target-python3.7 && \
-  ln -s target-python3.7.sh target-python3 && \
-  ln -s target-python3.7.sh target-python
 
 # Rebuilding glibc for applying patches.
 RUN build.sh -v1 sys-libs/glibc
@@ -30,16 +26,27 @@ RUN target-build.sh -v1 \
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
 RUN target-build.sh -v1 dev-lang/python:3.7 && \
-  sed -i "s/export PYTHON=.*\${impl}/export PYTHON=target-\${impl}/g" \
-    /usr/portage/eclass/python-utils-r1.eclass && \
-  sed -i "s/\${EPYTHON:-python}/target-\${EPYTHON:-python}/g" \
-    /usr/portage/eclass/distutils-r1.eclass && \
+  cd /usr/local/bin && \
+  ln -s target-python3.7.sh python3.7 && \
+  ln -s target-python3.7.sh python && \
+  cd "/usr/${TARGET}/usr/bin" && \
+  mv python3.7 python3.7.original && \
+  mv python python.original && \
+  ln -s ../local/bin/target-python3.7.sh python3.7 && \
+  ln -s ../local/bin/target-python3.7.sh python
+
+RUN target-build.sh -v1 dev-lang/python:3.7 && \
+  cd "/usr/${TARGET}/usr/bin" && \
+  rm python3.7.original python.original && \
+  mv python3.7 python3.7.original && \
+  mv python python.original && \
+  ln -s ../local/bin/target-python3.7.sh python3.7 && \
+  ln -s ../local/bin/target-python3.7.sh python && \
   sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
   find /usr/portage/sys-apps/portage -maxdepth 1 -name "portage-*.ebuild" \
     -exec sed -i "s/\${sitedir}/\${sitedir#\${EROOT%\/}}/g" "{}" \; \
-    -exec ebuild "{}" manifest \; && \
-  EPYTHON_FOR_BUILD="target-python3.7" target-build.sh -v1 dev-lang/python:3.7
+    -exec ebuild "{}" manifest \;
 # TODO end of workaround
 
 # It is not possible to use cross compiled sandbox with another libc
@@ -51,9 +58,13 @@ RUN target-build.sh -v1 sys-apps/sandbox && \
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
-RUN find "/usr/${TARGET}/usr/lib" \
-  \( -path "*/python-exec/python3.7/*" -o -path "*/portage/python3.7/*" \) -type f \
-  -exec sed -i "s/#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;
+RUN cd "/usr/${TARGET}/usr/bin" && \
+  rm python3.7 python && \
+  mv python3.7.original python3.7 && \
+  mv python.original python && \
+  rm ../local/bin/target-* && \
+  find "/usr/${TARGET}/usr/lib" -type f \
+    -exec sed -i "s/^#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;
 # TODO end of workaround
 
 # Removing all important portage configs.

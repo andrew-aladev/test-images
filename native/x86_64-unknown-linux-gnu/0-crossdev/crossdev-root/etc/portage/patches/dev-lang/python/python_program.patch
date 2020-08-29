@@ -1,0 +1,33 @@
+# dev-lang/python: cross compilation using different libc is broken.
+# https://bugs.gentoo.org/705970
+
+diff --git a/Modules/main.c b/Modules/main.c
+index be0807b6a9..fdeb7533c0 100644
+--- a/Modules/main.c
++++ b/Modules/main.c
+@@ -581,12 +581,24 @@ pymain_init_cmdline_argv(_PyMain *pymain, _PyCoreConfig *config,
+     }
+ 
+     wchar_t *program;
+-    if (pymain->argc >= 1 && cmdline->argv != NULL) {
++
++    const char *python_program = config_get_env_var("PYTHON_PROGRAM");
++    if (python_program != NULL) {
++        size_t program_length;
++        program = Py_DecodeLocale(python_program, &program_length);
++        if (program == NULL) {
++            pymain->err = DECODE_LOCALE_ERR("PYTHON_PROGRAM environment "
++                                            "variable", (Py_ssize_t)program_length);
++            return -1;
++        }
++    }
++    else if (pymain->argc >= 1 && cmdline->argv != NULL) {
+         program = cmdline->argv[0];
+     }
+     else {
+         program = L"";
+     }
++
+     config->program = pymain_wstrdup(pymain, program);
+     if (config->program == NULL) {
+         return -1;
