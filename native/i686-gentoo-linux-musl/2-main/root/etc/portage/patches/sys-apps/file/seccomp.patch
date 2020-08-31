@@ -1,0 +1,21 @@
+# sys-apps/file: bad system call, need ALLOW_RULE entries for 'writev' and 'statx' on musl libc.
+# https://bugs.gentoo.org/730540
+
+diff -Naurp file-5.39.orig/src/seccomp.c file-5.39/src/seccomp.c
+--- file-5.39.orig/src/seccomp.c	2020-07-19 20:23:05.467391000 +0000
++++ file-5.39/src/seccomp.c	2020-07-19 20:25:52.505308000 +0000
+@@ -220,12 +220,14 @@ enable_sandbox_full(void)
+ 	ALLOW_RULE(rt_sigreturn);
+ 	ALLOW_RULE(select);
+ 	ALLOW_RULE(stat);
++	ALLOW_RULE(statx);
+ 	ALLOW_RULE(stat64);
+ 	ALLOW_RULE(sysinfo);
+ 	ALLOW_RULE(umask);	// Used in file_pipe2file()
+ 	ALLOW_RULE(getpid);	// Used by glibc in file_pipe2file()
+ 	ALLOW_RULE(unlink);
+ 	ALLOW_RULE(write);
++	ALLOW_RULE(writev);
+ 
+ 	// needed by Gentoo's portage sandbox
+ 	ALLOW_RULE(getcwd);

@@ -55,9 +55,9 @@ RUN target-build.sh -v1 dev-lang/python:3.7 && \
 # It is not possible to use cross compiled sandbox with another libc
 #   (or libc with another version) https://bugs.gentoo.org/706020.
 RUN target-build.sh -v1 sys-apps/sandbox && \
-  mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak && \
+  mv "/usr/${TARGET}/usr/lib64/libsandbox.so" /tmp/libsandbox.so.bak && \
   target-build.sh -v1 sys-apps/portage && \
-  mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib/libsandbox.so"
+  mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib64/libsandbox.so"
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.

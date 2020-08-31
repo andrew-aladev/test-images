@@ -1,21 +1,8 @@
-From 5551aa3d5480261bfebe19df490b1b66c0434186 Mon Sep 17 00:00:00 2001
-From: Andrew Aladjev <aladjev.andrew@gmail.com>
-Date: Tue, 25 Aug 2020 00:29:38 +0300
-Subject: [PATCH 1/2] linux user: fixed proc myself execfd behaviour, added
- tests
-
----
- linux-user/elfload.c             |  3 +-
- linux-user/main.c                | 11 ++++-
- linux-user/syscall.c             |  7 ++-
- tests/tcg/multiarch/linux-test.c | 85 ++++++++++++++++++++++++++++++++
- 4 files changed, 101 insertions(+), 5 deletions(-)
-
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 619c054cc4..ac1974e6cf 100644
+index fe9dfe795d..353094da34 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -2313,6 +2313,7 @@ exit_errmsg:
+@@ -2363,6 +2363,7 @@ void probe_guest_base(const char *image_name, abi_ulong guest_loaddr,
  
     IMAGE_NAME is the filename of the image, to use in error messages.
     IMAGE_FD is the open file descriptor for the image.
@@ -23,7 +10,7 @@ index 619c054cc4..ac1974e6cf 100644
  
     BPRM_BUF is a copy of the beginning of the file; this of course
     contains the elf file header at offset 0.  It is assumed that this
-@@ -2576,7 +2577,6 @@ static void load_elf_image(const char *image_name, int image_fd,
+@@ -2632,7 +2633,6 @@ static void load_elf_image(const char *image_name, int image_fd,
  
      mmap_unlock();
  
@@ -31,7 +18,7 @@ index 619c054cc4..ac1974e6cf 100644
      return;
  
   exit_read:
-@@ -2610,6 +2610,7 @@ static void load_elf_interp(const char *filename, struct image_info *info,
+@@ -2666,6 +2666,7 @@ static void load_elf_interp(const char *filename, struct image_info *info,
      }
  
      load_elf_image(filename, fd, info, NULL, bprm_buf);
@@ -40,10 +27,10 @@ index 619c054cc4..ac1974e6cf 100644
  
   exit_perror:
 diff --git a/linux-user/main.c b/linux-user/main.c
-index 22578b1633..8edbe3ce08 100644
+index 75c9785157..29b61d4a09 100644
 --- a/linux-user/main.c
 +++ b/linux-user/main.c
-@@ -628,6 +628,7 @@ int main(int argc, char **argv, char **envp)
+@@ -629,6 +629,7 @@ int main(int argc, char **argv, char **envp)
      int target_argc;
      int i;
      int ret;
@@ -51,7 +38,7 @@ index 22578b1633..8edbe3ce08 100644
      int execfd;
      int log_mask;
      unsigned long max_reserved_va;
-@@ -689,13 +690,15 @@ int main(int argc, char **argv, char **envp)
+@@ -690,13 +691,15 @@ int main(int argc, char **argv, char **envp)
  
      init_qemu_uname_release();
  
@@ -69,7 +56,7 @@ index 22578b1633..8edbe3ce08 100644
      }
  
      if (cpu_model == NULL) {
-@@ -820,6 +823,10 @@ int main(int argc, char **argv, char **envp)
+@@ -811,6 +814,10 @@ int main(int argc, char **argv, char **envp)
  
      ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
          info, &bprm);
@@ -81,10 +68,118 @@ index 22578b1633..8edbe3ce08 100644
          printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
          _exit(EXIT_FAILURE);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff..3cc0f94138 100644
+index 945fc25279..db90ba9dbc 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7472,8 +7472,11 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+@@ -7482,38 +7482,69 @@ static int open_self_auxv(void *cpu_env, int fd)
+     return 0;
+ }
+ 
+-static int is_proc_myself(const char *filename, const char *entry)
+-{
+-    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
+-        filename += strlen("/proc/");
+-        if (!strncmp(filename, "self/", strlen("self/"))) {
+-            filename += strlen("self/");
+-        } else if (*filename >= '1' && *filename <= '9') {
+-            char myself[80];
+-            snprintf(myself, sizeof(myself), "%d/", getpid());
+-            if (!strncmp(filename, myself, strlen(myself))) {
+-                filename += strlen(myself);
+-            } else {
+-                return 0;
+-            }
+-        } else {
+-            return 0;
+-        }
+-        if (!strcmp(filename, entry)) {
+-            return 1;
+-        }
++#define PROC "/proc/"
++#define SELF "self/"
++
++#define STARTS_WITH(path, CONSTANT) (              \
++    strlen(path) >= strlen(CONSTANT) &&            \
++    strncmp(path, CONSTANT, strlen(CONSTANT)) == 0 \
++)
++
++static inline char *scope_to_proc(const char *path)
++{
++    if (STARTS_WITH(path, PROC)) {
++        return (char *)path + strlen(PROC);
+     }
+-    return 0;
++
++    return NULL;
++}
++
++static inline char *scope_to_proc_myself(const char *path)
++{
++    char *scope_path = scope_to_proc(path);
++    if (scope_path == NULL) {
++        return NULL;
++    }
++
++    if (STARTS_WITH(scope_path, SELF)) {
++        return scope_path + strlen(SELF);
++    }
++
++    if (strlen(scope_path) >= 1 &&
++        *scope_path >= '1' && *scope_path <= '9') {
++        char pid_path[80];
++        snprintf(pid_path, sizeof(pid_path), "%d/", getpid());
++        if (STARTS_WITH(scope_path, pid_path)) {
++            return scope_path + strlen(pid_path);
++        }
++     }
++
++    return NULL;
+ }
+ 
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
+     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+-static int is_proc(const char *filename, const char *entry)
++static int is_proc(const char *path, const char *entry)
+ {
+-    return strcmp(filename, entry) == 0;
++    char *scope_path = scope_to_proc(path);
++    if (scope_path == NULL) {
++        return 0;
++    }
++
++    return strcmp(scope_path, entry) == 0;
+ }
+ #endif
+ 
++static int is_proc_myself(const char *path, const char *entry)
++{
++    char *scope_path = scope_to_proc_myself(path);
++    if (scope_path == NULL) {
++        return 0;
++    }
++
++    return strcmp(scope_path, entry) == 0;
++}
++
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+ static int open_net_route(void *cpu_env, int fd)
+ {
+@@ -7601,20 +7632,23 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+         { "auxv", open_self_auxv, is_proc_myself },
+         { "cmdline", open_self_cmdline, is_proc_myself },
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+-        { "/proc/net/route", open_net_route, is_proc },
++        { "net/route", open_net_route, is_proc },
+ #endif
+ #if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+-        { "/proc/cpuinfo", open_cpuinfo, is_proc },
++        { "cpuinfo", open_cpuinfo, is_proc },
+ #endif
+ #if defined(TARGET_M68K)
+-        { "/proc/hardware", open_hardware, is_proc },
++        { "hardware", open_hardware, is_proc },
+ #endif
+         { NULL, NULL, NULL }
      };
  
      if (is_proc_myself(pathname, "exe")) {
@@ -200,6 +295,3 @@ index 8a7c15cd31..bd370d973e 100644
 +    test_proc_myself_exe();
      return 0;
  }
--- 
-2.26.2
-
