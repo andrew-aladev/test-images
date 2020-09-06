@@ -71,6 +71,7 @@ build () {
     --label maintainer="$MAINTAINER" \
     --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
+    --security-opt="seccomp=unconfined" \
     --isolation="rootless" \
     --layers="$layers" \
     "."
