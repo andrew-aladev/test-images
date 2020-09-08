@@ -4,7 +4,7 @@ FROM $FROM_IMAGE
 COPY root/ /
 
 # Python recompilation is recommended, cross compiled version is not reliable.
-RUN USE="-nls" build.sh -v1 dev-lang/python:3.7 && \
+RUN USE="-berkdb -nls" build.sh -v1 dev-lang/python:3.7 && \
   USE="-nls" build.sh -v1 dev-libs/elfutils && \
   USE="internal-glib" build.sh -v1 dev-util/pkgconfig && \
   USE="-nls" build.sh -v1 dev-util/pkgconfig
