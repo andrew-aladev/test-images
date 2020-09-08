@@ -19,29 +19,31 @@ RUN build.sh -v sys-devel/crossdev && \
 
 RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
 RUN target-build.sh -v1 \
-  app-shells/bash app-arch/tar sys-devel/make sys-devel/patch \
-  sys-apps/findutils sys-apps/grep sys-apps/gawk net-misc/wget
+  app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
+  sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \
+  sys-devel/make sys-devel/patch dev-lang/python:3.7
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
-RUN target-build.sh -v1 dev-lang/python:3.7 && \
-  cd /usr/local/bin && \
+RUN cd /usr/local/bin && \
   ln -s target-python3.7.sh python3.7 && \
   ln -s target-python3.7.sh python && \
+  \
   cd "/usr/${TARGET}/usr/bin" && \
   mv python3.7 python3.7.original && \
   mv python python.original && \
   ln -s ../local/bin/target-python3.7.sh python3.7 && \
-  ln -s ../local/bin/target-python3.7.sh python
-
-RUN target-build.sh -v1 dev-lang/python:3.7 && \
-  cd "/usr/${TARGET}/usr/bin" && \
+  ln -s ../local/bin/target-python3.7.sh python && \
+  \
+  target-build.sh -v1 dev-lang/python:3.7 && \
+  \
   rm python3.7.original python.original && \
   mv python3.7 python3.7.original && \
   mv python python.original && \
   ln -s ../local/bin/target-python3.7.sh python3.7 && \
   ln -s ../local/bin/target-python3.7.sh python && \
+  \
   sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
     /usr/portage/eclass/distutils-r1.eclass && \
   find /usr/portage/sys-apps/portage -maxdepth 1 -name "portage-*.ebuild" \

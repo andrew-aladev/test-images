@@ -3,11 +3,8 @@ FROM $FROM_IMAGE
 
 COPY root/ /
 
-# Several packages may depend on gawk, net-tools, shadow, texinfo and pam silently.
 # Python recompilation is recommended, cross compiled version is not reliable.
-RUN USE="-berkdb -nls -filecaps" build.sh -v1 \
-  sys-apps/gawk sys-apps/net-tools sys-apps/shadow sys-apps/texinfo sys-libs/pam && \
-  build.sh -v1 dev-lang/python:3.7 && \
+RUN USE="-nls" build.sh -v1 dev-lang/python:3.7 && \
   USE="internal-glib" build.sh -v1 dev-util/pkgconfig && \
   USE="-nls" build.sh -v1 dev-util/pkgconfig
 
