@@ -20,7 +20,8 @@ RUN build.sh -v sys-devel/crossdev && \
     cp /usr/bin/qemu-aarch64 . && \
     ln -s qemu-aarch64 qemu-aarch64-static
 
-RUN target-build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
+RUN USE="-python" target-build.sh -v1 \
+  sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
 RUN target-build.sh -v1 \
   app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
   sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \

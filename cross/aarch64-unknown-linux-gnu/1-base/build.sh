@@ -8,7 +8,7 @@ source "../../../utils.sh"
 source "./env.sh"
 
 container=$(attach "/usr/${TARGET}")
-build || error=$?
+build "PORTAGE_SNAPSHOT" || error=$?
 detach "$container" || true
 
 if [ ! -z "$error" ]; then

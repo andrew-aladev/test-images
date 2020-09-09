@@ -1,9 +1,12 @@
 FROM scratch
 
+ARG PORTAGE_SNAPSHOT=latest
+ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
+
 COPY attached_root/ /
 COPY root/ /
 
-RUN env-update && emerge-webrsync && \
+RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
   ln -s /usr/portage/profiles/default/linux/amd64/17.0/musl /etc/portage/make.profile && \
   echo "" > /var/lib/portage/world
 
