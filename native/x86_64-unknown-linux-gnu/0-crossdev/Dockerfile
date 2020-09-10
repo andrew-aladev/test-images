@@ -1,10 +1,10 @@
 ARG FROM_IMAGE=stage3-amd64-nomultilib
 FROM $FROM_IMAGE
 
-ARG TARGET=x86_64-unknown-linux-gnu
 ARG PORTAGE_SNAPSHOT=latest
-ENV TARGET=$TARGET
+ARG TARGET=x86_64-unknown-linux-gnu
 ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
+ENV TARGET=$TARGET
 
 COPY root/ /
 RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
