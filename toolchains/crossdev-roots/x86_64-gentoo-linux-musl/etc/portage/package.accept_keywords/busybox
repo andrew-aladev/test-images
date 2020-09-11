@@ -1,0 +1,2 @@
+# We need at least busybox 1.32.0 for musl.
+~sys-apps/busybox-1.32.0 ~amd64
