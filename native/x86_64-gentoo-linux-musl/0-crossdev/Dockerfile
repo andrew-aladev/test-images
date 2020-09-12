@@ -1,10 +1,15 @@
-ARG FROM_IMAGE=x86_64-unknown-linux-gnu
+ARG FROM_IMAGE=stage3-amd64-nomultilib
 FROM $FROM_IMAGE
 
+ARG PORTAGE_SNAPSHOT=latest
 ARG TARGET=x86_64-gentoo-linux-musl
+ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 ENV TARGET=$TARGET
 
 COPY root/ /
+RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
+  eselect profile set default/linux/amd64/17.1/no-multilib && \
+  env-update && source /etc/profile
 
 # Rebuilding glibc for applying patches.
 RUN build.sh -v1 sys-libs/glibc
