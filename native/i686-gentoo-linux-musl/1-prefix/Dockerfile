@@ -2,7 +2,7 @@ ARG FROM_IMAGE=stage3-amd64-nomultilib
 FROM $FROM_IMAGE
 
 ARG PORTAGE_SNAPSHOT=latest
-ARG TARGET=aarch64-unknown-linux-gnu
+ARG TARGET=i686-gentoo-linux-musl
 ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 ENV TARGET=$TARGET
 
@@ -12,21 +12,18 @@ RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
   env-update && source /etc/profile
 
 # Rebuilding glibc for applying patches.
-RUN build.sh -v1 sys-libs/glibc app-emulation/qemu
+RUN build.sh -v1 sys-libs/glibc
 
 RUN mkdir "/usr/${TARGET}"
-COPY crossdev-root/ "/usr/${TARGET}/"
+COPY prefix-root/ "/usr/${TARGET}/"
 
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/arm64/17.0 "/usr/${TARGET}/etc/portage/make.profile" && \
-  cd "/usr/${TARGET}/usr/bin" && \
-    cp /usr/bin/qemu-aarch64 . && \
-    ln -s qemu-aarch64 qemu-aarch64-static
+  ln -s /usr/portage/profiles/default/linux/x86/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
 
 RUN USE="-python" target-build.sh -v1 \
-  sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers
+  sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
 RUN target-build.sh -v1 \
   app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
   sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \
@@ -63,9 +60,9 @@ RUN cd /usr/local/bin && \
 # It is not possible to use cross compiled sandbox with another libc
 #   (or libc with another version) https://bugs.gentoo.org/706020.
 RUN target-build.sh -v1 sys-apps/sandbox && \
-  mv "/usr/${TARGET}/usr/lib64/libsandbox.so" /tmp/libsandbox.so.bak && \
+  mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak && \
   target-build.sh -v1 sys-apps/portage && \
-  mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib64/libsandbox.so"
+  mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib/libsandbox.so"
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.

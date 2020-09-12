@@ -2,7 +2,7 @@ ARG FROM_IMAGE=stage3-amd64-nomultilib
 FROM $FROM_IMAGE
 
 ARG PORTAGE_SNAPSHOT=latest
-ARG TARGET=x86_64-unknown-linux-gnu
+ARG TARGET=aarch64_be-unknown-linux-gnu
 ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 ENV TARGET=$TARGET
 
@@ -12,15 +12,18 @@ RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
   env-update && source /etc/profile
 
 # Rebuilding glibc for applying patches.
-RUN build.sh -v1 sys-libs/glibc
+RUN build.sh -v1 sys-libs/glibc app-emulation/qemu
 
 RUN mkdir "/usr/${TARGET}"
-COPY crossdev-root/ "/usr/${TARGET}/"
+COPY prefix-root/ "/usr/${TARGET}/"
 
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/amd64/17.1/no-multilib "/usr/${TARGET}/etc/portage/make.profile"
+  ln -s /usr/portage/profiles/default/linux/arm64/17.0/big-endian "/usr/${TARGET}/etc/portage/make.profile" && \
+  cd "/usr/${TARGET}/usr/bin" && \
+    cp /usr/bin/qemu-aarch64_be . && \
+    ln -s qemu-aarch64_be qemu-aarch64_be-static
 
 RUN USE="-python" target-build.sh -v1 \
   sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers

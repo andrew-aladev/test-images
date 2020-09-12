@@ -4,7 +4,5 @@ set -e
 DIR=$(dirname "${BASH_SOURCE[0]}")
 cd "$DIR"
 
-source "../../utils.sh"
-source "./3-main/env.sh"
-
-pull
+./0-toolchain/pull.sh
+./3-main/pull.sh

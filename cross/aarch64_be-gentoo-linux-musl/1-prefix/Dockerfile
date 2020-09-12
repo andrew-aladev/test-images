@@ -2,7 +2,7 @@ ARG FROM_IMAGE=stage3-amd64-nomultilib
 FROM $FROM_IMAGE
 
 ARG PORTAGE_SNAPSHOT=latest
-ARG TARGET=aarch64-gentoo-linux-musl
+ARG TARGET=aarch64_be-gentoo-linux-musl
 ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 ENV TARGET=$TARGET
 
@@ -15,15 +15,15 @@ RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
 RUN build.sh -v1 sys-libs/glibc app-emulation/qemu
 
 RUN mkdir "/usr/${TARGET}"
-COPY crossdev-root/ "/usr/${TARGET}/"
+COPY prefix-root/ "/usr/${TARGET}/"
 
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
   ln -s /usr/portage/profiles/default/linux/arm64/17.0/musl "/usr/${TARGET}/etc/portage/make.profile" && \
   cd "/usr/${TARGET}/usr/bin" && \
-    cp /usr/bin/qemu-aarch64 . && \
-    ln -s qemu-aarch64 qemu-aarch64-static
+    cp /usr/bin/qemu-aarch64_be . && \
+    ln -s qemu-aarch64_be qemu-aarch64_be-static
 
 RUN USE="-python" target-build.sh -v1 \
   sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers

@@ -15,7 +15,7 @@ RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
 RUN build.sh -v1 sys-libs/glibc
 
 RUN mkdir "/usr/${TARGET}"
-COPY crossdev-root/ "/usr/${TARGET}/"
+COPY prefix-root/ "/usr/${TARGET}/"
 
 RUN build.sh -v sys-devel/crossdev && \
   crossdev.sh -t "$TARGET" --stable && \
