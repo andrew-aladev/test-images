@@ -1,0 +1,2 @@
+# Openssl is not stable with asm use on big endian systems.
+dev-libs/openssl -asm
