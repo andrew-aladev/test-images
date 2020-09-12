@@ -1,7 +1,7 @@
 ARG FROM_IMAGE=i686-unknown-linux-gnu_base
 FROM $FROM_IMAGE
 
-COPY root/ /
+COPY root /
 
 # Python recompilation is recommended, cross compiled version is not reliable.
 RUN USE="internal-glib -berkdb -filecaps -nls" build.sh -v1 \

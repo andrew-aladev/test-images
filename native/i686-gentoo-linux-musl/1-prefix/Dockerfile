@@ -6,33 +6,20 @@ ARG TARGET=i686-gentoo-linux-musl
 ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 ENV TARGET=$TARGET
 
-COPY root/ /
+COPY root /
 RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
   eselect profile set default/linux/amd64/17.1/no-multilib && \
   env-update && source /etc/profile
 
-# Rebuilding glibc for applying patches.
+COPY prefix-root "/usr/${TARGET}"
 RUN build.sh -v1 sys-libs/glibc
-
-RUN mkdir "/usr/${TARGET}"
-COPY prefix-root/ "/usr/${TARGET}/"
-
-RUN build.sh -v sys-devel/crossdev && \
-  crossdev.sh -t "$TARGET" --stable && \
-  rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
-  ln -s /usr/portage/profiles/default/linux/x86/17.0/musl "/usr/${TARGET}/etc/portage/make.profile"
-
-RUN USE="-python" target-build.sh -v1 \
-  sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers
-RUN target-build.sh -v1 \
-  app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
-  sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \
-  sys-devel/make sys-devel/patch dev-lang/python:3.7
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
-RUN cd /usr/local/bin && \
+RUN target-build.sh -v1 dev-lang/python:3.7 && \
+  \
+  cd /usr/local/bin && \
   ln -s target-python3.7.sh python3.7 && \
   ln -s target-python3.7.sh python && \
   \
