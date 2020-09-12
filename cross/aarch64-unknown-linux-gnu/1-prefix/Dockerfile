@@ -1,20 +1,13 @@
-ARG FROM_IMAGE=stage3-amd64-nomultilib
+ARG FROM_IMAGE=aarch64-unknown-linux-gnu_toolchain
 FROM $FROM_IMAGE
 
-ARG PORTAGE_SNAPSHOT=latest
 ARG TARGET=aarch64-unknown-linux-gnu
-ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 ENV TARGET=$TARGET
 
 COPY root /
-RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
-  eselect profile set default/linux/amd64/17.1/no-multilib && \
-  env-update && source /etc/profile
-
 COPY prefix-root "/usr/${TARGET}"
-RUN build.sh -v1 sys-libs/glibc app-emulation/qemu
-
-RUN cd "/usr/${TARGET}/usr/bin" && \
+RUN build.sh -v1 sys-libs/glibc app-emulation/qemu && \
+  cd "/usr/${TARGET}/usr/bin" && \
   cp /usr/bin/qemu-aarch64 . && \
   ln -s qemu-aarch64 qemu-aarch64-static
 
