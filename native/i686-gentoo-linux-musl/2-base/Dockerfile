@@ -3,7 +3,7 @@ FROM scratch
 ARG PORTAGE_SNAPSHOT=latest
 ENV PORTAGE_SNAPSHOT=$PORTAGE_SNAPSHOT
 
-COPY attached_root /
+COPY attached-root /
 COPY root /
 
 RUN env-update && emerge-webrsync --revert="${PORTAGE_SNAPSHOT}" && \
