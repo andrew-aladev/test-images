@@ -72,6 +72,7 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [sys-apps/install-xattr: segfaults in qemu-arm-user](https://bugs.gentoo.org/587230)
 - [net-misc/rsync: checking whether to enable SIMD optimizations](https://bugs.gentoo.org/732084)
 - [sys-libs/gdbm: gettext infrastructure mismatch](https://bugs.gentoo.org/696838)
+- [sys-libs/musl: usage of internal arch variable provides wrong ld name](https://bugs.gentoo.org/743349)
 
 ## License
 
