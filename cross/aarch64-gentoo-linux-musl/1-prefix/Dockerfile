@@ -45,7 +45,7 @@ RUN target-build.sh -v1 dev-lang/python:3.7 && \
 #   (or libc with another version) https://bugs.gentoo.org/706020.
 RUN target-build.sh -v1 sys-apps/sandbox && \
   mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak && \
-  target-build.sh -v1 sys-apps/portage && \
+  USE="-rsync-verify" target-build.sh -v1 sys-apps/portage && \
   mv /tmp/libsandbox.so.bak "/usr/${TARGET}/usr/lib/libsandbox.so"
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
