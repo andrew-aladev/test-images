@@ -63,4 +63,5 @@ RUN cd "/usr/${TARGET}/usr/bin" && \
 RUN cd "/usr/${TARGET}/etc/portage" && \
   rm -f make.{conf,profile} && \
   rm -rf {env,patches,repos.conf} && \
-  rm -rf package.{accept_keywords,env,license,mask,unmask,use}
+  rm -rf package.{accept_keywords,env,license,mask,unmask,use} && \
+  target-cleanup.sh

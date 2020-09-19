@@ -23,3 +23,5 @@ RUN target-build.sh -v1 \
   app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
   sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \
   sys-devel/make sys-devel/patch
+
+RUN target-cleanup.sh
