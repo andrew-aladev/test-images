@@ -1,6 +1,7 @@
-sys-devel/gcc sanitize
 sys-devel/llvm gold
 sys-devel/clang static-analyzer
 
+# sys-devel/gcc, sys-devel/clang: leak sanitizer has encountered a fatal error (https://github.com/google/sanitizers/issues/1170).
 # It is not possible to use sanitizers in musl image (https://github.com/google/sanitizers/issues/1080).
+sys-devel/gcc -sanitize
 sys-devel/clang-runtime -sanitize
