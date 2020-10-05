@@ -1,8 +1,8 @@
-diff --git a/lib/Driver/ToolChains/Linux.cpp b/lib/Driver/ToolChains/Linux.cpp
-index 180350476..b5c46bbbe 100644
---- a/lib/Driver/ToolChains/Linux.cpp
-+++ b/lib/Driver/ToolChains/Linux.cpp
-@@ -424,6 +424,9 @@ std::string Linux::getDynamicLinker(const ArgList &Args) const {
+diff --git a/clang/lib/Driver/ToolChains/Linux.cpp b/clang/lib/Driver/ToolChains/Linux.cpp
+index 6532c899492..64a11ac4f3c 100644
+--- a/clang/lib/Driver/ToolChains/Linux.cpp
++++ b/clang/lib/Driver/ToolChains/Linux.cpp
+@@ -521,6 +521,9 @@ std::string Linux::getDynamicLinker(const ArgList &Args) const {
      bool IsArm = false;
  
      switch (Arch) {
