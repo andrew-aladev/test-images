@@ -4,7 +4,7 @@ You can find them on https://hub.docker.com/u/puchuu.
 
 ## Goal
 
-GCC and Clang with sanitizers (where possible) for most popular platforms.
+[GCC](https://gcc.gnu.org) and [Clang](https://clang.llvm.org) with sanitizers (where possible) for most popular platforms.
 
 ## Dependencies
 
@@ -77,4 +77,4 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 
 ## License
 
-MIT
+MIT license, see [LICENSE](LICENSE) and [AUTHORS](AUTHORS).
