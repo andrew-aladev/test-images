@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # We need up to 1000 MB (less than 1GB) per thread.
 MAX_THREADS=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1000 ** 3)))

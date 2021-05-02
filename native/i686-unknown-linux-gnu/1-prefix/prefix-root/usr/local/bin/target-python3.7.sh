@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 SCRIPT=$(realpath "${BASH_SOURCE[0]}")
