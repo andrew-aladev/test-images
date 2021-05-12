@@ -10,16 +10,10 @@ You can find them on https://hub.docker.com/u/puchuu.
 
 - [buildah](https://github.com/containers/buildah)
 - [bindfs](https://github.com/mpartel/bindfs)
-- [qemu](https://github.com/qemu/qemu) `QEMU_USER_TARGETS="aarch64 aarch64_be"`
 
 ## Build
 
-Packages for cross architectures are building using qemu static user, compilation is heavy.
-Recommended CPU is any modern one with >= `4 cores`.
-
-Please start `qemu-binfmt` service.
-
-Than allow other users in `/etc/fuse.conf`:
+Please allow other users in `/etc/fuse.conf`:
 
 ```
 user_allow_other
@@ -41,23 +35,6 @@ Than open [`env.sh`](env.sh) and update variables.
 
 Build is rootless, just use your regular `my_user`.
 
-## Cross build
-
-```
-+-------------------------+
-|                         |
-|           +-----------+ |              +-----------+
-|           |           | |              |           |
-| native    | cross     | |    export    | cross     |
-| container | container | | +----------> | container |
-|           |           | |              | (+ qemu)  |
-|           +-----------+ |              |           |
-|                         |              +-----------+
-+-------------------------+
-```
-
-Native container creates minimal cross image, adds `qemu`, exports it and rebuilds everything.
-
 ## Related bugs
 
 - [sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
@@ -69,11 +46,8 @@ Native container creates minimal cross image, adds `qemu`, exports it and rebuil
 - [dev-lang/python: cross compiling of python modules with and without distutils](https://github.com/gentoo/gentoo/pull/9822)
 - [sys-apps/sandbox: wrappers are broken when cross compiled using different libc](https://bugs.gentoo.org/706020)
 - [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
-- [sys-apps/install-xattr: segfaults in qemu-arm-user](https://bugs.gentoo.org/587230)
 - [net-misc/rsync: checking whether to enable SIMD optimizations](https://bugs.gentoo.org/732084)
 - [sys-libs/gdbm: gettext infrastructure mismatch](https://bugs.gentoo.org/696838)
-- [sys-libs/musl: usage of internal arch variable provides wrong ld name](https://bugs.gentoo.org/743349)
-- [sys-devel/gcc, sys-devel/clang: leak sanitizer has encountered a fatal error](https://github.com/google/sanitizers/issues/1170)
 
 ## License
 
