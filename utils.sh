@@ -12,8 +12,8 @@ tool () {
 
 bud () {
   tool bud \
-    --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
+    --cap-add=CAP_SYS_PTRACE \
     --security-opt="seccomp=unconfined" \
     --isolation="rootless" \
     "$@"
@@ -21,8 +21,8 @@ bud () {
 
 from () {
   tool from \
-    --cap-add=CAP_SYS_PTRACE \
     --cap-add=CAP_SETFCAP \
+    --cap-add=CAP_SYS_PTRACE \
     --security-opt="seccomp=unconfined" \
     --isolation="rootless" \
     "$1"

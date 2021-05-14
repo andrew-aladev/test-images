@@ -7,4 +7,4 @@ cd "$DIR"
 source "../utils.sh"
 source "./env.sh"
 
-build "FROM_IMAGE_PROCESSOR FROM_IMAGE PORTAGE_URL SIGN_KEY"
+pull
