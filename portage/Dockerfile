@@ -16,8 +16,8 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   gpg --verify "${PORTAGE_SNAPSHOT}.gpgsig" "$PORTAGE_SNAPSHOT" && \
   md5sum -c "${PORTAGE_SNAPSHOT}.md5sum" && \
   mkdir -p "var/cache/binpkgs" "var/cache/distfiles" "var/db/repos/gentoo" && \
-  tar xpf "$PORTAGE_SNAPSHOT" -C "var/db/repos/gentoo" \
-    --strip-components 1 --xattrs-include="*.*" --numeric-owner && \
+  tar xpf "$PORTAGE_SNAPSHOT" --xattrs-include="*.*" --numeric-owner \
+    --strip-components 1 -C "var/db/repos/gentoo" && \
   rm "$PORTAGE_SNAPSHOT" "${PORTAGE_SNAPSHOT}.gpgsig" "${PORTAGE_SNAPSHOT}.md5sum"
 
 FROM $FROM_IMAGE

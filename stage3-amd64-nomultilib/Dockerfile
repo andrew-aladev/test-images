@@ -18,7 +18,11 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   gpg --keyserver "hkps://keys.gentoo.org" --recv-keys "$SIGN_KEY" && \
   gpg --verify "${STAGE3_NAME}.DIGESTS.asc" && \
   awk "/# SHA512 HASH/{getline; print}" "${STAGE3_NAME}.DIGESTS.asc" | sha512sum -c && \
-  tar xpf "$STAGE3_NAME" --xattrs-include="*.*" --numeric-owner && \
+  tar xpf "$STAGE3_NAME" --xattrs-include="*.*" --numeric-owner \
+    --exclude="./boot/*" --exclude="./dev/*" \
+    --exclude="./media/*" --exclude="./mnt/*" \
+    --exclude="./proc/*" --exclude="./run/*" \
+    --exclude="./sys/*" --exclude="./tmp/*" && \
   (sed -i -e 's/#rc_sys=""/rc_sys="docker"/g' "etc/rc.conf" 2>/dev/null || true) && \
   echo "UTC" > "etc/timezone" && \
   rm "${STAGE3_NAME}" "${STAGE3_NAME}.CONTENTS.gz" "${STAGE3_NAME}.DIGESTS.asc"
