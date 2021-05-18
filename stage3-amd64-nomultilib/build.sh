@@ -7,4 +7,4 @@ cd "$DIR"
 source "../utils.sh"
 source "./env.sh"
 
-build "FROM_IMAGE_PROCESSOR AUTOBUILDS_URL SIGN_KEY"
+build

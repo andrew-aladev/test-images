@@ -8,14 +8,8 @@ source "../../utils.sh"
 source "./env.sh"
 
 portage=$(attach "${IMAGE_PREFIX}_portage" "/" "attached-portage")
-
-(
-  build "FROM_IMAGE TARGET" \
-    --volume "$(pwd)/attached-portage/var/cache/binpkgs":"/var/cache/binpkgs" \
-    --volume "$(pwd)/attached-portage/var/cache/distfiles":"/var/cache/distfiles" \
-    --volume "$(pwd)/attached-portage/var/db/repos/gentoo":"/var/db/repos/gentoo"
-) || error=$?
-
+build --volume "$(pwd)/attached-portage/var/db/repos/gentoo:/var/db/repos/gentoo" \
+  || error=$?
 detach "$portage" "attached-portage" || true
 
 if [ ! -z "$error" ]; then

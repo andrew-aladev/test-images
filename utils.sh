@@ -45,11 +45,9 @@ remove () {
 build () {
   args=()
 
-  for arg_name in $1; do
+  for arg_name in $IMAGE_BUILD_ARGS; do
     args+=(--build-arg ${arg_name}="${!arg_name}")
   done
-
-  shift 1
 
   # Layers are enabled by default.
   layers=${IMAGE_LAYERS:-"true"}

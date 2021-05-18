@@ -1,6 +1,6 @@
 ARG FROM_IMAGE_PROCESSOR
 ARG FROM_IMAGE
-FROM $FROM_IMAGE_PROCESSOR as processor
+FROM $FROM_IMAGE_PROCESSOR AS processor
 
 ARG PORTAGE_URL
 ARG SIGN_KEY
@@ -15,9 +15,10 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   PORTAGE_SNAPSHOT=$(basename "$PORTAGE_URL") && \
   gpg --verify "${PORTAGE_SNAPSHOT}.gpgsig" "$PORTAGE_SNAPSHOT" && \
   md5sum -c "${PORTAGE_SNAPSHOT}.md5sum" && \
-  mkdir -p "var/cache/binpkgs" "var/cache/distfiles" "var/db/repos/gentoo" && \
+  mkdir -p "./var/db/repos/gentoo" && \
   tar xpf "$PORTAGE_SNAPSHOT" --xattrs-include="*.*" --numeric-owner \
-    --strip-components 1 -C "var/db/repos/gentoo" && \
+    --strip-components 1 -C "./var/db/repos/gentoo" && \
+  chown -R 250:250 "./var/db/repos/gentoo" && \
   rm "$PORTAGE_SNAPSHOT" "${PORTAGE_SNAPSHOT}.gpgsig" "${PORTAGE_SNAPSHOT}.md5sum"
 
 FROM $FROM_IMAGE
