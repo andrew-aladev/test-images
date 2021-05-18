@@ -4,8 +4,8 @@ set -e
 DIR=$(dirname "${BASH_SOURCE[0]}")
 source "${DIR}/../env.sh"
 
-FROM_IMAGE_PROCESSOR="docker.io/alpine"
-FROM_IMAGE="docker.io/busybox"
+FROM_IMAGE_PROCESSOR="${DOCKER_HOST}/alpine"
+FROM_IMAGE="${DOCKER_HOST}/busybox"
 PORTAGE_URL="https://mirror.yandex.ru/gentoo-distfiles/snapshots/gentoo-latest.tar.xz"
 SIGN_KEY="0xEC590EEAC9189250"
 IMAGE_NAME="${IMAGE_PREFIX}_portage"

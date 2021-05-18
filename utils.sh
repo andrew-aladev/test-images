@@ -8,7 +8,7 @@ tool () {
   XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" buildah "$@"
 }
 
-# -----
+# -- wrappers --
 
 bud () {
   tool bud \
@@ -36,37 +36,11 @@ unmount () {
   tool unshare -- sh -c "buildah unmount $1"
 }
 
-copy () {
-  tool copy "$1" "$2" "$3"
-}
-
 remove () {
   tool rm "$1"
 }
 
-attach () {
-  container=$(from "$FROM_IMAGE")
-
-  (
-    container_root=$(mount "$container")
-    fusermount -zu attached-root || true
-    bindfs -r -o nonempty "${container_root}$1" attached-root
-  ) || error=$?
-
-  if [ ! -z "$error" ]; then
-    detach "$container"
-    exit "$error"
-  fi
-
-  echo "$container"
-}
-
-detach () {
-  fusermount -zu attached-root || true
-
-  unmount "$1" || true
-  remove "$1" || true
-}
+# -- utils --
 
 build () {
   args=()
@@ -74,6 +48,8 @@ build () {
   for arg_name in $1; do
     args+=(--build-arg ${arg_name}="${!arg_name}")
   done
+
+  shift 1
 
   # Layers are enabled by default.
   layers=${IMAGE_LAYERS:-"true"}
@@ -84,23 +60,55 @@ build () {
     --platform="$IMAGE_PLATFORM" \
     --label maintainer="$MAINTAINER" \
     --layers="$layers" \
+    "$@" \
     "."
 }
 
 push () {
-  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${IMAGE_NAME}"
+  docker_image_name="docker://${DOCKER_HOST}/${DOCKER_USERNAME}/${IMAGE_NAME}"
 
-  logged_docker_username=$(tool login --get-login "docker.io" || :)
+  logged_docker_username=$(tool login --get-login "$DOCKER_HOST" || :)
   if [ "$logged_docker_username" != "$DOCKER_USERNAME" ]; then
-    tool login --username "$DOCKER_USERNAME" "docker.io"
+    tool login --username "$DOCKER_USERNAME" "$DOCKER_HOST"
   fi
 
   tool push "$IMAGE_NAME" "$docker_image_name"
 }
 
 pull () {
-  docker_image_name="docker://docker.io/${DOCKER_USERNAME}/${IMAGE_NAME}"
+  docker_image_name="docker://${DOCKER_HOST}/${DOCKER_USERNAME}/${IMAGE_NAME}"
 
   tool pull "$docker_image_name"
   tool tag "$docker_image_name" "$IMAGE_NAME"
+}
+
+attach () {
+  image_name="$1"
+  container_path="$2"
+  target_directory=${3:-"attached-root"}
+
+  container=$(from "$image_name")
+
+  (
+    container_root=$(mount "$container")
+    fusermount -zu "$target_directory" || true
+    bindfs "${container_root}${container_path}" "$target_directory"
+  ) || error=$?
+
+  if [ ! -z "$error" ]; then
+    detach "$container" "$target_directory"
+    exit "$error"
+  fi
+
+  echo "$container"
+}
+
+detach () {
+  container="$1"
+  target_directory=${2:-"attached-root"}
+
+  fusermount -zu "$target_directory" || true
+
+  unmount "$container" || true
+  remove "$container" || true
 }

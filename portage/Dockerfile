@@ -26,4 +26,3 @@ WORKDIR /
 
 COPY --from=processor /data/ /
 CMD ["/bin/true"]
-VOLUME ["/var/cache/binpkgs", "/var/cache/distfiles", "/var/db/repos/gentoo"]

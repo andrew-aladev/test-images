@@ -28,6 +28,7 @@ my_user:100000:65536
 Than open [`env.sh`](env.sh) and update variables.
 
 ```sh
+sudo modprobe fuse
 ./build.sh
 ./push.sh
 ./pull.sh
