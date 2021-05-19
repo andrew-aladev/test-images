@@ -82,14 +82,14 @@ pull () {
 
 attach () {
   image_name="$1"
-  container_path="$2"
+  container_path=${2:-"/"}
   target_directory=${3:-"attached-root"}
 
   container=$(from "$image_name")
 
   (
     container_root=$(mount "$container")
-    fusermount -zu "$target_directory" || true
+    fusermount -zu "$target_directory" || :
     bindfs "${container_root}${container_path}" "$target_directory"
   ) || error=$?
 
@@ -105,8 +105,8 @@ detach () {
   container="$1"
   target_directory=${2:-"attached-root"}
 
-  fusermount -zu "$target_directory" || true
+  fusermount -zu "$target_directory" || :
 
-  unmount "$container" || true
-  remove "$container" || true
+  unmount "$container" || :
+  remove "$container" || :
 }

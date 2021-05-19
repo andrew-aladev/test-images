@@ -20,4 +20,4 @@ RUN eselect profile set default/linux/amd64/17.1/no-multilib && \
     app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
     sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \
     sys-devel/make sys-devel/patch && \
-  target-cleanup.sh
+  target-cleanup.sh && cleanup.sh

@@ -7,10 +7,10 @@ cd "$DIR"
 source "../../utils.sh"
 source "./env.sh"
 
-portage=$(attach "${IMAGE_PREFIX}_portage" "/" "attached-portage")
-build --volume "$(pwd)/attached-portage/var/db/repos/gentoo:/var/db/repos/gentoo" \
+portage=$(attach "${IMAGE_PREFIX}_portage")
+build --volume "$(pwd)/attached-root/var/db/repos/gentoo:/var/db/repos/gentoo" \
   || error=$?
-detach "$portage" "attached-portage" || true
+detach "$portage" || :
 
 if [ ! -z "$error" ]; then
   exit "$error"

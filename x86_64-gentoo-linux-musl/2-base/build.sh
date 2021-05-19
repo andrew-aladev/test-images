@@ -9,7 +9,7 @@ source "./env.sh"
 
 container=$(attach "/usr/${TARGET}")
 build "PORTAGE_SNAPSHOT" || error=$?
-detach "$container" || true
+detach "$container" || :
 
 if [ ! -z "$error" ]; then
   exit "$error"

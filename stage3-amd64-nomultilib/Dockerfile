@@ -23,7 +23,7 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
     --exclude="./media/*" --exclude="./mnt/*" \
     --exclude="./proc/*" --exclude="./run/*" \
     --exclude="./sys/*" --exclude="./tmp/*" && \
-  (sed -i -e 's/#rc_sys=""/rc_sys="docker"/g' "./etc/rc.conf" 2>/dev/null || true) && \
+  (sed -i -e 's/#rc_sys=""/rc_sys="docker"/g' "./etc/rc.conf" 2>/dev/null || :) && \
   echo "UTC" > "./etc/timezone" && \
   rm -rf "./var/db/repos/gentoo" && \
   rm "${STAGE3_NAME}" "${STAGE3_NAME}.CONTENTS.gz" "${STAGE3_NAME}.DIGESTS.asc"
