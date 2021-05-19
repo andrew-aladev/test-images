@@ -5,7 +5,7 @@ XDG_RUNTIME_DIR="/tmp/buildah-runtime"
 mkdir -p "$XDG_RUNTIME_DIR"
 
 tool () {
-  XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" buildah "$@"
+  XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" buildah unshare -- buildah "$@"
 }
 
 # -- wrappers --
@@ -29,11 +29,11 @@ from () {
 }
 
 mount () {
-  tool unshare -- sh -c "buildah mount $1"
+  tool mount "$1"
 }
 
 unmount () {
-  tool unshare -- sh -c "buildah unmount $1"
+  tool unmount "$1"
 }
 
 remove () {
