@@ -62,6 +62,21 @@ build () {
     "."
 }
 
+build_with_portage () {
+  portage=$(from "${IMAGE_PREFIX}_portage")
+  portage_root=$(mount "$portage") || error=$?
+
+  build --volume "${portage_root}/var/db/repos/gentoo:/var/db/repos/gentoo" "$@" \
+    || error=$?
+
+  unmount "$portage" || :
+  remove "$portage" || :
+
+  if [ ! -z "$error" ]; then
+    exit "$error"
+  fi
+}
+
 push () {
   docker_image_name="docker://${DOCKER_HOST}/${DOCKER_USERNAME}/${IMAGE_NAME}"
 
@@ -78,35 +93,4 @@ pull () {
 
   tool pull "$docker_image_name"
   tool tag "$docker_image_name" "$IMAGE_NAME"
-}
-
-attach () {
-  image_name="$1"
-  container_path=${2:-"/"}
-  target_directory=${3:-"attached-root"}
-
-  container=$(from "$image_name")
-
-  (
-    container_root=$(mount "$container")
-    fusermount -zu "$target_directory" || :
-    bindfs "${container_root}${container_path}" "$target_directory"
-  ) || error=$?
-
-  if [ ! -z "$error" ]; then
-    detach "$container" "$target_directory"
-    exit "$error"
-  fi
-
-  echo "$container"
-}
-
-detach () {
-  container="$1"
-  target_directory=${2:-"attached-root"}
-
-  fusermount -zu "$target_directory" || :
-
-  unmount "$container" || :
-  remove "$container" || :
 }

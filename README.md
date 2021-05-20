@@ -9,17 +9,10 @@ You can find them on https://hub.docker.com/u/puchuu.
 ## Dependencies
 
 - [buildah](https://github.com/containers/buildah)
-- [bindfs](https://github.com/mpartel/bindfs)
 
 ## Build
 
-Please allow other users in `/etc/fuse.conf`:
-
-```
-user_allow_other
-```
-
-Than add your local user to `/etc/subuid` and `/etc/subgid`:
+Please add your local user to `/etc/subuid` and `/etc/subgid`:
 
 ```
 my_user:100000:65536
@@ -28,7 +21,6 @@ my_user:100000:65536
 Than open [`env.sh`](env.sh) and update variables.
 
 ```sh
-sudo modprobe fuse
 ./build.sh
 ./push.sh
 ./pull.sh

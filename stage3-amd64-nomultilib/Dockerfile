@@ -7,7 +7,6 @@ ENV AUTOBUILDS_URL=$AUTOBUILDS_URL
 ENV SIGN_KEY=$SIGN_KEY
 
 WORKDIR /data
-
 RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   STAGE3_PATH=$(wget -O- "${AUTOBUILDS_URL}/latest-stage3-amd64-nomultilib.txt" \
     | tail -n 1 | cut -f 1 -d " ") && \
@@ -29,8 +28,6 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   rm "${STAGE3_NAME}" "${STAGE3_NAME}.CONTENTS.gz" "${STAGE3_NAME}.DIGESTS.asc"
 
 FROM scratch
-
-WORKDIR /
-
 COPY --from=processor /data/ /
+
 CMD ["/bin/bash"]
