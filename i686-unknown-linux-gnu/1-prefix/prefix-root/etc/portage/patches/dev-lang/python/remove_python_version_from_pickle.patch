@@ -2,10 +2,10 @@
 # https://bugs.gentoo.org/704816
 
 diff --git a/Lib/lib2to3/pgen2/driver.py b/Lib/lib2to3/pgen2/driver.py
-index cbc58e759d..42a3f7448d 100644
+index 6471635a31..168fbab7f1 100644
 --- a/Lib/lib2to3/pgen2/driver.py
 +++ b/Lib/lib2to3/pgen2/driver.py
-@@ -108,7 +108,7 @@ def _generate_pickle_name(gt):
+@@ -107,7 +107,7 @@ def _generate_pickle_name(gt):
      head, tail = os.path.splitext(gt)
      if tail == ".txt":
          tail = ""
