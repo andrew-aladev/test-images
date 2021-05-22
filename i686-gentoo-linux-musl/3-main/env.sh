@@ -6,4 +6,4 @@ source "${DIR}/../env.sh"
 
 FROM_IMAGE="${IMAGE_PREFIX}_${TARGET}_base"
 IMAGE_NAME="${IMAGE_PREFIX}_${TARGET}"
-IMAGE_PLATFORM="linux/x86"
+IMAGE_PLATFORM="linux/i686"

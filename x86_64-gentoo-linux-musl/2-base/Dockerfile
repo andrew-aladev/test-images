@@ -1,12 +1,12 @@
-ARG FROM_IMAGE_PROCESSOR
-FROM $FROM_IMAGE_PROCESSOR AS processor
+ARG FROM_IMAGE_PREFIX
+FROM $FROM_IMAGE_PREFIX AS prefix
 
 ARG TARGET
 ENV TARGET=$TARGET
 
 # TODO use target env when copy will support variables expansion.
 FROM scratch
-COPY --from=processor /usr/x86_64-gentoo-linux-musl/ /
+COPY --from=prefix /usr/x86_64-gentoo-linux-musl/ /
 COPY root /
 
 # All packages may depend on gzip and diffutils silently.
