@@ -35,16 +35,11 @@ RESTRICT="!test? ( test )"
 
 PATCHES=(
 	"${FILESDIR}"/${PV}/fix-aarch64_fregs.patch
-	"${FILESDIR}"/${PV}/musl-asm_ptrace_h.patch
 	"${FILESDIR}"/${PV}/musl-cdefs.patch
 	"${FILESDIR}"/${PV}/musl-error_h.patch
 	"${FILESDIR}"/${PV}/musl-fts-obstack.patch
 	"${FILESDIR}"/${PV}/musl-macros.patch
-	"${FILESDIR}"/${PV}/musl-qsort_r.patch
-	"${FILESDIR}"/${PV}/musl-strerror_r.patch
-	"${FILESDIR}"/${PV}/musl-strndupa.patch
 	"${FILESDIR}"/${PV}/pax-support.patch
-	"${FILESDIR}"/${PV}/readelf.patch
 )
 
 src_prepare() {
