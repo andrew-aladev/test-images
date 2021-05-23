@@ -1,2 +1,0 @@
-# We need at least sysvinit 2.96 for musl.
-~sys-apps/sysvinit-2.96 ~x86

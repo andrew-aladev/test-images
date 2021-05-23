@@ -1,9 +1,9 @@
-# Copyright 2003-2020 Gentoo Authors
+# Copyright 2003-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit autotools flag-o-matic multilib-minimal toolchain-funcs
+inherit flag-o-matic multilib-minimal
 
 DESCRIPTION="Libraries/utilities to handle ELF objects (drop in replacement for libelf)"
 HOMEPAGE="http://elfutils.org/"
@@ -11,12 +11,13 @@ SRC_URI="https://sourceware.org/elfutils/ftp/${PV}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-2+ LGPL-3+ ) utils? ( GPL-3+ )"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv s390 ~sparc x86 ~amd64-linux ~x86-linux"
-IUSE="bzip2 lzma nls static-libs test +threads +utils valgrind"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux"
+IUSE="bzip2 lzma nls static-libs test +threads +utils valgrind zstd"
 
 RDEPEND=">=sys-libs/zlib-1.2.8-r1[static-libs?,${MULTILIB_USEDEP}]
 	bzip2? ( >=app-arch/bzip2-1.0.6-r4[static-libs?,${MULTILIB_USEDEP}] )
 	lzma? ( >=app-arch/xz-utils-5.0.5-r1[static-libs?,${MULTILIB_USEDEP}] )
+	zstd? ( app-arch/zstd:=[static-libs?,${MULTILIB_USEDEP}] )
 	elibc_musl? (
 		sys-libs/argp-standalone
 		sys-libs/fts-standalone
@@ -24,8 +25,7 @@ RDEPEND=">=sys-libs/zlib-1.2.8-r1[static-libs?,${MULTILIB_USEDEP}]
 	)
 	!dev-libs/libelf"
 DEPEND="${RDEPEND}
-	valgrind? ( dev-util/valgrind )
-"
+	valgrind? ( dev-util/valgrind )"
 BDEPEND="nls? ( sys-devel/gettext )
 	>=sys-devel/flex-2.5.4a
 	sys-devel/m4
@@ -50,8 +50,6 @@ PATCHES=(
 src_prepare() {
 	default
 
-	eautoreconf
-
 	if ! use static-libs; then
 		sed -i -e '/^lib_LIBRARIES/s:=.*:=:' -e '/^%.os/s:%.o$::' lib{asm,dw,elf}/Makefile.in || die
 	fi
@@ -75,17 +73,17 @@ multilib_src_configure() {
 		$(use_enable threads thread-safety) \
 		$(use_enable valgrind) \
 		--disable-debuginfod \
+		--disable-libdebuginfod \
 		--program-prefix="eu-" \
 		--with-zlib \
 		$(use_with bzip2 bzlib) \
-		$(use_with lzma)
+		$(use_with lzma) \
+		$(use_with zstd)
 }
 
 multilib_src_test() {
-	# CC is a workaround for tests using ${CC-gcc}
 	env	LD_LIBRARY_PATH="${BUILD_DIR}/libelf:${BUILD_DIR}/libebl:${BUILD_DIR}/libdw:${BUILD_DIR}/libasm" \
 		LC_ALL="C" \
-		CC="$(tc-getCC)" \
 		emake check VERBOSE=1
 }
 

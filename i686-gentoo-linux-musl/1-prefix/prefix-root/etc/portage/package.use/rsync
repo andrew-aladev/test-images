@@ -1,0 +1,2 @@
+# We have to disable sse2 and simd uses for cross compilation (https://bugs.gentoo.org/732084).
+net-misc/rsync -cpu_flags_x86_sse2 -simd
