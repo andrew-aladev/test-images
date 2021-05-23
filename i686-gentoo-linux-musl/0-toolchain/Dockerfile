@@ -15,7 +15,7 @@ RUN eselect profile set default/linux/amd64/17.1/no-multilib && \
   ln -s /var/db/repos/gentoo/profiles/default/linux/x86/17.0/musl \
     "/usr/${TARGET}/etc/portage/make.profile" && \
   USE="-python" target-build.sh -v1 \
-    sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers && \
+    sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers && \
   target-build.sh -v1 \
     app-arch/tar app-shells/bash net-misc/wget sys-apps/findutils \
     sys-apps/gawk sys-apps/grep sys-apps/net-tools sys-apps/shadow \

@@ -9,10 +9,10 @@ RUN USE="internal-glib -berkdb -filecaps -nls" build.sh -v1 \
   USE="-nls" build.sh -v1 dev-util/pkgconfig && \
   \
   upgrade.sh \
-    --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers" && \
-  build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers && \
+    --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers" && \
+  build.sh -v1 sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers && \
   build.sh -ve @world \
-    --exclude="sys-devel/gcc sys-devel/binutils sys-libs/glibc sys-kernel/linux-headers" && \
+    --exclude="sys-devel/gcc sys-devel/binutils sys-libs/musl sys-kernel/linux-headers" && \
   \
   build.sh -v app-portage/gentoolkit sys-devel/clang && \
   upgrade.sh && cleanup.sh && \
