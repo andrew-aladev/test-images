@@ -1,0 +1,2 @@
+# We may use other tmpfiles implementations.
+sys-apps/systemd-tmpfiles
