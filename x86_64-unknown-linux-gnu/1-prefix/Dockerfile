@@ -11,25 +11,25 @@ RUN build.sh -v1 sys-libs/glibc
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
-RUN target-build.sh -v1 dev-lang/python:3.8 && \
+RUN target-build.sh -v1 dev-lang/python:3.9 && \
   \
   cd /usr/local/bin && \
-  ln -s target-python3.8.sh python3.8 && \
-  ln -s target-python3.8.sh python && \
+  ln -s target-python3.9.sh python3.9 && \
+  ln -s target-python3.9.sh python && \
   \
   cd "/usr/${TARGET}/usr/bin" && \
-  mv python3.8 python3.8.original && \
+  mv python3.9 python3.9.original && \
   mv python python.original && \
-  ln -s ../local/bin/target-python3.8.sh python3.8 && \
-  ln -s ../local/bin/target-python3.8.sh python && \
+  ln -s ../local/bin/target-python3.9.sh python3.9 && \
+  ln -s ../local/bin/target-python3.9.sh python && \
   \
-  target-build.sh -v1 dev-lang/python:3.8 && \
+  target-build.sh -v1 dev-lang/python:3.9 && \
   \
-  rm python3.8.original python.original && \
-  mv python3.8 python3.8.original && \
+  rm python3.9.original python.original && \
+  mv python3.9 python3.9.original && \
   mv python python.original && \
-  ln -s ../local/bin/target-python3.8.sh python3.8 && \
-  ln -s ../local/bin/target-python3.8.sh python && \
+  ln -s ../local/bin/target-python3.9.sh python3.9 && \
+  ln -s ../local/bin/target-python3.9.sh python && \
   \
   sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
     /var/db/repos/gentoo/eclass/distutils-r1.eclass && \
@@ -48,8 +48,8 @@ RUN target-build.sh -v1 sys-apps/sandbox && \
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
 RUN cd "/usr/${TARGET}/usr/bin" && \
-  rm python3.8 python && \
-  mv python3.8.original python3.8 && \
+  rm python3.9 python && \
+  mv python3.9.original python3.9 && \
   mv python.original python && \
   rm ../local/bin/target-* && \
   find "/usr/${TARGET}/usr/lib" -type f \
