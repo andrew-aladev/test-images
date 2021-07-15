@@ -31,10 +31,8 @@ RUN target-build.sh -v1 dev-lang/python:3.9 && \
   ln -s ../local/bin/target-python3.9.sh python3.9 && \
   ln -s ../local/bin/target-python3.9.sh python && \
   \
-  sed -i "s/esetup.py install \(.*\)/esetup.py install \1 --prefix=\"\/usr\"/g" \
-    /var/db/repos/gentoo/eclass/distutils-r1.eclass && \
   find /var/db/repos/gentoo/sys-apps/portage -maxdepth 1 -name "portage-*.ebuild" \
-    -exec sed -i "s/\${sitedir}/\${sitedir#\${EROOT%\/}}/g" "{}" \; \
+    -exec sed -i "s/distutils-r1_python_install\([^[:space:]]*\)/distutils-r1_python_install\1 --prefix=\"\/usr\"/g" "{}" \; \
     -exec ebuild "{}" manifest \;
 # TODO end of workaround
 
