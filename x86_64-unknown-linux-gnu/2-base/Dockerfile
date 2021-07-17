@@ -11,6 +11,7 @@ COPY root /
 
 # All packages may depend on gzip and diffutils silently.
 RUN env-update && \
+  python3.9 -c "import lib2to3.pygram" && \
   eselect profile set default/linux/amd64/17.1/no-multilib && \
   echo "" > /var/lib/portage/world && \
   build.sh -v1 sys-apps/baselayout && \
