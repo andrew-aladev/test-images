@@ -15,21 +15,16 @@ RUN target-build.sh -v1 dev-lang/python:3.9 && \
   \
   cd /usr/local/bin && \
   ln -s target-python3.9.sh python3.9 && \
-  ln -s target-python3.9.sh python && \
   \
   cd "/usr/${TARGET}/usr/bin" && \
   mv python3.9 python3.9.original && \
-  mv python python.original && \
   ln -s ../local/bin/target-python3.9.sh python3.9 && \
-  ln -s ../local/bin/target-python3.9.sh python && \
   \
   target-build.sh -v1 dev-lang/python:3.9 && \
   \
-  rm python3.9.original python.original && \
+  rm python3.9.original && \
   mv python3.9 python3.9.original && \
-  mv python python.original && \
   ln -s ../local/bin/target-python3.9.sh python3.9 && \
-  ln -s ../local/bin/target-python3.9.sh python && \
   \
   find /var/db/repos/gentoo/sys-apps/portage -maxdepth 1 -name "portage-*.ebuild" \
     -exec sed -i "s/distutils-r1_python_install\([^[:space:]]*\)/distutils-r1_python_install\1 --prefix=\"\/usr\"/g" "{}" \; \
@@ -46,9 +41,8 @@ RUN target-build.sh -v1 sys-apps/sandbox && \
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
 RUN cd "/usr/${TARGET}/usr/bin" && \
-  rm python3.9 python && \
+  rm python3.9 && \
   mv python3.9.original python3.9 && \
-  mv python.original python && \
   rm ../local/bin/target-* && \
   find "/usr/${TARGET}/usr/lib" -type f \
     -exec sed -i "s/^#\!\/usr\/${TARGET}\/usr\/bin\/python/#\!\/usr\/bin\/python/g" "{}" \;

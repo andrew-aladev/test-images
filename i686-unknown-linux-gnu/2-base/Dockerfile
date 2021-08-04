@@ -24,5 +24,3 @@ RUN env-update && \
 RUN PYTHON_TARGETS="python3_9" USE="-nls -rsync-verify" build.sh -v1 \
   dev-lang/python-exec sys-apps/portage
 # TODO end of workaround
-
-RUN cleanup.sh
