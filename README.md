@@ -37,9 +37,7 @@ Build is rootless, just use your regular `my_user`.
 - [dev-lang/python: cross compilation using different libc is broken](https://bugs.gentoo.org/705970)
 - [dev-lang/python: cross compiled python installs wrong version of lib2to3/Grammar pickle](https://bugs.gentoo.org/704816)
 - [dev-lang/python: cross compiling of python modules with and without distutils](https://github.com/gentoo/gentoo/pull/9822)
-- [sys-apps/sandbox: wrappers are broken when cross compiled using different libc](https://bugs.gentoo.org/706020)
 - [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
-- [net-misc/rsync: checking whether to enable SIMD optimizations](https://bugs.gentoo.org/732084)
 
 ## License
 

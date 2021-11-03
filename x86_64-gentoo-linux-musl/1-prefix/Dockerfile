@@ -32,7 +32,7 @@ RUN target-build.sh -v1 dev-lang/python:3.9 && \
 # TODO end of workaround
 
 # It is not possible to use cross compiled sandbox with another libc
-#   (or libc with another version) https://bugs.gentoo.org/706020.
+#   (or libc with another version).
 RUN target-build.sh -v1 sys-apps/sandbox && \
   mv "/usr/${TARGET}/usr/lib/libsandbox.so" /tmp/libsandbox.so.bak && \
   USE="-rsync-verify" target-build.sh -v1 sys-apps/portage && \
