@@ -8,7 +8,7 @@ ENV SIGN_KEY=$SIGN_KEY
 
 WORKDIR /data
 RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
-  STAGE3_PATH=$(wget -O- "${AUTOBUILDS_URL}/latest-stage3-amd64-nomultilib.txt" \
+  STAGE3_PATH=$(wget -O- "${AUTOBUILDS_URL}/latest-stage3-amd64-nomultilib-openrc.txt" \
     | tail -n 1 | cut -f 1 -d " ") && \
   STAGE3_NAME=$(basename "$STAGE3_PATH") && \
   wget -q "${AUTOBUILDS_URL}/${STAGE3_PATH}" \
