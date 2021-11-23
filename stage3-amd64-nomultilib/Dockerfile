@@ -8,6 +8,9 @@ ENV SIGN_KEY=$SIGN_KEY
 
 WORKDIR /data
 RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
+  mkdir -p ~/.gnupg && \
+  echo "no-use-tor" | tee ~/.gnupg/dirmngr.conf > /dev/null && \
+  chmod -R 0600 ~/.gnupg && \
   STAGE3_PATH=$(wget -O- "${AUTOBUILDS_URL}/latest-stage3-amd64-nomultilib-openrc.txt" \
     | tail -n 1 | cut -f 1 -d " ") && \
   STAGE3_NAME=$(basename "$STAGE3_PATH") && \
