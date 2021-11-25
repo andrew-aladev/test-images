@@ -1,2 +1,5 @@
 # Using latest linux headers version.
 sys-kernel/linux-headers ~amd64
+
+# Using latest systemd tmpfiles.
+sys-apps/systemd-tmpfiles ~amd64

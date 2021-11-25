@@ -1,2 +1,5 @@
 # Using latest linux headers version.
 sys-kernel/linux-headers ~x86
+
+# Using latest systemd tmpfiles.
+sys-apps/systemd-tmpfiles ~x86
