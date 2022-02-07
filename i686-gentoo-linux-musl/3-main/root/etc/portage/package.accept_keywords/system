@@ -1,5 +1,17 @@
-# Using latest linux headers version.
+sys-devel/gcc ~x86
+sys-devel/binutils ~x86
+sys-libs/musl ~x86
 sys-kernel/linux-headers ~x86
+
+# Using latest clang.
+sys-devel/clang ~x86
+sys-devel/clang-common ~x86
+sys-devel/clang-runtime ~x86
+sys-devel/llvm ~x86
+sys-devel/llvm-common ~x86
+sys-devel/llvmgold ~x86
+sys-libs/compiler-rt ~x86
+sys-libs/compiler-rt-sanitizers ~x86
 
 # Using latest systemd tmpfiles.
 sys-apps/systemd-tmpfiles ~x86

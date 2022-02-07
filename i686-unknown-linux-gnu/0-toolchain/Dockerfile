@@ -10,7 +10,7 @@ COPY prefix-root "/usr/${TARGET}"
 RUN eselect profile set default/linux/amd64/17.1/no-multilib && \
   env-update && source /etc/profile && \
   build.sh -v sys-devel/crossdev && \
-  crossdev.sh -t "$TARGET" --stable && \
+  USE="-ssp" crossdev.sh -t "$TARGET" && \
   rm -f "/usr/${TARGET}/etc/portage/make.profile" && \
   ln -s /var/db/repos/gentoo/profiles/default/linux/x86/17.0 \
     "/usr/${TARGET}/etc/portage/make.profile" && \

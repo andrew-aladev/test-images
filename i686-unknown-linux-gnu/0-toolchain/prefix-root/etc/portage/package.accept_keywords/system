@@ -1,2 +1,4 @@
-# Using latest linux headers version.
+sys-devel/gcc ~x86
+sys-devel/binutils ~x86
+sys-libs/glibc ~x86
 sys-kernel/linux-headers ~x86
