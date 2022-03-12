@@ -8,7 +8,7 @@ ENV PORTAGE_URL=$PORTAGE_URL
 ENV SIGN_KEY=$SIGN_KEY
 
 WORKDIR /data
-RUN apk add --no-cache ca-certificates coreutils gnupg patch tar wget xz && \
+RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   mkdir -p ~/.gnupg && \
   echo "no-use-tor" | tee ~/.gnupg/dirmngr.conf > /dev/null && \
   chmod -R 0600 ~/.gnupg && \
@@ -22,10 +22,6 @@ RUN apk add --no-cache ca-certificates coreutils gnupg patch tar wget xz && \
     --strip-components 1 -C "./var/db/repos/gentoo" && \
   chown -R 250:250 "./var/db/repos/gentoo" && \
   rm "$PORTAGE_SNAPSHOT" "${PORTAGE_SNAPSHOT}.gpgsig" "${PORTAGE_SNAPSHOT}.md5sum"
-
-COPY root /
-RUN find "/etc/portage/patches" -type f -print0 | \
-  xargs -0 patch -d "./var/db/repos/gentoo" -p1 -i
 
 FROM $FROM_IMAGE
 COPY --from=processor /data/ /
