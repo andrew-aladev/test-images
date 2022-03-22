@@ -12,7 +12,7 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
   mkdir -p ~/.gnupg && \
   echo "no-use-tor" | tee ~/.gnupg/dirmngr.conf > /dev/null && \
   chmod -R 0600 ~/.gnupg && \
-  wget -q "$PORTAGE_URL" "${PORTAGE_URL}.gpgsig" "${PORTAGE_URL}.md5sum" && \
+  wget --show-progress "$PORTAGE_URL" "${PORTAGE_URL}.gpgsig" "${PORTAGE_URL}.md5sum" && \
   gpg --keyserver "hkps://keys.gentoo.org" --recv-keys "$SIGN_KEY" && \
   PORTAGE_SNAPSHOT=$(basename "$PORTAGE_URL") && \
   gpg --verify "${PORTAGE_SNAPSHOT}.gpgsig" "$PORTAGE_SNAPSHOT" && \
