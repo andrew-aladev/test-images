@@ -18,7 +18,7 @@ RUN apk add --no-cache ca-certificates coreutils gnupg tar wget xz && \
     "${AUTOBUILDS_URL}/${STAGE3_PATH}.CONTENTS.gz" \
     "${AUTOBUILDS_URL}/${STAGE3_PATH}.asc" \
     "${AUTOBUILDS_URL}/${STAGE3_PATH}.DIGESTS" && \
-  gpg --keyserver "hkps://keys.gentoo.org" --recv-keys "$SIGN_KEY" && \
+  gpg --keyserver "hkps://keys.geodns-americas.gentoo.org" --recv-keys "$SIGN_KEY" && \
   gpg --verify "${STAGE3_NAME}.asc" && \
   awk "/# SHA512 HASH/{getline; print}" "${STAGE3_NAME}.DIGESTS" | sha512sum -c && \
   tar xpf "$STAGE3_NAME" --xattrs-include="*.*" --numeric-owner \
