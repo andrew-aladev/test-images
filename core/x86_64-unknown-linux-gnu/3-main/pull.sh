@@ -4,4 +4,7 @@ set -e
 DIR=$(dirname "${BASH_SOURCE[0]}")
 cd "$DIR"
 
-./core/build.sh
+source "../../../utils.sh"
+source "./env.sh"
+
+pull

@@ -2,6 +2,6 @@
 set -e
 
 DIR=$(dirname "${BASH_SOURCE[0]}")
-cd "$DIR"
+source "${DIR}/../../env.sh"
 
-./core/build.sh
+TARGET="x86_64-gentoo-linux-musl"
