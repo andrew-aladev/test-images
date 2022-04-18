@@ -100,14 +100,20 @@ run_image () {
   remove "$container" || :
 
   if [ ! -z $error ]; then
-    return $error
+    exit $error
   fi
 }
 
 # -- portage --
 
 build_with_portage () {
-  portage=$(from "test_portage")
+  portage_image_name="test_portage"
+
+  if [ ! -z $IS_EXTERNAL_PORTAGE_IMAGE ]; then
+    portage_image_name="${DOCKER_HOST}/${DOCKER_USERNAME}/${portage_image_name}"
+  fi
+
+  portage=$(from "$portage_image_name")
   portage_root=$(mount "$portage") || error=$?
 
   build --volume "${portage_root}/var/db/repos/gentoo:/var/db/repos/gentoo" "$@" \
@@ -117,6 +123,6 @@ build_with_portage () {
   remove "$portage" || :
 
   if [ ! -z $error ]; then
-    return $error
+    exit $error
   fi
 }
