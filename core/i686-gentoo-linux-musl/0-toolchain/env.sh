@@ -2,7 +2,7 @@
 set -e
 
 DIR=$(dirname "${BASH_SOURCE[0]}")
-source "${DIR}/../../env.sh"
+source "${DIR}/../env.sh"
 
 FROM_IMAGE="localhost/${IMAGE_PREFIX}_stage3-amd64-nomultilib"
 

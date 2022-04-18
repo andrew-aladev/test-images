@@ -5,3 +5,4 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 cd "$DIR"
 
 ./core/pull.sh
+./compression/pull.sh

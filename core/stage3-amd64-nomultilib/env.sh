@@ -2,7 +2,7 @@
 set -e
 
 DIR=$(dirname "${BASH_SOURCE[0]}")
-source "${DIR}/../../env.sh"
+source "${DIR}/../env.sh"
 
 FROM_IMAGE_PROCESSOR="${DOCKER_HOST}/alpine"
 AUTOBUILDS_URL="https://mirror.leaseweb.com/gentoo/releases/amd64/autobuilds"

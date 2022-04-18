@@ -39,6 +39,7 @@ Build is rootless, just use your regular `my_user`.
 - [dev-lang/python: cross compiling of python modules with and without distutils](https://github.com/gentoo/gentoo/pull/9822)
 - [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
 - [net-misc/rsync: 3.2.0 Fails to build on Alpine Linux](https://github.com/WayneD/rsync/issues/29)
+- [dev-lang/ruby-3.1.1: patch -p1 failed with 900-musl-coroutine.patch](https://bugs.gentoo.org/835038)
 
 ## License
 

@@ -28,12 +28,24 @@ from () {
     "$1"
 }
 
+run () {
+  tool run \
+    --cap-add=CAP_SETFCAP \
+    --cap-add=CAP_SYS_PTRACE \
+    --isolation="rootless" \
+    "$@"
+}
+
 mount () {
   tool mount "$1"
 }
 
 unmount () {
   tool unmount "$1"
+}
+
+copy () {
+  tool copy "$1" "$2" "$3"
 }
 
 remove () {
@@ -78,6 +90,18 @@ pull () {
 
   tool pull "$docker_image_name"
   tool tag "$docker_image_name" "$IMAGE_NAME"
+}
+
+run_image () {
+  container=$(from "$IMAGE_NAME")
+
+  run $CONTAINER_OPTIONS "$container" "$@" || error=$?
+
+  remove "$container" || :
+
+  if [ ! -z $error ]; then
+    return $error
+  fi
 }
 
 # -- portage --
