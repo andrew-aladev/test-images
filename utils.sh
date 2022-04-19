@@ -106,7 +106,7 @@ run_image () {
 
 # -- portage --
 
-build_with_portage () {
+with_portage () {
   processor="$1"
   shift 1
 
