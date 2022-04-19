@@ -16,3 +16,4 @@ sys-libs/libomp ~amd64
 
 # Using latest systemd tmpfiles.
 sys-apps/systemd-tmpfiles ~amd64
+sys-apps/systemd-utils ~amd64

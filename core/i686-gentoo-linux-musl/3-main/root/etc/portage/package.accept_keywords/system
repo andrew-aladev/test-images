@@ -16,3 +16,4 @@ sys-libs/libomp ~x86
 
 # Using latest systemd tmpfiles.
 sys-apps/systemd-tmpfiles ~x86
+sys-apps/systemd-utils ~x86
