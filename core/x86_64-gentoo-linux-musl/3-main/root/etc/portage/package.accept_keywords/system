@@ -13,7 +13,3 @@ sys-devel/llvmgold ~amd64
 sys-libs/compiler-rt ~amd64
 sys-libs/compiler-rt-sanitizers ~amd64
 sys-libs/libomp ~amd64
-
-# Using latest systemd tmpfiles.
-sys-apps/systemd-tmpfiles ~amd64
-sys-apps/systemd-utils ~amd64

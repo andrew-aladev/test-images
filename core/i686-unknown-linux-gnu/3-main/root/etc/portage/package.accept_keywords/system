@@ -13,7 +13,3 @@ sys-devel/llvmgold ~x86
 sys-libs/compiler-rt ~x86
 sys-libs/compiler-rt-sanitizers ~x86
 sys-libs/libomp ~x86
-
-# Using latest systemd tmpfiles.
-sys-apps/systemd-tmpfiles ~x86
-sys-apps/systemd-utils ~x86
