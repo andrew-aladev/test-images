@@ -4,8 +4,7 @@ FROM $FROM_IMAGE
 COPY root /
 
 # TODO https://bugs.gentoo.org/835038
-RUN rm /var/db/repos/gentoo/dev-lang/ruby/files/3.1/900-musl-*.patch && \
-  sed -i 's/use elibc_musl/[false]/' /var/db/repos/gentoo/dev-lang/ruby/ruby-3.1.*.ebuild && \
+RUN sed -i 's/use elibc_musl/[false]/' /var/db/repos/gentoo/dev-lang/ruby/ruby-3.1.*.ebuild && \
   find /var/db/repos/gentoo/dev-lang/ruby/ruby-3.1.*.ebuild -exec ebuild {} manifest \;
 
 RUN build.sh -v \
