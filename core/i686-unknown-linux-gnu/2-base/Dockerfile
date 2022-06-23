@@ -17,8 +17,17 @@ RUN env-update && \
   env-update && source /etc/profile && \
   locale-gen
 
+# TODO diffutils (without docs) requires makeinfo with no reason.
+# We can stub makeinfo temporaly.
+RUN cd /bin && \
+  ln -s true makeinfo && \
+  USE="-nls" build.sh -v1 sys-apps/diffutils
+
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
 RUN PYTHON_TARGETS="python3_9" USE="-nls -rsync-verify" build.sh -v1 \
   dev-lang/python-exec sys-apps/portage
 # TODO end of workaround
+
+# TODO unstub makeinfo
+RUN rm /bin/makeinfo
