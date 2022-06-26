@@ -8,6 +8,11 @@ COPY root /
 COPY prefix-root "/usr/${TARGET}"
 RUN build.sh -v1 sys-libs/glibc
 
+# Disable roll simd for rsync.
+RUN find /var/db/repos/gentoo/net-misc/rsync -maxdepth 1 -name "rsync-*.ebuild" \
+  -exec sed -i "s/local myeconfargs=(/local myeconfargs=(--disable-roll-simd/g" "{}" \; \
+  -exec ebuild "{}" manifest \;
+
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #   and https://bugs.gentoo.org/705970 will be fixed.
 # Different libc (or libc with another version) requires double python recompilation.
