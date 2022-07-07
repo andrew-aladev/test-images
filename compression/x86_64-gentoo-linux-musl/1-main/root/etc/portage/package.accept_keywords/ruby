@@ -34,4 +34,5 @@ dev-ruby/webrick ~amd64
 dev-ruby/ocg ~amd64
 dev-ruby/ruby-lzws ~amd64
 dev-ruby/ruby-brs ~amd64
+dev-ruby/ruby-bzs ~amd64
 dev-ruby/ruby-zstds ~amd64

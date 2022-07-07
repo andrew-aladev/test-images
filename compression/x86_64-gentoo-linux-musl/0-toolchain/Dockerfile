@@ -10,6 +10,6 @@ RUN build.sh -v dev-vcs/git dev-util/cmake && \
   \
   target-build.sh -v \
     dev-libs/gmp dev-libs/libtommath \
-    app-arch/brotli app-arch/ncompress app-arch/zstd && \
+    app-arch/brotli app-arch/bzip2 app-arch/ncompress app-arch/zstd && \
   \
   target-cleanup.sh && cleanup.sh

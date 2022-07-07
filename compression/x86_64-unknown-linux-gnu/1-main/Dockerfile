@@ -8,6 +8,6 @@ RUN build.sh -v \
   dev-vcs/git \
   dev-util/cmake \
   dev-libs/gmp dev-libs/libtommath \
-  app-arch/brotli app-arch/ncompress app-arch/zstd \
+  app-arch/brotli app-arch/bzip2 app-arch/ncompress app-arch/zstd \
   dev-lang/ruby:2.6 dev-lang/ruby:2.7 dev-lang/ruby:3.0 dev-lang/ruby:3.1 virtual/rubygems && \
   cleanup.sh

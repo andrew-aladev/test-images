@@ -34,4 +34,5 @@ dev-ruby/webrick ~x86
 dev-ruby/ocg ~x86
 dev-ruby/ruby-lzws ~x86
 dev-ruby/ruby-brs ~x86
+dev-ruby/ruby-bzs ~x86
 dev-ruby/ruby-zstds ~x86
