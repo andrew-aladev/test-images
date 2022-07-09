@@ -25,6 +25,6 @@ done
 
 LD_LIBRARY_PATH=$(join ":" "${LD_LIBRARY_PATHES[@]}")
 
-PYTHON_PROGRAM="${TARGET_PREFIX}/usr/bin/python3.9" \
+PYTHON_PROGRAM="${TARGET_PREFIX}/usr/bin/python3.10.mod" \
   "$LD_PATH" --library-path "$LD_LIBRARY_PATH" \
-  "${TARGET_PREFIX}/usr/bin/python3.9.original" "$@"
+  "${TARGET_PREFIX}/usr/bin/python3.10.orig" "$@"

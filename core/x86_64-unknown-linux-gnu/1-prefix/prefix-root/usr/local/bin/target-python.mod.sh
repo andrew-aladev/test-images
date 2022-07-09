@@ -6,8 +6,8 @@ DIR=$(dirname "$SCRIPT")
 source "${DIR}/target-env.sh"
 
 TARGET_PREFIX="/usr/${TARGET}"
-LOADER_PATH="lib/ld-linux*"
-LIBRARY_PATHES=("lib" "usr/lib" "usr/lib/gcc/${TARGET}/*")
+LOADER_PATH="lib64/ld-linux*"
+LIBRARY_PATHES=("lib64" "usr/lib64" "usr/lib/gcc/${TARGET}/*")
 
 LD_PATH=$(ls ${TARGET_PREFIX}/${LOADER_PATH})
 
@@ -25,6 +25,7 @@ done
 
 LD_LIBRARY_PATH=$(join ":" "${LD_LIBRARY_PATHES[@]}")
 
-PYTHON_PROGRAM="${TARGET_PREFIX}/usr/bin/python3.9" \
+PYTHON_PROGRAM="${TARGET_PREFIX}/usr/bin/python3.10.mod" \
   "$LD_PATH" --library-path "$LD_LIBRARY_PATH" \
-  "${TARGET_PREFIX}/usr/bin/python3.9.original" "$@"
+  "${TARGET_PREFIX}/usr/bin/python3.10.orig" "$@"
+

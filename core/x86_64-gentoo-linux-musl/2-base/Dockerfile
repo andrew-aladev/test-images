@@ -10,7 +10,7 @@ COPY --from=prefix /usr/x86_64-gentoo-linux-musl/ /
 COPY root /
 
 RUN env-update && \
-  python3.9 -c "import lib2to3.pygram" && \
+  python3 -c "import lib2to3.pygram" && \
   eselect profile set default/linux/amd64/17.0/musl && \
   echo "" > /var/lib/portage/world && \
   build.sh -v1 sys-apps/baselayout app-arch/gzip && \
@@ -24,7 +24,7 @@ RUN cd /bin && \
 
 # TODO remove this workaround after https://github.com/gentoo/gentoo/pull/9822 will be merged
 #  and https://bugs.gentoo.org/705970 will be fixed.
-RUN PYTHON_TARGETS="python3_9" USE="-nls -rsync-verify" build.sh -v1 \
+RUN PYTHON_TARGETS="python3_10" USE="-nls -rsync-verify" build.sh -v1 \
   dev-lang/python-exec sys-apps/portage
 # TODO end of workaround
 
