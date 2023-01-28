@@ -36,18 +36,6 @@ run () {
     "$@"
 }
 
-mount () {
-  tool mount "$1"
-}
-
-unmount () {
-  tool unmount "$1"
-}
-
-copy () {
-  tool copy "$1" "$2" "$3"
-}
-
 remove () {
   tool rm "$1"
 }
@@ -102,43 +90,4 @@ run_image () {
   if [ ! -z $error ]; then
     exit $error
   fi
-}
-
-# -- portage --
-
-with_portage () {
-  processor="$1"
-  shift 1
-
-  portage_image_name="test_portage"
-
-  if [ ! -z $IS_EXTERNAL_PORTAGE_IMAGE ]; then
-    portage_image_name="${DOCKER_HOST}/${DOCKER_USERNAME}/${portage_image_name}"
-  fi
-
-  portage=$(from "$portage_image_name")
-  portage_root=$(mount "$portage") || error=$?
-
-  PORTAGE_OPTIONS="${CONTAINER_OPTIONS} --volume ${portage_root}/var/db/repos/gentoo:/var/db/repos/gentoo"
-
-  if [ "$processor" == "run_image" ]; then
-    CONTAINER_OPTIONS="$PORTAGE_OPTIONS" run_image "$@" || error=$?
-  else
-    $processor $PORTAGE_OPTIONS "$@" || error=$?
-  fi
-
-  unmount "$portage" || :
-  remove "$portage" || :
-
-  if [ ! -z $error ]; then
-    exit $error
-  fi
-}
-
-build_with_portage () {
-  with_portage "build" "$@"
-}
-
-run_image_with_portage () {
-  with_portage "run_image" "$@"
 }

@@ -4,7 +4,7 @@ You can find them on https://hub.docker.com/u/puchuu.
 
 ## Goal
 
-[GCC](https://gcc.gnu.org) and [Clang](https://clang.llvm.org) with sanitizers (where possible) for most popular platforms.
+[GCC](https://gcc.gnu.org) and [Clang](https://clang.llvm.org) with sanitizers (where possible) for required platforms.
 
 ## Dependencies
 
@@ -27,18 +27,6 @@ Than open [`env.sh`](env.sh) and update variables.
 ```
 
 Build is rootless, just use your regular `my_user`.
-
-## Related bugs
-
-- [sys-libs/glibc: different behaviour of LD_PRELOAD and LD_LIBRARY_PATH from error tolerance perspective](https://sourceware.org/bugzilla/show_bug.cgi?id=25341)
-- [sys-libs/musl: does not support sysroot installation](https://bugs.gentoo.org/732482)
-- [sys-libs/musl profiles: add link time protection against DT_TEXTREL](https://bugs.gentoo.org/707660)
-- [sys-devel/clang-runtime: feature request - musl support](https://github.com/google/sanitizers/issues/1080)
-- [dev-lang/python: cross compilation using different libc is broken](https://bugs.gentoo.org/705970)
-- [dev-lang/python: cross compiled python installs wrong version of lib2to3/Grammar pickle](https://bugs.gentoo.org/704816)
-- [dev-lang/python: cross compiling of python modules with and without distutils](https://github.com/gentoo/gentoo/pull/9822)
-- [sys-devel/flex: cross compilation fails, stage1flex segfault - pointer truncation by implicit declaration](https://bugs.gentoo.org/705800)
-- [dev-lang/ruby-3.1.1: patch -p1 failed with 900-musl-coroutine.patch](https://bugs.gentoo.org/835038)
 
 ## License
 
