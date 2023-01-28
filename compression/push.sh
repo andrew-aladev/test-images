@@ -8,4 +8,4 @@ cd "$DIR"
 ./i386-pc-linux-gnu/push.sh
 
 ./x86_64-alpine-linux-musl/push.sh
-./i686-alpine-linux-musl/push.sh
+./i386-alpine-linux-musl/push.sh

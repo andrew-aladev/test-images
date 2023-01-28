@@ -8,4 +8,4 @@ cd "$DIR"
 ./i386-pc-linux-gnu/build.sh
 
 ./x86_64-alpine-linux-musl/build.sh
-./i686-alpine-linux-musl/build.sh
+./i386-alpine-linux-musl/build.sh

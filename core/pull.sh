@@ -8,4 +8,4 @@ cd "$DIR"
 ./i386-pc-linux-gnu/pull.sh
 
 ./x86_64-alpine-linux-musl/pull.sh
-./i686-alpine-linux-musl/pull.sh
+./i386-alpine-linux-musl/pull.sh
